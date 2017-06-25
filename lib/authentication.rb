@@ -12,10 +12,10 @@ module Authentication
 
   def is_logged_in?(role)
     # This needs access to a global in JS. Not sure how to handle this here
-    $current_user.try(:role).in?([User::ROLES.publisher, User::ROLES.reader, User::ROLES.admin])
+    $current_user.try(:role).in?(User.roles)
   end
 
   def can_publish?(role)
-    role.in?([User::ROLES.publisher, User::ROLES.admin])
+    role.in?(User.roles[0..1])
   end
 end

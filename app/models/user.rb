@@ -10,4 +10,12 @@ class User
     @first_name = args[:first_name]
     @last_name = args[:last_name]
   end
+
+  def self.roles
+    [
+      ROLES.admin,
+      ROLES.publisher,
+      ROLES.reader                  
+    ]
+  end
 end

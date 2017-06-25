@@ -87,4 +87,8 @@ class Database
     @users.push(new_user)
     { user: new_user }
   end
+
+  def self.db
+    @db ||= new
+  end
 end

@@ -1,7 +1,7 @@
 Types::QueryType = GraphQL::ObjectType.define do
-  name "Root"
+  name "Viewer"
 
-  field :viewer, Types::ViewerType do
+  field :isLoggedIn, types.Boolean do
     resolve ->(obj, args, ctx) { }
   end
 end

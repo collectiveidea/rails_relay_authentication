@@ -9,7 +9,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :posts, Types::PostType.connection_type do
     argument :first, types.Int
     resolve ->(user, args, ctx) {
-      Database.db.get_posts_for_creator(ctx.tokenData)     
+      Database.db.get_posts_for_creator(ctx[:tokenData])     
     }
   end
 end

@@ -3,19 +3,19 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :isLoggedIn, types.Boolean do
     resolve ->(obj, args, ctx) {
-      ctx.tokenData[:role].in?(User.roles)      
+      ctx[:tokenData][:role].in?(User.roles)      
     }
   end
 
   field :canPublish, types.Boolean do
     resolve ->(obj, args, ctx) {
-      ctx.tokenData.role.in?(User.roles[0..1])      
+      ctx[:tokenData][:role].in?(User.roles[0..1])      
     }
   end
 
   field :user, Types::UserType do
     resolve ->(obj, args, ctx) {
-      Database.db.get_user(ctx.tokenData[:user_id])      
+      Database.db.get_user(ctx[:tokenData][:user_id])      
     }
   end
 

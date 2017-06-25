@@ -5,6 +5,7 @@ class GraphqlController < ApplicationController
     context = {
       # Query context goes here, for example:
       # current_user: current_user,
+      tokenData: {}
     }
     result = RailsRelayAuthenticationSchema.execute(query, variables: variables, context: context)
     render json: result

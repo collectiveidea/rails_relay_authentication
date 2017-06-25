@@ -1,5 +1,5 @@
 module Authentication
-  SECRET = ENV['SECRET_KEY_BASE']
+  SECRET = ENV['SECRET_KEY_BASE'] || "secret_goes_here"
 
   def create_token(args = {})
     Rails.logger.debug("create token with user id #{args[:id]}")

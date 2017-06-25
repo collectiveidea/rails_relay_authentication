@@ -17,3 +17,21 @@
 /yarn-error.log
 
 .byebug_history
+
+# Dependency directory
+node_modules
+
+# Build
+build/app.js
+build/style.css
+
+# Logs
+logs
+*.log
+
+# Generated
+__generated__
+
+# uploaded images
+static/images/upload/*
+!static/images/upload/README.md

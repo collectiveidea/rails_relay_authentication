@@ -1,4 +1,6 @@
 class Database
+  include Authentication
+
   def initialize
     @users = JSON.parse ApplicationController.render(file: Rails.root.join('spec', 'fixtures', 'users.json.erb'))
     @posts = JSON.parse File.open(Rails.root.join('spec', 'fixtures', 'posts.json'), "r") { |f| f.read }
@@ -30,7 +32,7 @@ class Database
     @posts
   end
 
-  def get_posts_for_creator(user_attrs) {
+  def get_posts_for_creator(user_attrs)
     if !is_logged_in?(user_attrs[:role])
       return []
     end
@@ -38,7 +40,7 @@ class Database
     @posts.select do |post|
       post.creator_id = user_attrs[:id]
     end
-  }
+  end
 
   def get_post_creator(post)
     user = get_user_by_id(post.creator_id)

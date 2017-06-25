@@ -14,25 +14,9 @@ Mutations::RegisterMutation = GraphQL::Relay::Mutation.define do
   # as RANGE_ADD mutation, so our returned fields
   # must conform to that API.
   #return_field :featuresConnection, Types::FeatureType.connection_type
-  return_field :featureEdge, Types::FeatureType.edge_type
-  return_field :viewer, Types::UserType
+  return_field :user, Types::UserType
 
   resolve ->(object, inputs, ctx) {
-    viewer = Database.get_user(1)
-    new_feature = Database.add_feature(inputs[:name], inputs[:description], inputs[:url])
-
-    # Use this helper to create the response that a
-    # client-side RANGE_ADD mutation would expect.
-    range_add = GraphQL::Relay::RangeAdd.new(
-      parent: viewer,
-      collection: Database.get_features,
-      item: new_feature,
-      context: ctx,
-    )
-
-    response = {
-      viewer: viewer,
-      featureEdge: range_add.edge,
-    }
+    Database.db.create_user(inputs)
   }
 end

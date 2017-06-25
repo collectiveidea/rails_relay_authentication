@@ -15,7 +15,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :user, Types::UserType do
     resolve ->(obj, args, ctx) {
-      Database.db.get_user_by_id(ctx.tokenData[:user_id])      
+      Database.db.get_user(ctx.tokenData[:user_id])      
     }
   end
 

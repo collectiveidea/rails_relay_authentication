@@ -43,14 +43,14 @@ class Database
   end
 
   def get_post_creator(post)
-    user = get_user_by_id(post.creator_id)
+    user = get_user(post.creator_id)
     {
       first_name: user.first_name,
       last_name: user.last_name
     }
   end
 
-  def get_user_by_id(id)
+  def get_user(id)
     @users.detect do |user|
       user.id == id
     end

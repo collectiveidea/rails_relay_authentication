@@ -1,4 +1,4 @@
-Types::QueryType = GraphQL::ObjectType.define do
+Types::MutationType = GraphQL::ObjectType.define do
   name "Mutation"
   field :register, Types::RegisterMutation
   field :login, Types::LoginMutation

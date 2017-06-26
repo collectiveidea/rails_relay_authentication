@@ -1,4 +1,4 @@
-Types::QueryType = GraphQL::ObjectType.define do
+Types::PostType = GraphQL::ObjectType.define do
   name "Post"
   description "A post"
   field :id, types.ID

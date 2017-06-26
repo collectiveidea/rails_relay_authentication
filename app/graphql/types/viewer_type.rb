@@ -1,4 +1,4 @@
-Types::QueryType = GraphQL::ObjectType.define do
+Types::ViewerType = GraphQL::ObjectType.define do
   name "Viewer"
 
   field :isLoggedIn, types.Boolean do

@@ -12,6 +12,7 @@ gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 gem 'graphql'
 gem 'jwt'
+gem 'devise'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

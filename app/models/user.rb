@@ -1,14 +1,31 @@
 class User
   # TODO: Replace these with ActiveRecord::Enum
   ROLES = Struct.new("Roles", :reader, :publisher, :admin).new('reader', 'publisher', 'admin')
+  ATTRIBUTES = %i(id email password role first_name last_name)
+
+  attr_accessor *ATTRIBUTES
 
   def initialize(args)
-    @id = args[:id]
-    @email = args[:email]
-    @password = args[:password]
-    @role = args[:role]
-    @first_name = args[:first_name]
-    @last_name = args[:last_name]
+    @args = args
+    args.each do |attr, value|
+      self.send("#{attr}=", value)  
+    end
+  end
+
+  def firstName
+    first_name
+  end
+  
+  def firstName=(value)
+    @first_name = value
+  end
+
+  def lastName
+    last_name
+  end
+  
+  def lastName=(value)
+    @last_name = value
   end
 
   def self.roles

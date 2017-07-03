@@ -1,9 +1,20 @@
 class Post
+  ATTRIBUTES = %i(id creator_id title image description)
+
+  attr_accessor *ATTRIBUTES
+  
   def initialize(args)
-    @id = args[:id]
-    @creator_id = args[:creator_id]
-    @title = args[:title]
-    @image = args[:image]
-    @description = args[:description]
+    @args = args
+    args.each do |attr, value|
+      self.send("#{attr}=", value)  
+    end
+  end
+
+  def creatorId
+    creator_id
+  end
+
+  def creatorId=(value)
+    @creator_id = value
   end
 end

@@ -8,6 +8,6 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :nodes, GraphQL::Relay::Node.plural_field
 
   field :viewer, Types::ViewerType do
-    resolve ->(obj, args, ctx) { }
+    resolve ->(obj, args, ctx) { Rails.logger.debug("### Resolving Root.viewer: #{obj} | #{args} | #{ctx}") }
   end
 end

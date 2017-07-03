@@ -2,8 +2,16 @@ class Database
   include Authentication
 
   def initialize
-    @users = JSON.parse ApplicationController.render(file: Rails.root.join('spec', 'fixtures', 'users.json.erb'))
-    @posts = JSON.parse File.open(Rails.root.join('spec', 'fixtures', 'posts.json'), "r") { |f| f.read }
+    @users = JSON.parse(
+      ApplicationController.render(file: Rails.root.join('spec', 'fixtures', 'users.json.erb'))
+    ).map do |attrs|
+        User.new(attrs)
+    end
+    @posts = JSON.parse(
+      File.open(Rails.root.join('spec', 'fixtures', 'posts.json'), "r") { |f| f.read }
+    ).map do |attrs|
+      Post.new(attrs)
+    end
   end
 
   def create_post(post_attrs, user_attrs)

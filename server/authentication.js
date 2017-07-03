@@ -9,6 +9,7 @@ export function createToken({ id, role } = {}) {
 }
 
 export function decodeToken(token) {
+  log(`decoding token _${token}_ with secret _${SECRET}_`)
   return jwt.verify(token, SECRET)
 }
 

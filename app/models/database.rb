@@ -40,15 +40,12 @@ class Database
   end
 
   def get_user(id)
-    @users.detect do |user|
-      user.id == id
-    end
+    User.find(id)
   end
 
   def get_user_with_credentials(email, password)
-    user = @users.detect do |user_data|
-      user_data.email == email && user_data.password == password
-    end
+    # TODO: Fix the login!
+    User.find_by(email: email)
 
     if !user
       raise ERRORS.wrong_email_or_password
@@ -58,22 +55,20 @@ class Database
   end
 
   def create_user(user_attrs)
-    existing_user = @users.detect { |user| user.email == user_attrs[:email] }
+    existing_user = User.find_by(email: user_attrs[:email])
     
     if existing_user
       raise ERRORS.email_already_taken
     end
 
-    new_user = User.new(
-      id: "#{users.length + 1}",
+    new_user = User.create!(
       email: user_attrs[:email],
       password: user_attrs[:password],
       first_name: user_attrs[:first_name],
       last_name: user_attrs[:last_name],
-      role: user_attrs[:role] || User::ROLES.reader                                    
+      role: user_attrs[:role] || :reader                                    
     )
 
-    @users.push(new_user)
     { user: new_user }
   end
 

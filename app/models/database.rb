@@ -1,43 +1,26 @@
 class Database
   include Authentication
 
-  def initialize
-    @users = JSON.parse(
-      ApplicationController.render(file: Rails.root.join('spec', 'fixtures', 'users.json.erb'))
-    ).map do |attrs|
-        User.new(attrs)
-    end
-    @posts = JSON.parse(
-      File.open(Rails.root.join('spec', 'fixtures', 'posts.json'), "r") { |f| f.read }
-    ).map do |attrs|
-      Post.new(attrs)
-    end
-  end
-
   def create_post(post_attrs, user_attrs)
     if !can_publish?(user_attrs[:role])
       raise ERRORS.forbidden
     end
 
-    @posts.push(
-      Post.new(
-        id:          "#{posts.length + 1}",
-        creator_id:  post_attrs[:creator_id],
-        title:       post_attrs[:title],
-        description: post_attrs[:description],
-        image:       post_attrs[:image]
-      )      
-    )
+    Post.create!(
+      creator_id:  post_attrs[:creator_id],
+      title:       post_attrs[:title],
+      description: post_attrs[:description],
+      image:       post_attrs[:image]
+    )      
+
   end
 
   def get_post(id)
-    @posts.detect do |post|
-      post.id == id
-    end
+    Post.find(id)
   end
 
   def get_posts
-    @posts
+    Post.all
   end
 
   def get_posts_for_creator(user_attrs)
@@ -45,9 +28,7 @@ class Database
       return []
     end
 
-    @posts.select do |post|
-      post.creator_id = user_attrs[:id]
-    end
+    User.find(user_attrs[:id]).posts
   end
 
   def get_post_creator(post)

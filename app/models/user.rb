@@ -1,4 +1,9 @@
-class User
+class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+  
   # TODO: Replace these with ActiveRecord::Enum
   ROLES = Struct.new("Roles", :reader, :publisher, :admin).new('reader', 'publisher', 'admin')
   ATTRIBUTES = %i(id email password role first_name last_name)

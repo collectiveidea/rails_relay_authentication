@@ -1,4 +1,4 @@
-class Post
+class Post < ApplicationRecord
   ATTRIBUTES = %i(id creator_id title image description)
 
   attr_accessor *ATTRIBUTES

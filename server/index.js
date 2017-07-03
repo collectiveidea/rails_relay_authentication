@@ -28,7 +28,7 @@ app.use(historyApiFallback())
 app.use('/', express.static(`${pathBase}/build`))
 
 app.use('/graphql', (req, res) => {
-  req.pipe(request(`http://localhost:${GRAPHQL_PORT}/graphql`)).pipe(res)
+  req.pipe(request(`http://localhost:3030/graphql`)).pipe(res)
 })
 
 app.get(/images\/.{1,}/i, (req, res) => {

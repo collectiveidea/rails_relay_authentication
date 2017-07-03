@@ -3,10 +3,6 @@ import cookieSession from 'cookie-session'
 import { decodeToken } from '../authentication'
 
 function loadSessionData(req) {
-  const headers = JSON.stringify(req.headers)
-
-  log(`Request headers: ${headers}`)
-
   if (req.session && req.session.token) {
     return new Promise((resolve) => {
       let tokenData = null

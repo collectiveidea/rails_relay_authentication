@@ -3,29 +3,19 @@ Types::ViewerType = GraphQL::ObjectType.define do
 
   field :isLoggedIn, types.Boolean do
     resolve ->(obj, args, ctx) {
-      Rails.logger.debug "### Resolve Viewer.isLoggedIn: #{obj} | #{args} | #{ctx}"
       ctx[:tokenData][:role].in?(User.roles)      
     }
   end
 
   field :canPublish, types.Boolean do
     resolve ->(obj, args, ctx) {
-      Rails.logger.debug "### Resolve viewer.canPublish: #{obj} | #{args} | #{ctx}"
       ctx[:tokenData][:role].in?(User.roles[0..1])      
     }
   end
 
   field :user, Types::UserType do
     resolve ->(obj, args, ctx) {
-      Rails.logger.debug "### Resolve Viewer.user: #{obj} | #{args} | #{ctx}"
       Database.db.get_user(ctx[:tokenData][:userId])      
-    }
-  end
-
-  field :posts, Types::PostType.connection_type do
-    argument :first, types.Int
-    resolve ->(obj, args, ctx) {
-      Database.db.get_posts
     }
   end
 
@@ -33,6 +23,14 @@ Types::ViewerType = GraphQL::ObjectType.define do
     argument :postId, types.String
     resolve ->(obj, args, ctx) {
       Database.db.get_post(args[:postId])      
+    }
+  end
+
+  connection :posts, Types::PostType.connection_type do
+    argument :first, types.Int
+    
+    resolve ->(obj, args, ctx) {
+      Database.db.get_posts
     }
   end
 end

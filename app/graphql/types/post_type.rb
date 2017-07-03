@@ -1,7 +1,9 @@
 Types::PostType = GraphQL::ObjectType.define do
   name "Post"
   description "A post"
-  field :id, types.ID
+  global_id_field :id
+  
+  field :id, !types.ID
   field :creator, Types::UserType do
     description "The posts creators"
     resolve ->(post, args, ctx) {
@@ -11,4 +13,6 @@ Types::PostType = GraphQL::ObjectType.define do
   field :title, types.String, "The posts title"
   field :image, types.String, "The posts image"
   field :description, types.String, "The posts description"
+
+  implements GraphQL::Relay::Node.interface
 end

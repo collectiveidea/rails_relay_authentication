@@ -3,6 +3,10 @@ class AddDeviseToUsers < ActiveRecord::Migration[5.1]
     enable_extension "uuid-ossp"
 
     create_table :users, id: :uuid, default: "uuid_generate_v4()" do |t|
+      t.integer :role, null: false, default: 0
+      t.string :first_name
+      t.string :last_name
+
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""

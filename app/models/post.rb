@@ -1,20 +1,11 @@
 class Post < ApplicationRecord
-  ATTRIBUTES = %i(id creator_id title image description)
-
-  attr_accessor *ATTRIBUTES
-  
-  def initialize(args)
-    @args = args
-    args.each do |attr, value|
-      self.send("#{attr}=", value)  
-    end
-  end
+  belongs_to :user
 
   def creatorId
-    creator_id
+    user_id
   end
 
   def creatorId=(value)
-    @creator_id = value
+    self[:user_id] = value
   end
 end

@@ -1,23 +1,20 @@
 [
   {
-    "id": "1",
-    "role": "<%= User::ROLES.reader %>",
+    "role": "reader",
     "email": "reader@test.com",
     "password": "qwerty",
     "firstName": "Regina",
     "lastName": "Reader"
   },
   {
-    "id": "2",
-    "role": "<%= User::ROLES.publisher %>",
+    "role": "publisher",
     "email": "publisher@test.com",
     "password": "qwerty",
     "firstName": "Peter",
     "lastName": "Publisher"
   },
   {
-    "id": "3",
-    "role": "<%= User::ROLES.publisher %>",
+    "role": "publisher",
     "email": "publisher2@test.com",
     "password": "qwerty",
     "firstName": "Peter",

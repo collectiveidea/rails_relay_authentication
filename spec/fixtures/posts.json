@@ -1,62 +1,53 @@
  [
   {
-    "id": "1",
     "creatorId": "3",
     "title": "An interesting story",
     "image": "/images/image1.jpg",
     "description": "description"
   },
   {
-    "id": "2",
     "creatorId": "2",
     "title": "More interesting",
     "image": "/images/image2.jpg",
     "description": "description"
   },
   {
-    "id": "3",
     "creatorId": "2",
     "title": "Very nice post",
     "image": "/images/image3.jpg",
     "description": "description"
   },
   {
-    "id": "4",
     "creatorId": "3",
     "title": "Even nicer post",
     "image": "/images/image4.jpg",
     "description": "description"
   },
   {
-    "id": "5",
     "creatorId": "3",
     "title": "Look at that image",
     "image": "/images/image5.jpg",
     "description": "description"
   },
   {
-    "id": "6",
     "creatorId": "2",
     "title": "Have a nice day",
     "image": "/images/image6.jpg",
     "description": "description"
   },
   {
-    "id": "7",
     "creatorId": "3",
     "title": "Must do",
     "image": "/images/image7.jpg",
     "description": "description"
   },
   {
-    "id": "8",
     "creatorId": "2",
     "title": "Modern society",
     "image": "/images/image8.jpg",
     "description": "description"
   },
   {
-    "id": "9",
     "creatorId": "2",
     "title": "Modern society 2",
     "image": "/images/image9.jpg",

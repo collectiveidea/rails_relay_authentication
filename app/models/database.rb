@@ -40,7 +40,11 @@ class Database
   end
 
   def get_user(id)
-    User.find(id)
+    if id.length == 1
+      User.all.to_a[id.to_i]
+    else
+      User.find(id)
+    end
   end
 
   def get_user_with_credentials(email, password)

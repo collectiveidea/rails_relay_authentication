@@ -3,6 +3,8 @@ class User < ApplicationRecord
 
   has_many :posts
 
+  has_secure_password
+
   def firstName
     first_name
   end

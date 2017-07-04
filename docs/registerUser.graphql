@@ -1,0 +1,19 @@
+mutation RegisterUser($input: RegisterInput!) {
+  register(input: $input) {
+    user {
+      id
+      email
+      firstName
+    }
+  }
+}
+
+{
+  "input": {
+    "clientMutationId": "2",
+    "email": "jonnn@jonstokes2.com",
+    "firstName": "Jon",
+    "lastName": "Stokes",
+    "password": "foobarbaz"
+  }
+}

@@ -40,7 +40,7 @@ class Database
   end
 
   def get_user(id)
-    if id.length == 1
+    if id.try(:length) == 1
       User.all.to_a[id.to_i]
     else
       User.find(id)
@@ -68,8 +68,8 @@ class Database
     new_user = User.create!(
       email: user_attrs[:email],
       password: user_attrs[:password],
-      first_name: user_attrs[:first_name],
-      last_name: user_attrs[:last_name],
+      first_name: user_attrs[:firstName],
+      last_name: user_attrs[:lastName],
       role: user_attrs[:role] || :reader                                    
     )
 

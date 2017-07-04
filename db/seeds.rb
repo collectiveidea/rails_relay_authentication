@@ -4,7 +4,15 @@ Post.delete_all
 users = JSON.parse(
   File.open(Rails.root.join('spec', 'fixtures', 'users.json'), "r") { |f| f.read }
 ).map do |attrs|
-    User.create!(attrs)
+    User.new(attrs)
+end
+
+users.each do |user|
+  begin
+    user.save!
+  rescue => Exception
+    binding.pry
+  end
 end
 
 JSON.parse(

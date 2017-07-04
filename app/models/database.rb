@@ -40,10 +40,12 @@ class Database
   end
 
   def get_user(id)
+    return unless id.present?
+
     if id.try(:length) == 1
       User.all.to_a[id.to_i]
     else
-      User.find(id)
+      User.find_by(id: id.to_i)
     end
   end
 

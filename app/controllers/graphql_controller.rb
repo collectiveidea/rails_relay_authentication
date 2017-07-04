@@ -1,27 +1,24 @@
 class GraphqlController < ApplicationController
-  include Authentication
-
-  TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyIiwicm9sZSI6InB1Ymxpc2hlciIsImlhdCI6MTQ5OTEwOTkxMX0.tiQZ_TgW02IwApHrp0ZHrIzFBlEv0niInzLmNOvX0DU"
 
   def execute
-    request.env['warden'].set_user User.all.first
-    user = request.env['warden'].user
     variables = ensure_hash(params[:variables])
     query = params[:query]
     context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
+      warden: warden,
       tokenData: {
-        userId: user.id,
-        role: user.role
+        userId: warden.user.try(:id),
+        role: warden.user.try(:role)
       }
-    }.deep_symbolize_keys
-    Rails.logger.debug "Context: #{context}"
+    }
     result = RailsRelayAuthenticationSchema.execute(query, variables: variables, context: context)
     render json: result
   end
 
   private
+
+  def warden
+    request.env['warden']
+  end
 
   # Handle form data, JSON body, or a blank value
   def ensure_hash(ambiguous_param)

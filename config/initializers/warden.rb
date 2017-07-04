@@ -21,13 +21,13 @@ end
 # Use warden hook to setup current_user uid in Cookie
 Warden::Manager.after_set_user do |user, auth, opts|
   scope = opts[:scope]
-  auth.warden_cookies["#{scope}.uuid"] = user.uuid
-  auth.warden_cookies["#{scope}.expires_at"] = 30.minutes.from_now
+  auth.request.cookies["#{scope}.uuid"] = user.uuid
+  auth.request.cookies["#{scope}.expires_at"] = 30.minutes.from_now
 end
 
 # Cleanup once logged out
 Warden::Manager.before_logout do |user, auth, opts|
   scope = opts[:scope]
-  auth.warden_cookies["#{scope}.uuid"] = nil
-  auth.warden_cookies["#{scope}.expires_at"] = nil
+  auth.request.cookies["#{scope}.uuid"] = nil
+  auth.request.cookies["#{scope}.expires_at"] = nil
 end

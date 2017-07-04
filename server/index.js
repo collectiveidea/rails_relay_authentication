@@ -11,6 +11,7 @@ require('./logger.js')
 const IMAGE_PORT = 9000
 const GRAPHQL_PORT = 8080
 const RELAY_PORT = 3000
+const RAILS_PORT = 3030
 
 createGraphQlServer(GRAPHQL_PORT, new Database())
 
@@ -28,7 +29,7 @@ app.use(historyApiFallback())
 app.use('/', express.static(`${pathBase}/build`))
 
 app.use('/graphql', (req, res) => {
-  req.pipe(request(`http://localhost:${GRAPHQL_PORT}/graphql`)).pipe(res)
+  req.pipe(request(`http://localhost:${RAILS_PORT}/graphql`)).pipe(res)
 })
 
 app.get(/images\/.{1,}/i, (req, res) => {

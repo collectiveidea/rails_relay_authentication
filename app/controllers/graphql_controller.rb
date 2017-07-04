@@ -1,16 +1,20 @@
 class GraphqlController < ApplicationController
-  skip_before_action :verify_authenticity_token
   include Authentication
 
   TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyIiwicm9sZSI6InB1Ymxpc2hlciIsImlhdCI6MTQ5OTEwOTkxMX0.tiQZ_TgW02IwApHrp0ZHrIzFBlEv0niInzLmNOvX0DU"
 
   def execute
+    request.env['warden'].set_user User.all.first
+    user = request.env['warden'].user
     variables = ensure_hash(params[:variables])
     query = params[:query]
     context = {
       # Query context goes here, for example:
       # current_user: current_user,
-      tokenData: decode_token(TOKEN)
+      tokenData: {
+        userId: user.id,
+        role: user.role
+      }
     }.deep_symbolize_keys
     Rails.logger.debug "Context: #{context}"
     result = RailsRelayAuthenticationSchema.execute(query, variables: variables, context: context)

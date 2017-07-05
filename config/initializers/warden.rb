@@ -7,16 +7,14 @@ Rails.application.config.middleware.insert_after Rack::ETag, Warden::Manager do 
   manager.failure_app = GraphqlController
 end
 
-class Warden::SessionSerializer
-  def serialize(record)
-    [record.class.name, record.uuid]
-  end
+Warden::Manager.serialize_into_session do |record|
+  [record.class.name, record.uuid]
+end
 
-  def deserialize(keys)
-    class_name, uuid = keys
-    klass = class_name.constantize
-    klass.find_by(uuid: uuid)
-  end
+Warden::Manager.serialize_from_session do |keys|
+  class_name, uuid = keys
+  klass = class_name.constantize
+  klass.find_by(uuid: uuid)
 end
 
 # Use warden hook to setup current_user uid in Cookie

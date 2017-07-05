@@ -10,7 +10,7 @@ Types::UserType = GraphQL::ObjectType.define do
   connection :posts, Types::PostType.connection_type do
     argument :first, types.Int
     resolve ->(user, args, ctx) {
-      Database.db.get_posts_for_creator(ctx[:tokenData])     
+      ctx[:user].posts
     }
   end
 end

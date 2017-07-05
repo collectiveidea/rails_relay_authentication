@@ -4,7 +4,8 @@ class GraphqlController < ApplicationController
     variables = ensure_hash(params[:variables])
     query = params[:query]
     context = {
-      request: request,
+      warden: warden,
+      user: current_user,
       tokenData: {
         userId: warden.user.try(:id),
         role: warden.user.try(:role)
@@ -18,6 +19,10 @@ class GraphqlController < ApplicationController
 
   def warden
     request.env['warden']
+  end
+
+  def current_user
+    warden.user
   end
 
   # Handle form data, JSON body, or a blank value

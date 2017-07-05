@@ -1,8 +1,6 @@
 class Database
-  def create_post(post_attrs, user_attrs)
-    if !can_publish?(user_attrs[:role])
-      raise ERRORS.forbidden
-    end
+  def create_post(post_attrs, user)
+    GraphQL::ExecutionError.new("Forbidden") unless can_publish?(user.role)
 
     Post.create!(
       creator_id:  post_attrs[:creator_id],
@@ -10,10 +8,11 @@ class Database
       description: post_attrs[:description],
       image:       post_attrs[:image]
     )      
-
   end
 
   def get_post(id)
+    return unless id.present?
+
     Post.find(id)
   end
 
@@ -21,49 +20,27 @@ class Database
     Post.all
   end
 
-  def get_posts_for_creator(user_attrs)
-    if !is_logged_in?(user_attrs[:role])
-      return []
-    end
-
-    User.find(user_attrs[:id]).posts
+  def get_posts_for_creator(user)
+    user.try(:posts) || []
   end
 
   def get_post_creator(post)
-    user = get_user(post.creator_id)
     {
-      first_name: user.first_name,
-      last_name: user.last_name
+      first_name: post.user.first_name,
+      last_name: post.user.last_name
     }
   end
 
   def get_user(id)
     return unless id.present?
 
-    if id.try(:length) == 1
-      User.all.to_a[id.to_i]
-    else
-      User.find_by(id: id.to_i)
-    end
-  end
-
-  def get_user_with_credentials(email, password)
-    # TODO: Fix the login!
-    User.find_by(email: email)
-
-    if !user
-      raise ERRORS.wrong_email_or_password
-    end
-
-    user
+    User.find_by(id: id)
   end
 
   def create_user(user_attrs)
     existing_user = User.find_by(email: user_attrs[:email])
     
-    if existing_user
-      raise ERRORS.email_already_taken
-    end
+    return GraphQL::ExecutionError.new("Email already taken") if existing_user
 
     new_user = User.create!(
       email: user_attrs[:email],

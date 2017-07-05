@@ -5,16 +5,16 @@ Warden::Strategies.add(:authentication_token, AuthenticationTokenStrategy)
 Rails.application.config.middleware.insert_after Rack::ETag, Warden::Manager do |manager|
   manager.default_strategies :authentication_token
   manager.failure_app = GraphqlController
-end
 
-Warden::Manager.serialize_into_session do |record|
-  [record.class.name, record.uuid]
-end
+  manager.serialize_into_session do |record|
+    [record.class.name, record.uuid]
+  end
 
-Warden::Manager.serialize_from_session do |keys|
-  class_name, uuid = keys
-  klass = class_name.constantize
-  klass.find_by(uuid: uuid)
+  manager.serialize_from_session do |keys|
+    class_name, uuid = keys
+    klass = class_name.constantize
+    klass.find_by(uuid: uuid)
+  end
 end
 
 # Use warden hook to setup current_user uid in Cookie

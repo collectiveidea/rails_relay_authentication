@@ -13,6 +13,7 @@ gem 'puma', '~> 3.7'
 gem 'graphql'
 gem 'warden'
 gem 'bcrypt'
+gem 'dry-struct'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

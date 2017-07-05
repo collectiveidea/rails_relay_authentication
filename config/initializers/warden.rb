@@ -1,9 +1,4 @@
-require 'authentication_token_strategy'
-
-Warden::Strategies.add(:authentication_token, AuthenticationTokenStrategy)
-
 Rails.application.config.middleware.insert_after Rack::ETag, Warden::Manager do |manager|
-  manager.default_strategies :authentication_token
   manager.failure_app = GraphqlController
 
   manager.serialize_into_session do |record|

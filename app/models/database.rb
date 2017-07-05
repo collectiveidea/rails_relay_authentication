@@ -1,6 +1,4 @@
 class Database
-  include Authentication
-
   def create_post(post_attrs, user_attrs)
     if !can_publish?(user_attrs[:role])
       raise ERRORS.forbidden

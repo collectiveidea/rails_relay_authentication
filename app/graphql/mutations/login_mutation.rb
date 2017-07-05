@@ -13,7 +13,6 @@ Mutations::LoginMutation = GraphQL::Relay::Mutation.define do
     user = User.find_by(email: inputs[:email])
 
     if user && user.authenticate(inputs[:password])
-      Rails.logger.debug "####   Setting user #{user.email}"
       ctx[:request].env['warden'].set_user(user)
     end
 

@@ -10,11 +10,8 @@ class GraphqlController < ApplicationController
         role: warden.user.try(:role)
       }
     }
-    Rails.logger.debug "### Executing with tokenData #{context[:tokenData]}"
     result = RailsRelayAuthenticationSchema.execute(query, variables: variables, context: context)
-    Rails.logger.debug "#     Schema executed"
     render json: result
-    Rails.logger.debug "#     Result rendered #{result}"
   end
 
   private

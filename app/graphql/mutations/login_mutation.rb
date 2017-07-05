@@ -14,8 +14,9 @@ Mutations::LoginMutation = GraphQL::Relay::Mutation.define do
 
     if user && user.authenticate(inputs[:password])
       ctx[:request].env['warden'].set_user(user)
+      { user: user }
+    else
+      GraphQL::ExecutionError.new("Wrong email or password")
     end
-
-    { user: user }
   }
 end

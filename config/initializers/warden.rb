@@ -9,14 +9,10 @@ end
 
 class Warden::SessionSerializer
   def serialize(record)
-    Rails.logger.debug "### Serializer #{record}"
-    result = [record.class.name, record.uuid]
-    Rails.logger.debug "#   Serializing #{record} as #{result}"
-    result
+    [record.class.name, record.uuid]
   end
 
   def deserialize(keys)
-    Rails.logger.debug "### Deserializer #{keys}"
     class_name, uuid = keys
     klass = class_name.constantize
     klass.find_by(uuid: uuid)

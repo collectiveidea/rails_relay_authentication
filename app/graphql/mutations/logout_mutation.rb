@@ -5,6 +5,6 @@ Mutations::LogoutMutation = GraphQL::Relay::Mutation.define do
 
   resolve ->(object, inputs, ctx) {
     ctx[:warden].logout
-    { user: ctx[:user] }
+    { user: ctx[:viewer] }
   }
 end

@@ -5,11 +5,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     context = {
       warden: warden,
-      user: current_user,
-      tokenData: {
-        userId: warden.user.try(:id),
-        role: warden.user.try(:role)
-      }
+      viewer: viewer
     }
     result = RailsRelayAuthenticationSchema.execute(query, variables: variables, context: context)
     render json: result
@@ -17,12 +13,12 @@ class GraphqlController < ApplicationController
 
   private
 
-  def warden
-    request.env['warden']
+  def viewer
+    warden.user
   end
 
-  def current_user
-    warden.user
+  def warden
+    request.env['warden']
   end
 
   # Handle form data, JSON body, or a blank value

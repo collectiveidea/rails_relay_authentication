@@ -22,7 +22,8 @@ end
 # Use warden hook to setup current_user uid in Cookie
 Warden::Manager.after_set_user do |user, auth, opts|
   #scope = opts[:scope]
-  Rails.logger.debug "### Logged in warden hook,"
+  Rails.logger.debug "### Logged in warden hook, auth responds to cookies: #{auth.respond_to?(:cookies)}"
+
   #auth.raw_session["#{scope}.uuid"] = user.uuid
   #auth.raw_session["#{scope}.expires_at"] = 30.minutes.from_now
 end

@@ -84,3 +84,11 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 - [Comment](https://github.com/graphql/express-graphql/issues/9#issuecomment-143331902) on Relay issue by [murz](https://github.com/murz)
 
 ## [Changelog](CHANGELOG.md)
+
+## To Do
+- [ ] Move over `updateSchema.js` from `hover_blog` app, so that schema is updated from server introspection.
+- [ ] Implement `CreatePostMutation`
+- [ ] Back-end testing with rspec
+- [ ] Implement all the GraphQL errors
+- [ ] Storybook integration
+- [ ] Front-end testing with Jest + Storybook

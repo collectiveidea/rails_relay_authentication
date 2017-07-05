@@ -35,7 +35,7 @@ function fetchQuery(operation, variables, cacheConfig, uploadables) {
   // eslint-disable-next-line no-undef
   return fetch('/graphql', {
     method: 'POST',
-    credentials: 'same-origin',
+    credentials: 'include',
     ...options,
   })
     .then(response => response.json())

@@ -9,10 +9,12 @@ Mutations::LoginMutation = GraphQL::Relay::Mutation.define do
   return_field :user, Types::UserType
 
   resolve ->(object, inputs, ctx) {
+    Rails.logger.debug "### LoginMutation.resolve #{inputs[:email]} #{inputs[:password]}"
     user = User.find_by(email: inputs[:email])
 
     if user && user.authenticate(inputs[:password])
-      ctx[:warden].set_user(user)
+      Rails.logger.debug "####   Setting user #{user.email}"
+      ctx[:request].env['warden'].set_user(user)
     end
 
     { user: user }

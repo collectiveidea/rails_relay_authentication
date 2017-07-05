@@ -1,5 +1,6 @@
 class AuthenticationTokenStrategy < ::Warden::Strategies::Base
   def valid?
+    Rails.logger.debug "### AuthenticationTokenStrategy.cookies #{cookies}"
     user_uuid # && authentication_token
   end
 
@@ -12,10 +13,10 @@ class AuthenticationTokenStrategy < ::Warden::Strategies::Base
   private
 
   def user_uuid
-    cookies['user.uuid']
+    cookies['default.uuid']
   end
 
   def authentication_token
-    cookies['user.authentication_token']
+    cookies['default.authentication_token']
   end
 end

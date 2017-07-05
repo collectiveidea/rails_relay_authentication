@@ -2,32 +2,38 @@ require 'authentication_token_strategy'
 
 Warden::Strategies.add(:authentication_token, AuthenticationTokenStrategy)
 
-Rails.application.config.middleware.insert_before Rack::Head, Warden::Manager do |manager|
+Rails.application.config.middleware.insert_after Rack::ETag, Warden::Manager do |manager|
   manager.default_strategies :authentication_token
   manager.failure_app = GraphqlController
 end
 
 class Warden::SessionSerializer
   def serialize(record)
-    [record.class, record.uuid]
+    Rails.logger.debug "### Serializer #{record}"
+    result = [record.class, record.uuid]
+    Rails.logger.debug "#   Serializing #{record} as #{result}"
+    result
   end
 
   def deserialize(keys)
-    klass, uuid = keys
-    klass.find_by(uuid: id)
+    Rails.logger.debug "### Deserializer #{keys}"
+    result = User.find_by(uuid: keys["uuid"])
+    Rails.logger.debug "### Deserializing #{keys} as #{result}"
+    result
   end
 end
 
 # Use warden hook to setup current_user uid in Cookie
 Warden::Manager.after_set_user do |user, auth, opts|
-  scope = opts[:scope]
-  auth.request.cookies["#{scope}.uuid"] = user.uuid
-  auth.request.cookies["#{scope}.expires_at"] = 30.minutes.from_now
+  #scope = opts[:scope]
+  Rails.logger.debug "### Logged in warden hook,"
+  #auth.raw_session["#{scope}.uuid"] = user.uuid
+  #auth.raw_session["#{scope}.expires_at"] = 30.minutes.from_now
 end
 
 # Cleanup once logged out
 Warden::Manager.before_logout do |user, auth, opts|
   scope = opts[:scope]
-  auth.request.cookies["#{scope}.uuid"] = nil
-  auth.request.cookies["#{scope}.expires_at"] = nil
+  #auth.cookies["#{scope}.uuid"] = nil
+  #auth.cookies["#{scope}.expires_at"] = nil
 end

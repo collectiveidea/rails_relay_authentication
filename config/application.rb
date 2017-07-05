@@ -31,5 +31,8 @@ module RailsRelayAuthentication
     config.autoload_paths << Rails.root.join('lib')
 
     config.api_only = true
+    config.middleware.insert_after ActiveRecord::Migration::CheckPending, ActionDispatch::Cookies
+    config.middleware.insert_after ActionDispatch::Cookies, ActionDispatch::Session::CookieStore, key: '_namespace_key'
+    config.session_store :cookie_store, key: '_namespace_key'
   end
 end

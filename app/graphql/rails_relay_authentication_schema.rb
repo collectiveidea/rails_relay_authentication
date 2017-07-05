@@ -5,13 +5,13 @@ RailsRelayAuthenticationSchema = GraphQL::Schema.define do
   id_from_object ->(object, type_definition, query_ctx) {
     # Call your application's UUID method here
     # It should return a string
-    GraphQL::Schema::UniqueWithinType.encode(type_definition.name, object.id)
+    GraphQL::Schema::UniqueWithinType.encode(type_definition.name, object.uuid)
   }
 
   object_from_id ->(id, query_ctx) {
-    type_name, item_id = GraphQL::Schema::UniqueWithinType.decode(id)
+    class_name, uuid = GraphQL::Schema::UniqueWithinType.decode(id)
 
-    Database.db.send("get_#{type_name}", item_id)
+    class_name.classify.find_by(uuid: uuid)
   }
 
   resolve_type ->(obj, ctx) {
@@ -24,5 +24,4 @@ RailsRelayAuthenticationSchema = GraphQL::Schema.define do
       raise("Unexpected object: #{obj}")
     end
   }
-
 end

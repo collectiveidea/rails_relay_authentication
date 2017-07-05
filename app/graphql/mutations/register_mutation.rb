@@ -17,6 +17,20 @@ Mutations::RegisterMutation = GraphQL::Relay::Mutation.define do
   return_field :user, Types::UserType
 
   resolve ->(object, inputs, ctx) {
-    Database.db.create_user(inputs)
+    existing_user = User.find_by(email: inputs[:email])
+    
+    if existing_user
+      GraphQL::ExecutionError.new("Email already taken")
+    else
+      new_user = User.create!(
+        email: inputs[:email],
+        password: inputs[:password],
+        first_name: inputs[:firstName],
+        last_name: inputs[:lastName],
+        role: inputs[:role] || :reader                                    
+      )
+
+      { user: new_user }
+    end
   }
 end

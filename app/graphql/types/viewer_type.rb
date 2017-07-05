@@ -3,13 +3,13 @@ Types::ViewerType = GraphQL::ObjectType.define do
 
   field :isLoggedIn, types.Boolean do
     resolve ->(obj, args, ctx) {
-      ctx[:viewer] && ctx[:viewer].role.in?(User.roles.keys)      
+      ctx[:viewer].present?   
     }
   end
 
   field :canPublish, types.Boolean do
     resolve ->(obj, args, ctx) {
-      ctx[:viewer] && ctx[:viewer].role.in?(User.roles.keys[0..1])      
+      !!ctx[:viewer].try(:can_publish?)      
     }
   end
 

@@ -13,6 +13,10 @@ class Viewer < Dry::Struct
     Post.where(user_id: id)
   end
 
+  def can_publish?
+    role.in?(User.roles.keys[0..1])
+  end
+
   alias_method :firstName, :first_name
   alias_method :lastName, :last_name
 

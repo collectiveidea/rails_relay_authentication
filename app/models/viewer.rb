@@ -1,3 +1,6 @@
+# This object is designed to quack like a User, but it's a fast, lightweight object
+#   that can easily be deserialized on every request without hitting the db unless
+#   it's absolutely necessary.
 class Viewer < Dry::Struct
   attribute :uuid, Types::UUID
   attribute :email, Types::String
@@ -12,6 +15,10 @@ class Viewer < Dry::Struct
 
   alias_method :firstName, :first_name
   alias_method :lastName, :last_name
+
+  def regenerate_authentication_token
+    User.find(id).regenerate_authentication_token
+  end
 
   private 
 

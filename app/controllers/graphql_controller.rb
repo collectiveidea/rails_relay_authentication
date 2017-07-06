@@ -1,8 +1,6 @@
 class GraphqlController < ApplicationController
   
-  def execute
-    variables = ensure_hash(params[:variables])
-    variables["input"].merge!("image" => params[:image]) if params[:image] && variables["input"]
+  def execute 
     query = params[:query]
     context = {
       warden: warden,
@@ -13,6 +11,14 @@ class GraphqlController < ApplicationController
   end
 
   private
+
+  def variables
+    variables_hash = ensure_hash(params[:variables])
+    if params[:image] && variables_hash["input"]
+      variables_hash["input"].merge!("image" => params[:image])
+    end
+    variables_hash
+  end
 
   def viewer
     warden.user || Viewer.new

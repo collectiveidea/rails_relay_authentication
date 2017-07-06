@@ -3,7 +3,7 @@ Mutations::CreatePostMutation = GraphQL::Relay::Mutation.define do
 
   input_field :title, !types.String
   input_field :description, !types.String
-  input_field :image, !types.String, 'image field is set by upload middleware automatically'
+  input_field :image, Types::ImageType
 
   return_field :user, Types::UserType
   return_field :postEdge, Types::PostType.edge_type

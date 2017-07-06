@@ -22,9 +22,8 @@ class GraphqlController < ApplicationController
   end
 
   def authenticate!
-    return unless cookies.signed['default.uuid'] && cookies.signed['default.authentication_token']
-    warden.authenticate!
-    Rails.logger.debug "### Controller cookies #{cookies.signed['default.uuid']} #{cookies.signed['default.authentication_token']}"
+    return if viewer
+    warden.authenticate! if cookies.signed['default.uuid'] && cookies.signed['default.authentication_token']
   end
 
   def viewer

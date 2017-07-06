@@ -22,7 +22,7 @@ class GraphqlController < ApplicationController
   end
 
   def authenticate!
-    return if viewer
+    return if warden.authenticated?
     warden.authenticate! if cookies.signed['default.uuid'] && cookies.signed['default.authentication_token']
   end
 

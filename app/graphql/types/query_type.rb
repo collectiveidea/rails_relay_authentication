@@ -8,8 +8,6 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :nodes, GraphQL::Relay::Node.plural_field
 
   field :viewer, Types::ViewerType do
-    # This to return some sort of value. What it is doesn't
-    #   really matter.
-    resolve ->(obj, args, ctx) { true }
+    resolve ->(obj, args, ctx) { ctx[:viewer] }
   end
 end

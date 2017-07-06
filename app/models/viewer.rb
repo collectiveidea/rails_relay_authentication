@@ -1,16 +1,22 @@
 class Viewer < Dry::Struct
-  attribute :uuid, Types::UUID
-  attribute :role, Types::Role
+  constructor :schema
 
-  delegate_missing_to :user
+  attribute :uuid, Types::UUID.optional.default(nil)
+  attribute :role, Types::Role.optional.default(nil)
 
-  def can_publish?
-    role.in?(User.roles.keys[0..1])
+  def canPublish
+    role.in?(User.publisher_roles)
   end
 
-  private
+  def isLoggedIn
+    !!(role && uuid)
+  end
 
   def user
     @user ||= User.find_by(uuid: uuid)
+  end
+
+  def attributes
+    to_hash.stringify_keys
   end
 end

@@ -16,6 +16,8 @@ RailsRelayAuthenticationSchema = GraphQL::Schema.define do
 
   resolve_type ->(obj, ctx) {
     case obj
+    when Viewer
+      Types::ViewerType
     when User
       Types::UserType
     when Post

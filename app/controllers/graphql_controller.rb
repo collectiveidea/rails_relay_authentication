@@ -14,7 +14,7 @@ class GraphqlController < ApplicationController
   private
 
   def viewer
-    warden.user
+    warden.user || Viewer.new
   end
 
   def warden

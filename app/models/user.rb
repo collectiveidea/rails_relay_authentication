@@ -21,4 +21,8 @@ class User < ApplicationRecord
   def lastName=(value)
     self[:last_name] = value
   end
+
+  def publisher_roles
+    roles.keys[0..1]
+  end
 end

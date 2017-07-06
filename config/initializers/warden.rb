@@ -1,3 +1,17 @@
+module Warden::Mixins::Common
+  def request
+    @request ||= ActionDispatch::Request.new(env)
+  end
+
+  def reset_session!
+    request.reset_session
+  end
+
+  def cookies
+    request.cookie_jar
+  end
+end
+
 Rails.application.config.middleware.insert_after Rack::ETag, Warden::Manager do |manager|
   manager.failure_app = GraphqlController
 

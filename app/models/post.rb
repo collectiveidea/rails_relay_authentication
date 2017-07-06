@@ -1,11 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :user
 
-  def creatorId
-    user_id
-  end
-
-  def creatorId=(value)
-    self[:user_id] = value
-  end
+  alias_attribute :creator_id, :user_id
+  camelize_attribute :creator_id
 end

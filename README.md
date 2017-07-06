@@ -86,8 +86,8 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 ## [Changelog](CHANGELOG.md)
 
 ## To Do
-- [ ] Move over `updateSchema.js` from `hover_blog` app, so that schema is updated from server introspection.
-- [ ] Implement `CreatePostMutation`
+- [x] Move over `updateSchema.js` from `hover_blog` app, so that schema is updated from server introspection.
+- [x] Implement `CreatePostMutation`
 - [ ] Back-end testing with rspec
 - [ ] Implement all the GraphQL errors
 - [ ] Storybook integration

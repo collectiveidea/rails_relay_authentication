@@ -9,8 +9,3 @@ Rails.application.config.middleware.insert_after Rack::ETag, Warden::Manager do 
     Viewer.new(attributes.symbolize_keys)
   end
 end
-
-# Cleanup once logged out
-Warden::Manager.before_logout do |user, auth, opts|
-  user.regenerate_authentication_token
-end

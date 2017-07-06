@@ -10,7 +10,7 @@ class Viewer < Dry::Struct
   attribute :authentication_token, Types::String.optional
 
   def posts
-    Post.where(user_id: id)
+    user.posts
   end
 
   def can_publish?
@@ -20,13 +20,9 @@ class Viewer < Dry::Struct
   alias_method :firstName, :first_name
   alias_method :lastName, :last_name
 
-  def regenerate_authentication_token
-    User.find(id).regenerate_authentication_token
-  end
+  private
 
-  private 
-
-  def id
-    @id ||= User.where(uuid: uuid).limit(1).pluck(:id).first
+  def user
+    @user ||= User.find_by(authentication_token: authentication_token)
   end
 end

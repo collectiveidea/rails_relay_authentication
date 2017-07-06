@@ -1,5 +1,8 @@
 class GraphqlController < ApplicationController
-  
+  include ActionController::Cookies
+
+  before_action :authenticate!
+
   def execute
     variables = ensure_hash(params[:variables])
     query = params[:query]
@@ -12,6 +15,17 @@ class GraphqlController < ApplicationController
   end
 
   private
+
+  def self.call(env)
+    @respond ||= action(:execute)
+    @respond.call(env)
+  end
+
+  def authenticate!
+    return unless cookies.signed['default.uuid'] && cookies.signed['default.authentication_token']
+    warden.authenticate!
+    Rails.logger.debug "### Controller cookies #{cookies.signed['default.uuid']} #{cookies.signed['default.authentication_token']}"
+  end
 
   def viewer
     warden.user

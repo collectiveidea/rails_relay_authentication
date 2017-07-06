@@ -10,12 +10,21 @@ Mutations::CreatePostMutation = GraphQL::Relay::Mutation.define do
   
   resolve ->(object, inputs, ctx) {
     user = ctx[:viewer].user
+    image = inputs[:image]
 
-    new_post = user.posts.build(
+    image_path = "/images/upload/#{image.original_filename}"
+
+    FileUtils.mv image.tempfile, Rails.root.join("static", "images", "upload", image.original_filename)
+
+    post_attrs = {
       title: inputs[:title],
       description: inputs[:description],
-      image: inputs[:image]
-    )
+      image: image_path   
+    }
+
+    Rails.logger.debug "### New post attrs #{post_attrs}"
+
+    new_post = user.posts.build(post_attrs)
 
     if new_post.save
       # Use this helper to create the response that a

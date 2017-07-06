@@ -12,6 +12,4 @@ Types::PostType = GraphQL::ObjectType.define do
   field :title, types.String, "The posts title"
   field :image, types.String, "The posts image"
   field :description, types.String, "The posts description"
-
-  implements GraphQL::Relay::Node.interface
 end

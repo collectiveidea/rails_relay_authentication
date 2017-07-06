@@ -2,7 +2,7 @@ Types::UserType = GraphQL::ObjectType.define do
   name "User"
   global_id_field :id
 
-  field :id, types.ID do
+  field :id, !types.ID do
     resolve ->(user, args, ctx) {
       user.uuid
     }

@@ -3,8 +3,10 @@ require 'rails_helper'
 RSpec.describe "Types::UserType", type: "request" do
   let(:endpoint) { "/graphql" }
   let(:json) { JSON.parse(response.body)["data"] }
-
-  let!(:user) { create(:user) }
+  let(:user) { create(:user) }
+  let!(:viewer) {
+    Viewer.new(uuid: user.reload.uuid, role: user.role)    
+  }
   
   describe "ViewerType" do
     let(:query) {
@@ -12,6 +14,7 @@ RSpec.describe "Types::UserType", type: "request" do
         {
           viewer {
             user {
+              id
               firstName
               lastName
               email                                          
@@ -30,13 +33,18 @@ RSpec.describe "Types::UserType", type: "request" do
       GRAPHQL
     }
 
-    it "returns a user" do
-      post(endpoint, params: { query: query }  )
+    describe "Logged in" do
+      before(:each) {
+        allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
+      }
 
-      binding.pry
-      expect(json["viewer"].keys).to eq(%w(user posts))
-      expect(json["viewer"]["user"]).to eq(user.id)
-      expect(json["viewer"]["posts"]["edges"].count).to eq(8)
+      it "returns a user" do
+        post(endpoint, params: { query: query }  )
+
+        expect(json["viewer"].keys).to eq(%w(user posts))
+        expect(json["viewer"]["user"]["id"]).to eq(user.uuid)
+        #expect(json["viewer"]["posts"]["edges"].count).to eq(8)
+      end
     end
   end
 end

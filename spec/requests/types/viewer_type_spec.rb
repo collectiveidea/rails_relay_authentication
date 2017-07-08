@@ -3,11 +3,9 @@ require 'rails_helper'
 RSpec.describe "Types::ViewerType", type: "request" do
   let(:endpoint) { "/graphql" }
   let(:json) { JSON.parse(response.body)["data"] }
-  let(:user) { create(:user) }
-  let!(:viewer) {
-    Viewer.new(uuid: user.uuid, role: user.role)    
-  }
-  let!(:posts) { 3.times.map { create(:post, user: user) } }
+  let!(:viewer) { build(:viewer) }
+  let(:user) { viewer.user }
+  let!(:posts) { create_list(:post, 3, user: user) }
   
   describe "ViewerType" do
     let(:query) {

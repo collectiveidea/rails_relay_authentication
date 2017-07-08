@@ -56,7 +56,7 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
         }
 
         it "requires an email address" do
-          variables.merge!("email" => nil)
+          variables["input"].merge!("email" => nil)
 
           expect {
             register_user
@@ -66,7 +66,7 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
         end
 
         it "requires a valid email address" do
-          variables.merge!("email" => "foo")
+          variables["input"].merge!("email" => "foo")
 
           expect {
             register_user
@@ -76,7 +76,7 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
         end
 
         it "requires a password" do
-          variables.merge!("password" => nil)
+          variables["input"].merge!("password" => nil)
 
           expect {
             register_user

@@ -17,24 +17,16 @@ RSpec.describe "Types::ViewerType", type: "request" do
           viewer {
             user {
               id
-              firstName
-              lastName
-              email                                          
             }
             posts {
               edges {
                 node {
                   id
-                  title
-                  description
                 }
               }
             }
             post(postId: $postId) {
               id
-              title    
-              description
-              image                                                    
             }
           }
         }
@@ -47,22 +39,14 @@ RSpec.describe "Types::ViewerType", type: "request" do
 
     shared_examples "returning a viewer with all the posts" do
       it "returns a viewer with posts" do
-        post(endpoint, params: { query: query, variables: variables }  )
+        post(endpoint, params: { query: query, variables: variables })
+
+        post_ids = json["viewer"]["posts"]["edges"].map { |edge| edge["node"]["id"] }
 
         expect(json["viewer"].keys).to eq(%w(user posts post))
         expect(json["viewer"]["user"]["id"]).to eq(user.uuid)
-        expect(json["viewer"]["posts"]["edges"].count).to eq(post_count)
-
-        posts_json = json["viewer"]["posts"]["edges"].map { |edge| edge["node"] }
-        expect(posts_json.map { |item| item["id"] }.compact.length).to eq(post_count)
-        expect(posts_json.map { |item| item["title"] }.compact.length).to eq(post_count)
-        expect(posts_json.map { |item| item["description"] }.compact.length).to eq(post_count)
-
-        post_json = json["viewer"]["post"]
-        expect(post_json["id"]).to eq(single_post.uuid)
-        expect(post_json["title"]).to eq(single_post.title)
-        expect(post_json["description"]).to eq(single_post.description)
-        expect(post_json["image"]).to eq(single_post.image)
+        expect(post_ids).to eq(Post.pluck(:uuid))
+        expect(json["viewer"]["post"]["id"]).to eq(single_post.uuid)
       end
     end
 

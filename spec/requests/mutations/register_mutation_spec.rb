@@ -47,6 +47,44 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
         expect(user.lastName).to eq(new_user.lastName)
         expect(user.role).to eq(new_user.role)
       end
+
+      describe "errors" do
+        let(:errors) { JSON.parse(response.body)["errors"] }
+
+        let(:register_user) {
+          post(endpoint, params: { query: query, variables: variables })          
+        }
+
+        it "requires an email address" do
+          variables.merge!("email" => nil)
+
+          expect {
+            register_user
+          }.not_to change(User.all, :count)
+
+          expect(errors).not_to be_nil
+        end
+
+        it "requires a valid email address" do
+          variables.merge!("email" => "foo")
+
+          expect {
+            register_user
+          }.not_to change(User.all, :count)
+          
+          expect(errors).not_to be_nil
+        end
+
+        it "requires a password" do
+          variables.merge!("password" => nil)
+
+          expect {
+            register_user
+          }.not_to change(User.all, :count)
+          
+          expect(errors).not_to be_nil
+        end
+      end
     end
   end
 end

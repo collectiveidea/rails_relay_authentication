@@ -34,7 +34,7 @@ RSpec.describe "Types::UserType", type: "request" do
       GRAPHQL
     }
 
-    describe "Logged in" do
+    context "Logged in" do
       before(:each) {
         allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
       }
@@ -49,6 +49,14 @@ RSpec.describe "Types::UserType", type: "request" do
         expect(user_json["role"]).to eq(user.role)
         expect(user_json["posts"]["edges"].count).to eq(user_posts.count)
         expect(user_json["posts"]["edges"].map { |edge| edge["node"]["id"] }).to eq(user_posts.map(&:uuid))
+      end
+    end
+
+    context "Not logged in" do
+      it "does not return a user" do
+        post(endpoint, params: { query: query }  )
+
+        expect(user_json).to be_nil
       end
     end
   end

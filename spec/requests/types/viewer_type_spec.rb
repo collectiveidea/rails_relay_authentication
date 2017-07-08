@@ -50,7 +50,7 @@ RSpec.describe "Types::ViewerType", type: "request" do
       end
     end
 
-    describe "Logged in" do
+    context "Logged in" do
       before(:each) {
         allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
       }
@@ -63,6 +63,19 @@ RSpec.describe "Types::ViewerType", type: "request" do
         let(:viewer) { build(:viewer, :admin) }
 
         it_behaves_like "returning a viewer with all the posts"
+      end
+    end
+
+    context "Not logged in" do
+      it "shows post data but does not show any user data" do
+        post(endpoint, params: { query: query, variables: variables })
+
+        post_ids = json["viewer"]["posts"]["edges"].map { |edge| edge["node"]["id"] }
+
+        expect(json["viewer"].keys).to eq(%w(user posts post))
+        expect(json["viewer"]["user"]).to be_nil
+        expect(post_ids).to eq(Post.pluck(:uuid))
+        expect(json["viewer"]["post"]["id"]).to eq(single_post.uuid)
       end
     end
   end

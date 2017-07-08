@@ -29,11 +29,7 @@ RSpec.describe "Types::PostType", type: "request" do
       "postId" => user_post.uuid      
     }}
 
-    describe "Logged in" do
-      before(:each) {
-        allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
-      }
-
+    shared_examples "returning a post" do
       it "returns a user" do
         post(endpoint, params: { query: query, variables: variables })
 
@@ -43,6 +39,18 @@ RSpec.describe "Types::PostType", type: "request" do
         expect(post_json["description"]).to eq(user_post.description)
         expect(post_json["image"]).to eq(user_post.image)
       end
+    end
+
+    context "Logged in" do
+      before(:each) {
+        allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
+      }
+
+      it_behaves_like "returning a post"
+    end
+
+    context "Not logged in" do
+      it_behaves_like "returning a post"
     end
   end
 end

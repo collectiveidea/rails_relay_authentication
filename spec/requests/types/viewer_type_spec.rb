@@ -5,7 +5,9 @@ RSpec.describe "Types::ViewerType", type: "request" do
   let(:json) { JSON.parse(response.body)["data"] }
   let(:viewer) { build(:viewer) }
   let(:user) { viewer.user }
-  let!(:posts) { create_list(:post, 3, user: user) }
+  let!(:user_posts) { create_list(:post, 3, user: user) }
+  let!(:other_posts) { create_list(:post, 5) }
+  let(:post_count) { user_posts.count + other_posts.count }
   
   describe "ViewerType" do
     let(:query) {
@@ -32,18 +34,18 @@ RSpec.describe "Types::ViewerType", type: "request" do
       GRAPHQL
     }
 
-    shared_examples "returning a viewer with posts" do
+    shared_examples "returning a viewer with all the posts" do
       it "returns a viewer with posts" do
         post(endpoint, params: { query: query }  )
 
         expect(json["viewer"].keys).to eq(%w(user posts))
         expect(json["viewer"]["user"]["id"]).to eq(user.uuid)
-        expect(json["viewer"]["posts"]["edges"].count).to eq(3)
+        expect(json["viewer"]["posts"]["edges"].count).to eq(post_count)
 
         posts_json = json["viewer"]["posts"]["edges"].map { |edge| edge["node"] }
-        expect(posts_json.map { |item| item["id"] }.compact.length).to eq(3)
-        expect(posts_json.map { |item| item["title"] }.compact.length).to eq(3)
-        expect(posts_json.map { |item| item["description"] }.compact.length).to eq(3)
+        expect(posts_json.map { |item| item["id"] }.compact.length).to eq(post_count)
+        expect(posts_json.map { |item| item["title"] }.compact.length).to eq(post_count)
+        expect(posts_json.map { |item| item["description"] }.compact.length).to eq(post_count)
       end
     end
 
@@ -53,13 +55,13 @@ RSpec.describe "Types::ViewerType", type: "request" do
       }
 
       context "publisher" do
-        it_behaves_like "returning a viewer with posts"
+        it_behaves_like "returning a viewer with all the posts"
       end
 
       context "admin" do
         let(:viewer) { build(:viewer, :admin) }
 
-        it_behaves_like "returning a viewer with posts"
+        it_behaves_like "returning a viewer with all the posts"
       end
     end
   end

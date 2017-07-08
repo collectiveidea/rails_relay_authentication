@@ -5,7 +5,9 @@ RSpec.describe "Types::UserType", type: "request" do
   let(:json) { JSON.parse(response.body)["data"] }
   let!(:viewer) { build(:viewer) }
   let(:user) { viewer.user }
-  let!(:posts) { create_list(:post, 3, user: user) }
+  let!(:user_posts) { create_list(:post, 3, user: user) }
+  let!(:other_posts) { create_list(:post, 5) }
+
   let(:user_json) { json["viewer"]["user"] }
 
   describe "UserType" do
@@ -45,8 +47,8 @@ RSpec.describe "Types::UserType", type: "request" do
         expect(user_json["firstName"]).to eq(user.first_name)
         expect(user_json["lastName"]).to eq(user.last_name)
         expect(user_json["role"]).to eq(user.role)
-        expect(user_json["posts"]["edges"].count).to eq(user.posts.count)
-        expect(user_json["posts"]["edges"].map { |edge| edge["node"]["id"] }).to eq(user.posts.map(&:uuid))
+        expect(user_json["posts"]["edges"].count).to eq(user_posts.count)
+        expect(user_json["posts"]["edges"].map { |edge| edge["node"]["id"] }).to eq(user_posts.map(&:uuid))
       end
     end
   end

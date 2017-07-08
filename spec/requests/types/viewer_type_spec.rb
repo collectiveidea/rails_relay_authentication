@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Types::ViewerType", type: "request" do
   let(:endpoint) { "/graphql" }
   let(:json) { JSON.parse(response.body)["data"] }
-  let!(:viewer) { build(:viewer) }
+  let(:viewer) { build(:viewer) }
   let(:user) { viewer.user }
   let!(:posts) { create_list(:post, 3, user: user) }
   
@@ -32,12 +32,8 @@ RSpec.describe "Types::ViewerType", type: "request" do
       GRAPHQL
     }
 
-    describe "Logged in" do
-      before(:each) {
-        allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
-      }
-
-      it "returns a user" do
+    shared_examples "returning a viewer with posts" do
+      it "returns a viewer with posts" do
         post(endpoint, params: { query: query }  )
 
         expect(json["viewer"].keys).to eq(%w(user posts))
@@ -48,6 +44,22 @@ RSpec.describe "Types::ViewerType", type: "request" do
         expect(posts_json.map { |item| item["id"] }.compact.length).to eq(3)
         expect(posts_json.map { |item| item["title"] }.compact.length).to eq(3)
         expect(posts_json.map { |item| item["description"] }.compact.length).to eq(3)
+      end
+    end
+
+    describe "Logged in" do
+      before(:each) {
+        allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
+      }
+
+      context "publisher" do
+        it_behaves_like "returning a viewer with posts"
+      end
+
+      context "admin" do
+        let(:viewer) { build(:viewer, :admin) }
+
+        it_behaves_like "returning a viewer with posts"
       end
     end
   end

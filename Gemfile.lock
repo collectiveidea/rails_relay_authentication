@@ -74,6 +74,13 @@ GEM
       dry-logic (~> 0.4, >= 0.4.0)
       inflecto (~> 0.0.0, >= 0.0.2)
     erubi (1.6.0)
+    factory_girl (4.8.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.8.0)
+      factory_girl (~> 4.8.0)
+      railties (>= 3.0.0)
+    faker (1.7.3)
+      i18n (~> 0.5)
     ffi (1.9.18)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
@@ -187,6 +194,8 @@ DEPENDENCIES
   byebug
   database_cleaner
   dry-struct
+  factory_girl_rails
+  faker
   graphiql-rails
   graphql
   listen (>= 3.0.5, < 3.2)

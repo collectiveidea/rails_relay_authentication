@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20170703232325) do
   enable_extension "uuid-ossp"
 
   create_table "posts", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
     t.string "title"
     t.string "image"

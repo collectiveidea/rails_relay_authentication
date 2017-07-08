@@ -12,8 +12,6 @@ Mutations::CreatePostMutation = GraphQL::Relay::Mutation.define do
     user = ctx[:viewer].user
     image = inputs[:image]
 
-    binding.pry
-
     FileUtils.mv image.tempfile, Rails.root.join("static", "images", "upload", image.original_filename)
 
     new_post = user.posts.build(

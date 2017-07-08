@@ -4,14 +4,10 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
   let(:endpoint) { "/graphql" }
   let(:json) { JSON.parse(response.body)["data"] }
   let!(:viewer) { build(:viewer, :admin) }
-  let(:new_post) { build(:post, user: viewer.user) }
-
+  let(:image_path) { Rails.root.join("spec", "fixtures", "image1.jpg") }
+  let(:new_post) { build(:post, image: "/images/upload/image1.jpg", user: viewer.user) }
   let(:new_post_image) {
-    instance_double(
-      "ActionDispatch::Http::UploadedFile", 
-      original_filename: new_post.image,
-      tempfile: :tempfile
-    )    
+    fixture_file_upload(image_path)    
   }
 
   describe "CreatePostMutation" do
@@ -45,21 +41,16 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
     context "Logged in" do
       before(:each) {
         allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
-
-        allow(FileUtils).to receive(:mv) do |source, dest|
-          expect(source).to eq(new_image.tempfile)
-          expect(dest).to eq(Rails.root.join("static", "images", "upload", new_image.original_filename))
-        end
+        allow(FileUtils).to receive(:mv)
       }
 
       it "returns a user" do
         post(endpoint, params: { query: query, variables: variables })
 
-        user_json = json["createPost"]["user"]
-        expect(user_json["email"]).to eq(user.email)
-        expect(user_json["firstName"]).to eq(user.firstName)
-        expect(user_json["lastName"]).to eq(user.lastName)
-        expect(user_json["role"]).to eq(user.role)
+        post_json = json["createPost"]["postEdge"]["node"]
+        expect(post_json["title"]).to eq(new_post.title)
+        expect(post_json["description"]).to eq(new_post.description)
+        expect(post_json["image"]).to eq(new_post.image)
 
         post = Post.all.last
         expect(post.title).to eq(new_post.title)

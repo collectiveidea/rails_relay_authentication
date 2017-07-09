@@ -14,6 +14,7 @@ gem 'graphql'
 gem 'warden'
 gem 'bcrypt'
 gem 'dry-struct'
+gem 'sequel'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

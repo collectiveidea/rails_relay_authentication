@@ -1,46 +1,39 @@
-# This file is auto-generated from the current state of the database. Instead
-# of editing this file, please use the migrations feature of Active Record to
-# incrementally modify your database, and then regenerate this schema definition.
-#
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
-#
-# It's strongly recommended that you check this file into your version control system.
-
-ActiveRecord::Schema.define(version: 20170703232325) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-  enable_extension "uuid-ossp"
-
-  create_table "posts", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
-    t.string "title"
-    t.string "image"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_posts_on_user_id"
-    t.index ["uuid"], name: "index_posts_on_uuid", unique: true
+Sequel.migration do
+  change do
+    create_table(:schema_migrations) do
+      String :filename, :text=>true, :null=>false
+      
+      primary_key [:filename]
+    end
+    
+    create_table(:users, :ignore_index_errors=>true) do
+      primary_key :id
+      String :uuid, :null=>false
+      String :email, :text=>true, :null=>false
+      String :first_name, :text=>true
+      String :last_name, :text=>true
+      String :password_digest, :default=>"", :text=>true, :null=>false
+      String :authentication_token, :text=>true
+      DateTime :created_at, :null=>false
+      DateTime :updated_at, :null=>false
+      
+      index [:authentication_token], :unique=>true
+      index [:email], :unique=>true
+      index [:uuid], :unique=>true
+    end
+    
+    create_table(:posts, :ignore_index_errors=>true) do
+      primary_key :id
+      String :uuid, :null=>false
+      foreign_key :user_id, :users, :key=>[:id]
+      String :title, :text=>true
+      String :image, :text=>true
+      String :description, :text=>true
+      DateTime :created_at, :null=>false
+      DateTime :updated_at, :null=>false
+      
+      index [:user_id]
+      index [:uuid], :unique=>true
+    end
   end
-
-  create_table "users", force: :cascade do |t|
-    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
-    t.string "email", null: false
-    t.integer "role", default: 0, null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.string "password_digest", default: "", null: false
-    t.string "authentication_token"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["uuid"], name: "index_users_on_uuid", unique: true
-  end
-
 end

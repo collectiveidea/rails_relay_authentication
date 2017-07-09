@@ -1,16 +1,22 @@
-class CreatePost < ActiveRecord::Migration[5.1]
-  def change
-    create_table :posts do |t|
-      t.references :user,       null: false, index: true
-      
-      t.uuid       :uuid,       null: false, default: 'uuid_generate_v4()'
-      t.string     :title
-      t.string     :image
-      t.text       :description
+Sequel.migration do
+  up do
+    create_table :posts do
+      primary_key :id, Bignum
+      uuid :uuid, null: false, default: Sequel.function(:uuid_generate_v4)
+      foreign_key :user_id, :users, key: :id 
+      String :title
+      String :image
+      Text :description
 
-      t.timestamps              null: false
+      DateTime :created_at, null: false
+      DateTime :updated_at, null: false
 
-      t.index      :uuid,       unique: true
-    end
+      index [:uuid], unique: true
+      index [:user_id]
+     end
+  end
+
+  down do
+    drop_table(:posts)
   end
 end

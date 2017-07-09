@@ -44,5 +44,13 @@ RSpec.describe "Mutations::LogoutMutation", type: "request" do
         expect(user_json["role"]).to eq(user.role)
       end
     end
+
+    context "Not logged in" do
+      it "returns a nil value for user" do
+        post(endpoint, params: { query: query, variables: variables })
+
+        expect(json["logout"]["user"]).to be_nil
+      end
+    end
   end
 end

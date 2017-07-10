@@ -11,7 +11,19 @@ module RecordHelpers
     super
   end
 
+  def save!
+    save
+  end
+
+  def attributes
+    values
+  end
+
   module ClassMethods
+    def create!(attrs)
+      create(attrs)
+    end
+
     def find_by(params)
       self.where(params).first
     end
@@ -21,7 +33,7 @@ module RecordHelpers
     end
 
     def get(uuid)
-      find_by(uuid: uuid)
+      find_by(uuid: Types::UUID[uuid]) if uuid.present?
     end
 
     def delete_all

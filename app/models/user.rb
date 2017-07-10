@@ -14,15 +14,21 @@ class User < Sequel::Model
   end
 
   def role=(role_name)
-    if role_name.present?
-      self[:role] = ROLES["#{role_name}"]
-    end
+    role_name = Types::Role["#{role_name}"]
+    self[:role] = ROLES[role_name]
   end
 
   def password=(password_string)
     if password_string.present?
+      password_string = Types::Password[password_string]
       self[:password_digest] = BCrypt::Password.create(password_string)
     end    
+  end
+
+  def email=(email_address)
+    if email_address.present?
+      self[:email] = Types::Email[email_address]
+    end
   end
 
   def authenticate(password_string)
@@ -37,4 +43,8 @@ class User < Sequel::Model
   alias_method :firstName=, :first_name=
   alias_method :lastName, :last_name
   alias_method :lastName=, :last_name=
+
+  def self.publisher_roles
+    ROLES.values[1..2]
+  end
 end

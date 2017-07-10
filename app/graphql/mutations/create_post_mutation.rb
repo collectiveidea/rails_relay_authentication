@@ -14,12 +14,13 @@ Mutations::CreatePostMutation = GraphQL::Relay::Mutation.define do
 
     FileUtils.mv image.tempfile, Rails.root.join("static", "images", "upload", image.original_filename)
 
-    new_post = user.posts.build(
+    new_post = Post.new(
+      user_id: user.id,
       title: inputs[:title],
       description: inputs[:description],
       image: "/images/upload/#{image.original_filename}"   
     )
-
+    
     if new_post.save
       # Use this helper to create the response that a
       # client-side RANGE_ADD mutation would expect.

@@ -1,4 +1,4 @@
-namespace :sequel do
+namespace :db do
   require "sequel"
   Sequel.extension :migration
 

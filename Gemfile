@@ -15,6 +15,7 @@ gem 'warden'
 gem 'bcrypt'
 gem 'dry-struct'
 gem 'sequel'
+gem 'has_secure_token'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

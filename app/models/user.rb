@@ -1,12 +1,16 @@
 class User < ApplicationRecord
-  has_many :posts
+  attribute :id, Types::Int
+  attribute :first_name, Types::String
+  attribute :last_name, Types::String
+  attribute :email, Types::String
+  attribute :role, Types::Int
+  attribute :password_digest, Types::String
 
-  has_secure_password
-  has_secure_token :authentication_token
+  camelize_attributes :first_name, :last_name
 
-  enum role: [ :reader, :publisher, :admin ]
-
-  camelize_attributes *column_names
+  def posts
+    DB[:posts].where(user_id: id)
+  end
 
   def self.publisher_roles
     roles.keys[0..1]

@@ -1,6 +1,6 @@
 Sequel.migration do
   up do
-    run 'CREATE EXTENSION "uuid-ossp"'
+    run 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'
 
     create_table :users do
       primary_key :id, Bignum
@@ -8,7 +8,7 @@ Sequel.migration do
       String  :email, null: false
       String  :first_name
       String  :last_name
-
+      Integer :role, default: 0
       String :password_digest, null: false, default: ""
       String :authentication_token
 

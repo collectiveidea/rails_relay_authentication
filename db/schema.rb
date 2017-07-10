@@ -12,6 +12,7 @@ Sequel.migration do
       String :email, :text=>true, :null=>false
       String :first_name, :text=>true
       String :last_name, :text=>true
+      Integer :role, :default=>0
       String :password_digest, :default=>"", :text=>true, :null=>false
       String :authentication_token, :text=>true
       DateTime :created_at, :null=>false

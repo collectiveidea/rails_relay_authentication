@@ -19,14 +19,4 @@ module Types
     end
   end
   extend ClassMethods
-
-  Role = Strict::String.constructor do |value|
-    value.to_s
-  end.constrained(included_in: User.roles.keys)
-
-  UUID = Strict::String.constructor do |value|
-    Types.normalize_uuid(value)
-  end.constrained(
-    format: UUID_NORMALIZED_REGEXP    
-  )
 end

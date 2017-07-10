@@ -1,3 +1,3 @@
 module Types
-  Role = Types::Strict::String.enum('reader', 'publisher', 'admin')
+  Role = Types::Strict::String.enum(*User::ROLES.keys)
 end

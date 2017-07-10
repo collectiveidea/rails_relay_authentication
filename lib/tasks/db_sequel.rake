@@ -36,7 +36,13 @@ namespace :db do
     Sequel::Migrator.run(DB, MIGRATION_DIR, target: 0)
     Sequel::Migrator.run(DB, MIGRATION_DIR)
     Rake::Task['db:version'].execute
+  end   
+
+  desc "Seed the db"
+  task seed: :environment do
+    load Rails.root.join("db", "seeds.rb")
   end    
+   
 
   namespace :schema do
     desc "Dumps the schema to db/schema.db"

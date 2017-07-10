@@ -1,18 +1,40 @@
-class User < ApplicationRecord
-  attribute :id, Types::Int
-  attribute :first_name, Types::String
-  attribute :last_name, Types::String
-  attribute :email, Types::String
-  attribute :role, Types::Int
-  attribute :password_digest, Types::String
+class User < Sequel::Model
+  include RecordHelpers
 
-  camelize_attributes :first_name, :last_name
+  one_to_many :posts
 
-  def posts
-    DB[:posts].where(user_id: id)
+  ROLES = {
+    "reader" => 0,
+    "publisher" => 1,
+    "admin" => 2            
+  }
+
+  def role
+    ROLES.keys[super]
   end
 
-  def self.publisher_roles
-    roles.keys[0..1]
+  def role=(role_name)
+    if role_name.present?
+      self[:role] = ROLES["#{role_name}"]
+    end
   end
+
+  def password=(password_string)
+    if password_string.present?
+      self[:password_digest] = BCrypt::Password.create(password_string)
+    end    
+  end
+
+  def authenticate(password_string)
+    return self if BCrypt::Password.new(password_digest) == password_string
+  end
+
+  def regenerate_authentication_token!
+    self[:authentication_token] = SecureRandom.base58(24)
+  end
+
+  alias_method :firstName, :first_name
+  alias_method :firstName=, :first_name=
+  alias_method :lastName, :last_name
+  alias_method :lastName=, :last_name=
 end

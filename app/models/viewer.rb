@@ -1,8 +1,4 @@
 class Viewer < Dry::Struct
-  include CamelizeAttributes
-
-  camelize_attributes :can_publish, :is_logged_in
-
   constructor :schema
 
   attribute :uuid, Types::UUID.optional.default(nil)

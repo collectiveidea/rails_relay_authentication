@@ -17,6 +17,6 @@ class Viewer < Dry::Struct
   end
 
   def user
-    @user ||= User.find_by(uuid: uuid)
+    @user ||= User.get(uuid)
   end
 end

@@ -15,6 +15,7 @@ gem 'warden'
 gem 'bcrypt'
 gem 'dry-struct'
 gem 'sequel'
+gem 'interactor', github: "jonstokes/interactor", branch: "js-di-context"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

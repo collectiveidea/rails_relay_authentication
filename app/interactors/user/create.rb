@@ -11,9 +11,7 @@ class User
         validate_user = User::Validate.call(context)
         if validate_user.success?
           persist_user = User::Persist.call(context)
-          if persist_user.success?
-            User.find(context.id)
-          else
+          if persist_user.failure?
             error = persist_user.error
           end
         else

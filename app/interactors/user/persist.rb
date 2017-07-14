@@ -4,6 +4,6 @@ class User::Persist
   context_with User::Context
 
   def call
-    User.create(context.to_h)
+    context.id = Sequel::Model.db[:users].insert(context.to_h)
   end
 end

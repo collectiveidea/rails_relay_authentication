@@ -13,24 +13,6 @@ class User < Sequel::Model
     ROLES.keys[super]
   end
 
-  def role=(role_name)
-    role_name = Types::Role["#{role_name}"]
-    self[:role] = ROLES[role_name]
-  end
-
-  def password=(password_string)
-    if password_string.present?
-      password_string = Types::Password[password_string]
-      self[:password_digest] = BCrypt::Password.create(password_string)
-    end    
-  end
-
-  def email=(email_address)
-    if email_address.present?
-      self[:email] = Types::Email[email_address]
-    end
-  end
-
   def authenticate(password_string)
     return self if BCrypt::Password.new(password_digest) == password_string
   end

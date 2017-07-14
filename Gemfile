@@ -15,6 +15,7 @@ gem 'warden'
 gem 'bcrypt'
 gem 'dry-struct'
 gem 'sequel'
+gem 'sequel_postgresql_triggers'
 gem 'interactor', github: "jonstokes/interactor", branch: "js-di-context"
 
 # Use Capistrano for deployment

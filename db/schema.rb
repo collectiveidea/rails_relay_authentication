@@ -15,8 +15,8 @@ Sequel.migration do
       Integer :role, :default=>0
       String :password_digest, :default=>"", :text=>true, :null=>false
       String :authentication_token, :text=>true
-      DateTime :created_at, :null=>false
-      DateTime :updated_at, :null=>false
+      DateTime :created_at, :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
+      DateTime :updated_at, :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       
       index [:authentication_token], :unique=>true
       index [:email], :unique=>true
@@ -30,8 +30,8 @@ Sequel.migration do
       String :title, :text=>true
       String :image, :text=>true
       String :description, :text=>true
-      DateTime :created_at, :null=>false
-      DateTime :updated_at, :null=>false
+      DateTime :created_at, :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
+      DateTime :updated_at, :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       
       index [:user_id]
       index [:uuid], :unique=>true

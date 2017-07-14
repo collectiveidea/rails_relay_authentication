@@ -18,9 +18,9 @@ namespace :db do
   end
 
   desc "Perform migration up to latest migration available"
-  task :migrate do
+  task migrate: :environment do
     Sequel::Migrator.run(DB, MIGRATION_DIR)
-    #Rake::Task['db:version'].execute
+    Rake::Task['db:version'].execute
   end
     
   desc "Perform rollback to specified target or full rollback as default"

@@ -6,10 +6,6 @@ module Postgres
         table[new_post_id]
       end
 
-      def by_user(user_id) 
-        where(user_id: Types::UUID[user_id])
-      end
-
       def where(params)
         table.where(params)
       end

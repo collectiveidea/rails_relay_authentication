@@ -1,4 +1,7 @@
 class Post < Dry::Struct
+  include PostPostgres
+  include PostAPI
+  
   constructor :schema
 
   attribute :id, Types::UUID.optional

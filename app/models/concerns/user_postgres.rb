@@ -23,13 +23,13 @@ module UserPostgres
     def attrs_for_postgres(attrs)
       new(attrs).to_postgres
     end
-    
+
     def find(uuid)
       find_by(uuid: Types::UUID[uuid]) if uuid.present?
     end
 
     def create(args)
-      user_attrs = User.attrs_for_postgres(args)
+      user_attrs = attrs_for_postgres(args)
       from_postgres Postgres::User.create(user_attrs)
     end
 
@@ -50,9 +50,7 @@ module UserPostgres
         last_name: attrs[:last_name],
         email: attrs[:email],
         role: User::ROLES.keys[attrs[:role]],
-        authentication_token: attrs[:authentication_token],
-        created_at: attrs[:created_at],
-        updated_at: attrs[:updated_at]
+        authentication_token: attrs[:authentication_token]
       )
     end
   end

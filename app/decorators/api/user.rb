@@ -15,9 +15,7 @@ module API
     end
 
     def posts
-      Post.for_user(user_id, interface: :api)
-      Postgres::Post.where(user_id: id).lazy.map do |post_attrs|
-        post = Post.from_postgres(post_attrs)
+      Postgres::Post.by_user(id).lazy.map do |post|
         API::Post.new(post.to_api)
       end
     end

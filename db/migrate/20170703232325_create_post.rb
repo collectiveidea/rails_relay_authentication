@@ -3,7 +3,7 @@ Sequel.migration do
     create_table :posts do
       primary_key :id, Bignum
       uuid :uuid, null: false, default: Sequel.function(:uuid_generate_v4)
-      foreign_key :user_id, :users, key: :id 
+      foreign_key :user_id, :users, key: :uuid, type: :uuid
       String :title
       String :image
       Text :description

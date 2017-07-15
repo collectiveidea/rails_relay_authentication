@@ -26,7 +26,7 @@ Sequel.migration do
     create_table(:posts, :ignore_index_errors=>true) do
       primary_key :id
       String :uuid, :null=>false
-      foreign_key :user_id, :users, :key=>[:id]
+      foreign_key :user_id, :users, :type=>String, :key=>[:uuid]
       String :title, :text=>true
       String :image, :text=>true
       String :description, :text=>true

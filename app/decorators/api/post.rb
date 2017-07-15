@@ -10,6 +10,6 @@ module API
   end
 
   def creator
-    @creator ||= User.find(creatorId, interface: :api)
+    @creator ||= API::User.new(User.find(id).to_api)
   end
 end

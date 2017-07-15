@@ -1,6 +1,10 @@
 module Postgres
   module Post
     module ClassMethods
+      def create(args)
+        Postgres::Post::Create.call(args)
+      end
+
       def by_user(user_id) 
         where(user_id: Types::UUID[user_id])
       end

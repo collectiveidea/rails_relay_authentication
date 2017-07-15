@@ -1,6 +1,10 @@
 module Postgres
   module User
     module ClassMethods
+      def create(args)
+        Postgres::User::Create.call(args)
+      end
+
       def where(params)
         table.where(params).map do |user_attrs|
           User.from_postgres(user_attrs)

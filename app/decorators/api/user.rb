@@ -15,9 +15,7 @@ module API
     end
 
     def posts
-      Postgres::Post.by_user(id).lazy.map do |post|
-        API::Post.new(post.to_api)
-      end
+      Post.by_user(id)
     end
   end
 end

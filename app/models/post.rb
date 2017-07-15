@@ -1,7 +1,9 @@
 class Post < Dry::Struct
-  attribute :id, Types::UUID
-  attribute :user_id, Types::UUID
-  attribute :title, Strict::String
-  attribute :description, Strict::String
-  attribute :image, Strict::String
+  constructor :schema
+
+  attribute :id, Types::UUID.optional
+  attribute :user_id, Types::UUID.optional
+  attribute :title, Types::Strict::String.optional
+  attribute :description, Types::Strict::String.optional
+  attribute :image, Types::Strict::String.optional
 end

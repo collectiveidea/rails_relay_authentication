@@ -2,23 +2,16 @@ module Postgres
   module User
     module ClassMethods
       def create(args)
-        Postgres::User::Create.call(args)
+        new_user_id = Postgres::User::Create.call(args).id
+        table[new_user_id]
       end
 
       def where(params)
-        table.where(params).map do |user_attrs|
-          User.from_postgres(user_attrs)
-        end
+        table.where(params)
       end
 
       def find_by(params)
-        user_attrs = where(params).first
-        User.from_postgres(user_attrs)
-      end
-
-      def find(uuid)
-        user_attrs = find_by(uuid: Types::UUID[uuid]) if uuid.present?
-        User.from_postgres(user_attrs)
+        where(params).first
       end
 
       def delete_all

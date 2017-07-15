@@ -2,7 +2,8 @@ module Postgres
   module Post
     module ClassMethods
       def create(args)
-        Postgres::Post::Create.call(args)
+        new_post_id = Postgres::Post::Create.call(args).id
+        table[new_post_id]
       end
 
       def by_user(user_id) 
@@ -10,19 +11,11 @@ module Postgres
       end
 
       def where(params)
-        table.where(params).map do |post_attrs|
-          Post.from_postgres(post_attrs)
-        end
+        table.where(params)
       end
 
       def find_by(params)
-        post_attrs = where(params).first
-        Post.from_postgres(post_attrs)
-      end
-
-      def find(uuid)
-        post_attrs = find_by(uuid: Types::UUID[uuid]) if uuid.present?
-        Post.from_postgres(post_attrs)
+        where(params).first
       end
 
       def delete_all

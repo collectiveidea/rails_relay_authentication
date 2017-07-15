@@ -23,7 +23,6 @@ Sequel.migration do
       :function_name=>:posts_set_created_at,
       :trigger_name=>:set_created_at
     )
-
   end
 
   down do

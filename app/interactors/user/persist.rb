@@ -1,9 +1,11 @@
-class User::Persist
-  include Interactor  
-  
-  context_with User::Context
+class User
+  class Persist
+    include Interactor  
+    
+    context_with User::Context
 
-  def call
-    context.id = Sequel::Model.db[:users].insert(context.to_h)
+    def call
+      context.id = Sequel::Model.db[:users].insert(context.as_record)
+    end
   end
 end

@@ -1,6 +1,8 @@
   class BaseContext
     include Interactor::CommonContext
 
+    delegate :each_pair, to: :to_h
+
     def self.accessors
       %i(id uuid created_at updated_at)
     end
@@ -8,6 +10,7 @@
     attr_accessor *accessors
 
     def initialize(args={})
+      args = transform_keys(args)
       @keys = args.keys
       update(args)
     end
@@ -24,5 +27,27 @@
 
     def to_h
       Hash[@keys.map { |a| [a, send(a)] }]
+    end
+
+    def as_record
+      to_h
+    end
+
+    private
+
+    def key_transforms
+      {}
+    end
+
+    def transform_keys(args)
+      hash = {}
+      args.each do |k, v|
+        if k.in?(key_transforms.keys)
+          hash[key_transforms[k]] = v
+        else
+          hash[k] = v
+        end
+      end
+      hash
     end
   end

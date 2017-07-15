@@ -21,11 +21,11 @@ RailsRelayAuthenticationSchema = GraphQL::Schema.define do
 
   resolve_type ->(obj, ctx) {
     case obj
-    when DecoratedViewer
+    when ViewerDecorator
       Types::ViewerType
-    when DecoratedUser
+    when UserDecorator
       Types::UserType
-    when DecoratedPost
+    when PostDecorator
       Types::PostType
     else
       raise("Unexpected object: #{obj}")

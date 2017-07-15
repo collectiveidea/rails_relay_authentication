@@ -6,13 +6,6 @@ module Postgres
       end
 
       attr_accessor *accessors
-
-      def key_transforms
-        {
-          "creatorId" => "user_id"
-        }
-      end
-
     end
   end
 end

@@ -5,7 +5,7 @@ RSpec.describe "Types::UserType", type: "request" do
   let(:json) { JSON.parse(response.body)["data"] }
   let!(:viewer) { build(:viewer) }
   let(:user) { viewer.user }
-  let!(:user_posts) { create_list(:post, 3, user: user) }
+  let!(:user_posts) { create_list(:post, 3, user_id: user.id) }
   let!(:other_posts) { create_list(:post, 5) }
 
   let(:user_json) { json["viewer"]["user"] }
@@ -42,13 +42,13 @@ RSpec.describe "Types::UserType", type: "request" do
       it "returns a user" do
         post(endpoint, params: { query: query }  )
 
-        expect(user_json["id"]).to eq(user.uuid)
+        expect(user_json["id"]).to eq(user.id)
         expect(user_json["email"]).to eq(user.email)
-        expect(user_json["firstName"]).to eq(user.first_name)
-        expect(user_json["lastName"]).to eq(user.last_name)
+        expect(user_json["firstName"]).to eq(user.firstName)
+        expect(user_json["lastName"]).to eq(user.lastName)
         expect(user_json["role"]).to eq(user.role)
         expect(user_json["posts"]["edges"].count).to eq(user_posts.count)
-        expect(user_json["posts"]["edges"].map { |edge| edge["node"]["id"] }).to eq(user_posts.map(&:uuid))
+        expect(user_json["posts"]["edges"].map { |edge| edge["node"]["id"] }).to eq(user_posts.map(&:id))
       end
     end
 

@@ -3,11 +3,7 @@ Types::PostType = GraphQL::ObjectType.define do
   description "A post"
   global_id_field :id
   
-  field :id, !types.ID do
-    resolve ->(post, args, ctx) {
-      post.uuid
-    }
-  end
+  field :id, !types.ID
   field :creator, Types::UserType, "The posts creators"
   field :title, types.String, "The posts title"
   field :image, types.String, "The posts image"

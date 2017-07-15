@@ -9,9 +9,9 @@ RailsRelayAuthenticationSchema = GraphQL::Schema.define do
   }
 
   object_from_id ->(id, query_ctx) {
-    class_name, uuid = GraphQL::Schema::UniqueWithinType.decode(id)
+    class_name, id = GraphQL::Schema::UniqueWithinType.decode(id)
 
-    class_name.classify.find_for_api(uuid)
+    "API::#{class_name.classify}".constantize.find(id)
   }
 
   resolve_type ->(obj, ctx) {

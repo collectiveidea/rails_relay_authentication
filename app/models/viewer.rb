@@ -13,6 +13,7 @@ class Viewer < Dry::Struct
   end
 
   def user
+    return unless id.present?
     @user ||= API::User.find(id)
   end
 end

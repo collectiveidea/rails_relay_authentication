@@ -1,40 +1,47 @@
 Sequel.migration do
   change do
     create_table(:schema_migrations) do
-      String :filename, :text=>true, :null=>false
+      column :filename, "text", :null=>false
       
       primary_key [:filename]
     end
     
-    create_table(:users, :ignore_index_errors=>true) do
+    create_table(:users) do
       primary_key :id
-      String :uuid, :null=>false
-      String :email, :text=>true, :null=>false
-      String :first_name, :text=>true
-      String :last_name, :text=>true
-      Integer :role, :default=>0
-      String :password_digest, :default=>"", :text=>true, :null=>false
-      String :authentication_token, :text=>true
-      DateTime :created_at, :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
-      DateTime :updated_at, :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
+      column :uuid, "uuid", :default=>Sequel::LiteralString.new("uuid_generate_v4()"), :null=>false
+      column :email, "text", :null=>false
+      column :first_name, "text"
+      column :last_name, "text"
+      column :role, "integer", :default=>0
+      column :password_digest, "text", :default=>"", :null=>false
+      column :authentication_token, "text"
+      column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
+      column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       
       index [:authentication_token], :unique=>true
       index [:email], :unique=>true
       index [:uuid], :unique=>true
     end
     
-    create_table(:posts, :ignore_index_errors=>true) do
+    create_table(:posts) do
       primary_key :id
-      String :uuid, :null=>false
-      foreign_key :user_id, :users, :type=>String, :key=>[:uuid]
-      String :title, :text=>true
-      String :image, :text=>true
-      String :description, :text=>true
-      DateTime :created_at, :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
-      DateTime :updated_at, :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
+      column :uuid, "uuid", :default=>Sequel::LiteralString.new("uuid_generate_v4()"), :null=>false
+      foreign_key :user_id, :users, :type=>"uuid", :key=>[:uuid]
+      column :title, "text"
+      column :image, "text"
+      column :description, "text"
+      column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
+      column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       
       index [:user_id]
       index [:uuid], :unique=>true
     end
   end
 end
+              Sequel.migration do
+                change do
+                  self << "SET search_path TO \"$user\", public"
+                  self << "INSERT INTO \"schema_migrations\" (\"filename\") VALUES ('20170703231550_add_devise_to_users.rb')"
+self << "INSERT INTO \"schema_migrations\" (\"filename\") VALUES ('20170703232325_create_post.rb')"
+                end
+              end

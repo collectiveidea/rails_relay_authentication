@@ -8,8 +8,8 @@ Sequel.migration do
       String :image
       Text :description
 
-      DateTime :created_at, null: false, default: Sequel.function(:now)
-      DateTime :updated_at, null: false, default: Sequel.function(:now)
+      column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
+      column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
 
       index [:uuid], unique: true
       index [:user_id]
@@ -26,8 +26,8 @@ Sequel.migration do
   end
 
   down do
-    drop_table(:posts)
     drop_trigger(:posts, :set_created_at)
     drop_function(:posts_set_created_at)
+    drop_table(:posts)
   end
 end

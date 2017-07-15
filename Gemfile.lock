@@ -171,6 +171,11 @@ GEM
     rspec-support (3.6.0)
     ruby_dep (1.5.0)
     sequel (4.48.0)
+    sequel-rails (0.9.17)
+      actionpack (>= 3.2.0)
+      activemodel
+      railties (>= 3.2.0)
+      sequel (>= 3.28, < 5.0)
     sequel_postgresql_triggers (1.3.0)
       sequel
     slop (3.6.0)
@@ -216,6 +221,7 @@ DEPENDENCIES
   rails (~> 5.1.1)
   rspec-rails
   sequel
+  sequel-rails
   sequel_postgresql_triggers
   tzinfo-data
   warden

@@ -12,8 +12,8 @@ Sequel.migration do
       String :password_digest, null: false, default: ""
       String :authentication_token
 
-      DateTime :created_at, null: false, default: Sequel.function(:now)
-      DateTime :updated_at, null: false, default: Sequel.function(:now)
+      column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
+      column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
 
       index [:uuid], unique: true
       index [:email], unique: true
@@ -31,8 +31,8 @@ Sequel.migration do
   end
 
   down do
-    drop_table(:users)
     drop_trigger(:users, :set_created_at)
     drop_function(:users_set_created_at)
+    drop_table(:users)
   end
 end

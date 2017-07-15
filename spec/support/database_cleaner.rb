@@ -1,3 +1,5 @@
+DatabaseCleaner[:sequel].db = Sequel::Model.db
+
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
 

@@ -13,6 +13,6 @@ class Viewer < Dry::Struct
   end
 
   def user
-    @user ||= User.get(id)
+    @user ||= API::User.find(id)
   end
 end

@@ -15,6 +15,10 @@ module UserPostgres
   end
 
   module ClassMethods
+    def find(uuid)
+      Postgres::User.find(uuid)
+    end
+
     def from_postgres(attrs)
       new(
         id: attrs[:uuid],

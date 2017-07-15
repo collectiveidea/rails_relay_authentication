@@ -2,7 +2,7 @@ module Postgres
   module Post
     module ClassMethods
       def by_user(user_id) 
-        where(user_id: user_id)
+        where(user_id: Types::UUID[user_id])
       end
 
       def where(params)

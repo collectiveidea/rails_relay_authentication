@@ -9,6 +9,7 @@ module UserAPI
       email: email,
       role: role,
       authentication_token: authentication_token,
+      password_digest: password_digest
     }
   end
 

@@ -4,12 +4,12 @@ module API
 
     attribute :id, Types::UUID
     attribute :creatorId, Types::UUID
-    attribute :title, Strict::String
-    attribute :description, Strict::String
-    attribute :image, Strict::String.optional
-  end
+    attribute :title, Types::Strict::String
+    attribute :description, Types::Strict::String
+    attribute :image, Types::Strict::String.optional
 
-  def creator
-    @creator ||= User.find(creatorId)
+    def creator
+      @creator ||= ::User.find_for_api(creatorId)
+    end
   end
 end

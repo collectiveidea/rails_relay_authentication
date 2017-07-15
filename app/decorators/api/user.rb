@@ -3,11 +3,11 @@ module API
     constructor :schema
 
     attribute :id, Types::UUID
-    attribute :email, Strict::String
-    attribute :firstName, Strict::String.optional
-    attribute :lastName, Strict::String.optional
-    attribute :authentication_token, Strict::String.optional
-    attribute :password_digest, Strict::String
+    attribute :email, Types::Strict::String
+    attribute :firstName, Types::Strict::String.optional
+    attribute :lastName, Types::Strict::String.optional
+    attribute :authentication_token, Types::Strict::String.optional
+    attribute :password_digest, Types::Strict::String
     attribute :role, Types::Role
 
     def authenticate(password_string)
@@ -15,7 +15,9 @@ module API
     end
 
     def posts
-      Post.by_user(id)
+      ::Post.by_user(id).map do |post|
+        API::Post.new(post.to_api)
+      end
     end
   end
 end

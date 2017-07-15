@@ -12,6 +12,11 @@ module PostAPI
   end
 
   module ClassMethods
+    def find_for_api(id)
+      post_attrs = find(id).to_api
+      API::Post.new(post_attrs)
+    end
+
     def from_api(attrs)
       new(
         id: attrs[:id],

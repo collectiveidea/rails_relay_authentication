@@ -11,21 +11,16 @@ RailsRelayAuthenticationSchema = GraphQL::Schema.define do
   object_from_id ->(id, query_ctx) {
     class_name, uuid = GraphQL::Schema::UniqueWithinType.decode(id)
 
-    #class_name.classify.find_by(uuid: uuid)
-
-    # Translate to an intermediate object, then represent
-    # as a GraphQL object
-    user = Postgres::User.find_by(uuid: uuid)
-    API::User::Decorate.call(user.to_h)
+    class_name.classify.find_for_api(uuid)
   }
 
   resolve_type ->(obj, ctx) {
     case obj
-    when ViewerDecorator
+    when Viewer
       Types::ViewerType
-    when UserDecorator
+    when API::User
       Types::UserType
-    when PostDecorator
+    when API::Post
       Types::PostType
     else
       raise("Unexpected object: #{obj}")

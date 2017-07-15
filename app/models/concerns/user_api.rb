@@ -14,11 +14,6 @@ module UserAPI
   end
 
   module ClassMethods
-    def find_for_api(id)
-      user_attrs = find(id).to_api
-      API::User.new(user_attrs)
-    end
-
     def from_api(attrs)
       new(
         id: attrs[:id] || attrs["id"],

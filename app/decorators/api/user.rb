@@ -15,9 +15,12 @@ module API
     end
 
     def posts
-      ::Post.by_user(id).map do |post|
-        API::Post.new(post.to_api)
-      end
+      API::Post.by_user(id)
+    end
+
+    def self.find(id)
+      user_attrs = ::User.find(id).to_api
+      API::User.new(user_attrs)
     end
   end
 end

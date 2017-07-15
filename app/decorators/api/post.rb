@@ -9,7 +9,13 @@ module API
     attribute :image, Types::Strict::String.optional
 
     def creator
-      @creator ||= ::User.find_for_api(creatorId)
+      @creator ||= API::User.find(creatorId)
+    end
+
+    def self.by_user(id)
+      ::Post.by_user(id).map do |post|
+        API::Post.new(post.to_api)
+      end
     end
   end
 end

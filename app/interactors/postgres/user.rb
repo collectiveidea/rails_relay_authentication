@@ -3,7 +3,7 @@ module Postgres
     module ClassMethods
       def create(args)
         new_user_id = Postgres::User::Create.call(args).id
-        table[new_user_id]
+        find_by(id: new_user_id)
       end
 
       def where(params)

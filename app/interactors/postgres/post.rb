@@ -3,7 +3,7 @@ module Postgres
     module ClassMethods
       def create(args)
         new_post_id = Postgres::Post::Create.call(args).id
-        table[new_post_id]
+        find_by(id: new_post_id)
       end
 
       def where(params)

@@ -19,11 +19,11 @@ module PostAPI
 
     def from_api(attrs)
       new(
-        id: attrs[:id],
-        title: attrs[:title],
-        description: attrs[:description],
-        image: attrs[:image],
-        user_id: attrs[:creatorId]
+        id: attrs[:id] || attrs["id"],
+        title: attrs[:title] || attrs["title"],
+        description: attrs[:description] || attrs["description"],
+        image: attrs[:image] || attrs["image"],
+        user_id: attrs[:creatorId] || attrs["creatorId"]
       )
     end
   end

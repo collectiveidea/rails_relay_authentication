@@ -20,13 +20,14 @@ module UserAPI
 
     def from_api(attrs)
       new(
-        id: attrs[:id],
-        first_name: attrs[:firstName],
-        last_name: attrs[:lastName],
-        email: attrs[:email],
-        password: attrs[:password],
-        role: attrs[:role],
-        authentication_token: attrs[:authentication_token]
+        id: attrs[:id] || attrs["id"],
+        first_name: attrs[:firstName] || attrs["firstName"],
+        last_name: attrs[:lastName] || attrs["lastName"],
+        email: attrs[:email] || attrs["email"],
+        password: attrs[:password] || attrs["password"],
+        password_digest: nil,
+        role: attrs[:role] || attrs["role"],
+        authentication_token: attrs[:authentication_token] || attrs["authentication_token"]
       )
     end
   end

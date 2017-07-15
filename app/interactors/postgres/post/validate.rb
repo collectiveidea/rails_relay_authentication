@@ -1,5 +1,5 @@
 module Postgres
-  class Post
+  module Post
     class Validate
       include Interactor
 

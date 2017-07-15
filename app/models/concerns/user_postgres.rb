@@ -7,7 +7,7 @@ module UserPostgres
       first_name: first_name,
       last_name: last_name,
       email: email,
-      role: User::ROLES[role],
+      role: User::ROLES[role.to_s],
       authentication_token: authentication_token,
       password: password,
       password_digest: password_digest
@@ -43,14 +43,20 @@ module UserPostgres
       from_postgres Postgres::User.find_by(params)
     end
 
+    def delete_all
+      Postgres::User.delete_all
+    end
+
     def from_postgres(attrs={})
       new(
-        id: attrs[:uuid],
-        first_name: attrs[:first_name],
-        last_name: attrs[:last_name],
-        email: attrs[:email],
-        role: User::ROLES.keys[attrs[:role]],
-        authentication_token: attrs[:authentication_token]
+        id: attrs[:uuid] || attrs["uuid"],
+        first_name: attrs[:first_name] || attrs["first_name"],
+        last_name: attrs[:last_name] || attrs["last_name"],
+        email: attrs[:email] || attrs["email"],
+        role: User::ROLES.keys[attrs[:role] || attrs["role"]],
+        authentication_token: attrs[:authentication_token] || attrs["authentication_token"],
+        password_digest: attrs[:password_digest] || attrs["password_digest"],
+        password: nil
       )
     end
   end

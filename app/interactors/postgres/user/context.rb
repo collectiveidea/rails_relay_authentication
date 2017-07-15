@@ -8,7 +8,7 @@ module Postgres
       attr_accessor *accessors
 
       def as_record
-        super.except("password").merge("password_digest" => password_digest)
+        super.except(:password)
       end
     end
   end

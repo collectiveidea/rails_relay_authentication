@@ -1,5 +1,5 @@
 module Postgres
-  class Post
+  module Post
     class Create
       include Interactor
       attr_accessor :error

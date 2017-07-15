@@ -39,13 +39,17 @@ module PostPostgres
       from_postgres Postgres::Post.find_by(params)
     end
 
+    def delete_all
+      Postgres::Post.delete_all
+    end
+
     def from_postgres(attrs={})
       new(
-        id: attrs[:uuid],
-        title: attrs[:title],
-        description: attrs[:description],
-        image: attrs[:image],
-        user_id: attrs[:user_id]
+        id: attrs[:uuid] || attrs["uuid"],
+        title: attrs[:title] || attrs["title"],
+        description: attrs[:description] || attrs["description"],
+        image: attrs[:image] || attrs["image"],
+        user_id: attrs[:user_id] || attrs["user_id"]
       )
     end
   end

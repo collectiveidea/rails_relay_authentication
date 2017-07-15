@@ -8,6 +8,7 @@ class User < Dry::Struct
   attribute :id, Types::UUID.optional
   attribute :role, Types::Strict::String.optional
   attribute :password_digest, Types::Strict::String.optional
+  attribute :password, Types::Strict::String.optional
   attribute :authentication_token, Types::Strict::String.optional
   attribute :first_name, Types::Strict::String.optional
   attribute :last_name, Types::Strict::String.optional

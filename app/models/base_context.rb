@@ -10,7 +10,6 @@
     attr_accessor *accessors
 
     def initialize(args={})
-      args = transform_keys(args)
       @keys = args.keys
       update(args)
     end
@@ -30,6 +29,6 @@
     end
 
     def as_record
-      to_h
+      to_h.except(:uuid, :created_at, :updated_at)
     end
   end

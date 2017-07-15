@@ -1,5 +1,5 @@
 module Postgres
-  class User
+  module User
     class Persist
       include Interactor  
       

@@ -22,15 +22,9 @@ Mutations::RegisterMutation = GraphQL::Relay::Mutation.define do
     if existing_user
       GraphQL::ExecutionError.new("Email already taken")
     else
-      new_user = User.create!(
-        email: inputs[:email],
-        password: inputs[:password],
-        first_name: inputs[:firstName],
-        last_name: inputs[:lastName],
-        role: inputs[:role] || :reader                                    
-      )
+      create_user = API::Register.call(inputs)
 
-      { user: new_user }
+      { user: create_user.user }
     end
   }
 end

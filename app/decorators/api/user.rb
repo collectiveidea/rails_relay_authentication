@@ -23,6 +23,11 @@ module API
       API::User.new(user.to_api)
     end
 
+    def self.create(attrs)
+      user = ::User.create(attrs)
+      API::User.new(user.to_api)
+    end
+
     def self.find_by(params)
       return unless user = ::User.find_by(params)
       API::User.new(user.to_api)

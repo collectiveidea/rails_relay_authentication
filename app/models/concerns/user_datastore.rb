@@ -46,6 +46,10 @@ module UserDatastore
             [:uuid, v]
           elsif key == :role
             [key, User::ROLES[v.to_s]]
+          elsif key == :firstName
+            [:first_name, v]
+          elsif key == :lastName
+            [:last_name, v]
           else
             [key, v]
           end

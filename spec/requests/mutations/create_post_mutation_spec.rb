@@ -76,12 +76,12 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
         end
 
         it "requires a valid description" do
-          variables["input"].merge!("description" => "foo")
+          variables["input"].merge!("description" => nil)
 
           expect {
             create_post
           }.not_to change(Post.all, :count)
-          binding.pry
+
           expect(errors).not_to be_nil
         end
 

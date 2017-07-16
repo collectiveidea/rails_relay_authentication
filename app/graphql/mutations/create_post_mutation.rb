@@ -12,13 +12,11 @@ Mutations::CreatePostMutation = GraphQL::Relay::Mutation.define do
     user = ctx[:viewer].user
     image = inputs[:image]
 
-    FileUtils.mv image.tempfile, Rails.root.join("static", "images", "upload", image.original_filename)
-
     create_post = API::CreatePost.call(
       creatorId: user.id,
       title: inputs[:title],
       description: inputs[:description],
-      image: "/images/upload/#{image.original_filename}"   
+      image: inputs[:image]   
     )
     
     if create_post.success?
@@ -36,7 +34,7 @@ Mutations::CreatePostMutation = GraphQL::Relay::Mutation.define do
         postEdge: range_add.edge,
       }
     else
-      GraphQL::ExecutionError.new("#{new_post.errors.messages}")
+      GraphQL::ExecutionError.new("#{create_post.error}")
     end
   }
 end

@@ -23,11 +23,19 @@ module UserDatastore
     end
 
     def find_by(params)
-      from_datastore Datastore::User.find_by(params)
+      if user = Datastore::User.find_by(params)
+        from_datastore(user)
+      end
     end
 
     def delete_all
       Datastore::User.delete_all
+    end
+
+    def all
+      Datastore::User.all.map do |user_record|
+        from_datastore user_record
+      end
     end
 
     def to_datastore(attrs)
@@ -51,7 +59,7 @@ module UserDatastore
         first_name: attrs[:first_name] || attrs["first_name"],
         last_name: attrs[:last_name] || attrs["last_name"],
         email: attrs[:email] || attrs["email"],
-        role: User::ROLES.keys[attrs[:role] || attrs["role"]],
+        role: attrs[:role] ? User::ROLES.keys[attrs[:role]] : nil,
         authentication_token: attrs[:authentication_token] || attrs["authentication_token"],
         password_digest: attrs[:password_digest] || attrs["password_digest"],
         password: nil

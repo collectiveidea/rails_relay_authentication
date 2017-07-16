@@ -30,7 +30,7 @@ module API
     end
 
     def self.find(id)
-      post = ::Post.find(id)
+      return unless post = ::Post.find(id)
       API::Post.new(post.to_api)
     end
   end

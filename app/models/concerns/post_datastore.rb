@@ -22,7 +22,9 @@ module PostDatastore
     end
 
     def find_by(params)
-      from_datastore Datastore::Post.find_by(params)
+      if post = Datastore::Post.find_by(params)
+        from_datastore post
+      end
     end
 
     def delete_all

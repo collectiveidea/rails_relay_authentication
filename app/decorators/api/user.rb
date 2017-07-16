@@ -19,8 +19,13 @@ module API
     end
 
     def self.find(id)
-      user_attrs = ::User.find(id).to_api
-      API::User.new(user_attrs)
+      return unless user = ::User.find(id)
+      API::User.new(user.to_api)
+    end
+
+    def self.find_by(params)
+      return unless user = ::User.find_by(params)
+      API::User.new(user.to_api)
     end
   end
 end

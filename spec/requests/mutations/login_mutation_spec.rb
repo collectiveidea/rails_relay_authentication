@@ -36,8 +36,8 @@ RSpec.describe "Mutations::LoginMutation", type: "request" do
 
         user_json = json["login"]["user"]
         expect(user_json["email"]).to eq(user.email)
-        expect(user_json["firstName"]).to eq(user.firstName)
-        expect(user_json["lastName"]).to eq(user.lastName)
+        expect(user_json["firstName"]).to eq(user.first_name)
+        expect(user_json["lastName"]).to eq(user.last_name)
         expect(user_json["role"]).to eq(user.role)
       end
 

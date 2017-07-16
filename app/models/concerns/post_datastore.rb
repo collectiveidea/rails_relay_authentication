@@ -37,10 +37,13 @@ module PostDatastore
 
     def to_datastore(attrs)
       attrs.transform_keys do |k|
-        if k.to_sym == :id
+        key = k.to_sym
+        if key == :id
           :uuid
+        elsif key == :creatorId
+          :user_id
         else
-          k
+          key
         end
       end
     end

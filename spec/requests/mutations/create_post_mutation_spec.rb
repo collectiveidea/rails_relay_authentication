@@ -75,17 +75,17 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
           expect(errors).not_to be_nil
         end
 
-        it "requires a valid email address" do
+        it "requires a valid description" do
           variables["input"].merge!("description" => "foo")
 
           expect {
             create_post
           }.not_to change(Post.all, :count)
-          
+          binding.pry
           expect(errors).not_to be_nil
         end
 
-        it "requires a password" do
+        it "requires an image" do
           variables["input"].merge!("image" => nil)
 
           expect {

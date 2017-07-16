@@ -14,20 +14,20 @@ Mutations::CreatePostMutation = GraphQL::Relay::Mutation.define do
 
     FileUtils.mv image.tempfile, Rails.root.join("static", "images", "upload", image.original_filename)
 
-    new_post = Post.new(
-      user_id: user.id,
+    create_post = API::CreatePost.call(
+      creatorId: user.id,
       title: inputs[:title],
       description: inputs[:description],
       image: "/images/upload/#{image.original_filename}"   
     )
     
-    if new_post.save
+    if create_post.success?
       # Use this helper to create the response that a
       # client-side RANGE_ADD mutation would expect.
       range_add = GraphQL::Relay::RangeAdd.new(
         parent: user,
-        collection: Post.all,
-        item: new_post.reload, # reload picks up the newly generated UUID
+        collection: user.posts,
+        item: create_post.post,
         context: ctx,
       )
 

@@ -18,6 +18,11 @@ module API
       end
     end
 
+    def self.create(attrs)
+      post = ::Post.create(attrs)
+      API::Post.new(post.to_api)
+    end
+
     def self.all
       ::Post.all.map do |post|
         API::Post.new(post.to_api)
@@ -25,8 +30,8 @@ module API
     end
 
     def self.find(id)
-      post_attrs = ::Post.find(id).to_api
-      API::Post.new(post_attrs)
+      post = ::Post.find(id)
+      API::Post.new(post.to_api)
     end
   end
 end

@@ -29,7 +29,7 @@ module RailsRelayAuthentication
     config.generators.system_tests = nil
 
     config.autoload_paths << Rails.root.join('lib')
-    config.autoload_paths << Rails.root.join('app', 'postgres')
+    config.autoload_paths << Rails.root.join('app', 'datastore')
 
     config.api_only = true
     config.middleware.insert_before Rack::Head, ActionDispatch::Cookies

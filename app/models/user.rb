@@ -1,5 +1,5 @@
 class User < Dry::Struct
-  include UserPostgres
+  include UserDatastore
   include UserAPI
 
   constructor :schema

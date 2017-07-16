@@ -1,5 +1,5 @@
 class Post < Dry::Struct
-  include PostPostgres
+  include PostDatastore
   include PostAPI
   
   constructor :schema

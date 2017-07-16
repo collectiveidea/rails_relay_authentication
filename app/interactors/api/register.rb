@@ -11,7 +11,7 @@ module API
     context_with Context
 
     def call
-      # TODO: Needs real validations and a sad path
+      # TODO: Needs real validations and a better sad path
       context.fail!(error: "Email missing") unless context.email.present?
       context.fail!(error: "Password missing") unless context.password.present?
 
@@ -22,6 +22,9 @@ module API
         lastName: context.lastName,
         role: context.role || "reader",
       )
+
+    rescue Dry::Struct::Error => e
+      context.fail!(error: e.message)
     end
   end
 end

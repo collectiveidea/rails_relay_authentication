@@ -24,7 +24,11 @@ Mutations::RegisterMutation = GraphQL::Relay::Mutation.define do
     else
       create_user = API::Register.call(inputs)
 
-      { user: create_user.user }
+      if create_user.success?
+        { user: create_user.user }
+      else
+        GraphQL::ExecutionError.new(create_user.error)
+      end
     end
   }
 end

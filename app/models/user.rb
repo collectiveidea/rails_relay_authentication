@@ -16,6 +16,6 @@ class User < Dry::Struct
   ROLES = { "reader" => 0, "publisher" => 1, "admin" => 2 }
 
   def self.publisher_roles
-    ROLES.values[1..2]
+    ROLES.keys[1..2]
   end
 end

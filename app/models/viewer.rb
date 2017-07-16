@@ -9,7 +9,7 @@ class Viewer < Dry::Struct
   end
 
   def is_logged_in
-    !!(role && uuid)
+    !!(role && id)
   end
 
   def user

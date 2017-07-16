@@ -1,8 +1,18 @@
 Types::ViewerType = GraphQL::ObjectType.define do
   name "Viewer"
 
-  field :isLoggedIn, types.Boolean
-  field :canPublish, types.Boolean 
+  field :isLoggedIn, types.Boolean do
+    resolve ->(obj, args, ctx) {
+      obj.is_logged_in
+    }
+  end
+
+  field :canPublish, types.Boolean do
+    resolve ->(obj, args, ctx) {
+      obj.can_publish
+    }    
+  end
+
   field :user, Types::UserType
 
   field :post, Types::PostType do

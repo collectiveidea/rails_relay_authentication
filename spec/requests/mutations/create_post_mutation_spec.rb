@@ -5,7 +5,7 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
   let(:json) { JSON.parse(response.body)["data"] }
   let!(:viewer) { build(:viewer, :admin) }
   let(:image_path) { Rails.root.join("spec", "fixtures", "image1.jpg") }
-  let(:new_post) { build(:post, image: "/images/upload/image1.jpg", user: viewer.user) }
+  let(:new_post) { build(:post, image: "/images/upload/image1.jpg", user_id: viewer.user.id) }
   let(:new_post_image) {
     fixture_file_upload(image_path)    
   }

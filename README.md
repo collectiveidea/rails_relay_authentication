@@ -86,9 +86,9 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 ## [Changelog](CHANGELOG.md)
 
 ## To Do
-- [x] Move over `updateSchema.js` from `hover_blog` app, so that schema is updated from server introspection.
-- [x] Implement `CreatePostMutation`
-- [ ] Back-end testing with rspec
-- [ ] Implement all the GraphQL errors
+- [ ] Real validations for models using dry-validation
+- [ ] Real sad paths and GraphQL errors for all the mutations
 - [ ] Storybook integration
 - [ ] Front-end testing with Jest + Storybook
+- [ ] Reset password feature
+- [ ] Delete post mutation

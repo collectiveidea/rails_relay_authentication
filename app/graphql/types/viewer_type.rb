@@ -8,7 +8,7 @@ Types::ViewerType = GraphQL::ObjectType.define do
   field :post, Types::PostType do
     argument :postId, types.String
     resolve ->(obj, args, ctx) {
-      Post.find_by(uuid: args[:postId])
+      API::Post.find(args[:postId])
     }
   end
 
@@ -16,7 +16,7 @@ Types::ViewerType = GraphQL::ObjectType.define do
     argument :first, types.Int
     
     resolve ->(obj, args, ctx) {
-      Post.all
+      API::Post.all
     }
   end
 end

@@ -18,6 +18,10 @@ module Postgres
         table.delete
       end
 
+      def all
+        table.to_a
+      end
+
       def table
         Sequel::Model.db[:posts]
       end

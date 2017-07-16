@@ -5,7 +5,7 @@ RSpec.describe "Types::ViewerType", type: "request" do
   let(:json) { JSON.parse(response.body)["data"] }
   let(:viewer) { build(:viewer) }
   let(:user) { viewer.user }
-  let!(:user_posts) { create_list(:post, 3, user_id: user) }
+  let!(:user_posts) { create_list(:post, 3, user_id: user.id) }
   let!(:other_posts) { create_list(:post, 5) }
   let(:post_count) { user_posts.count + other_posts.count }
   let(:single_post) { other_posts.last }
@@ -45,7 +45,7 @@ RSpec.describe "Types::ViewerType", type: "request" do
 
         expect(json["viewer"].keys).to eq(%w(user posts post))
         expect(json["viewer"]["user"]["id"]).to eq(user.id)
-        expect(post_ids).to eq(Post.pluck(:id))
+        expect(post_ids).to eq(Post.all.map(&:id))
         expect(json["viewer"]["post"]["id"]).to eq(single_post.id)
       end
     end
@@ -74,7 +74,7 @@ RSpec.describe "Types::ViewerType", type: "request" do
 
         expect(json["viewer"].keys).to eq(%w(user posts post))
         expect(json["viewer"]["user"]).to be_nil
-        expect(post_ids).to eq(Post.pluck(:id))
+        expect(post_ids).to eq(Post.all.map(&:id))
         expect(json["viewer"]["post"]["id"]).to eq(single_post.id)
       end
     end

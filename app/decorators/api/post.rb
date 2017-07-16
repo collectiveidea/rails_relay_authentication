@@ -17,5 +17,16 @@ module API
         API::Post.new(post.to_api)
       end
     end
+
+    def self.all
+      ::Post.all.map do |post|
+        API::Post.new(post.to_api)
+      end
+    end
+
+    def self.find(id)
+      post_attrs = ::Post.find(id).to_api
+      API::Post.new(post_attrs)
+    end
   end
 end

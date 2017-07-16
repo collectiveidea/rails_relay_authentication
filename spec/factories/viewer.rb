@@ -10,11 +10,11 @@ FactoryGirl.define do
     initialize_with { new(attributes) }
 
     trait :reader do
-      transient { user { create(:user, role: :reader) } }
+      transient { user { create(:user, role: "reader") } }
     end
 
     trait :admin do
-      transient { user { create(:user, role: :admin) } }
+      transient { user { create(:user, role: "admin") } }
     end
   end
 end

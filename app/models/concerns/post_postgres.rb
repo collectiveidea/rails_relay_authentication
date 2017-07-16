@@ -43,6 +43,12 @@ module PostPostgres
       Postgres::Post.delete_all
     end
 
+    def all
+      Postgres::Post.all.map do |post_record|
+        from_postgres post_record
+      end
+    end
+
     def from_postgres(attrs={})
       new(
         id: attrs[:uuid] || attrs["uuid"],

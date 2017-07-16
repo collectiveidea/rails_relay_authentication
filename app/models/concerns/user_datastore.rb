@@ -1,35 +1,18 @@
 module UserDatastore
   extend ActiveSupport::Concern
 
-  def to_datastore
-    {
-      uuid: id,
-      first_name: first_name,
-      last_name: last_name,
-      email: email,
-      role: User::ROLES[role.to_s],
-      authentication_token: authentication_token,
-      password: password,
-      password_digest: password_digest
-    }
-  end
-
   def regenerate_authentication_token!
     # Datastore::User::NewAuthToken.call(id: id).authentication_token
     # self[:authentication_token] = SecureRandom.base58(24)
   end
 
   module ClassMethods
-    def attrs_for_datastore(attrs)
-      new(attrs).to_datastore
-    end
-
     def find(uuid)
       find_by(uuid: Types::UUID[uuid]) if uuid.present?
     end
 
     def create(args)
-      user_attrs = attrs_for_datastore(args)
+      user_attrs = to_datastore(args)
       from_datastore Datastore::User.create(user_attrs)
     end
 
@@ -45,6 +28,21 @@ module UserDatastore
 
     def delete_all
       Datastore::User.delete_all
+    end
+
+    def to_datastore(attrs)
+      Hash[
+        attrs.map do |k, v|
+          key = k.to_sym
+          if key == :id
+            [:uuid, v]
+          elsif key == :role
+            [key, User::ROLES[v.to_s]]
+          else
+            [key, v]
+          end
+        end
+      ]
     end
 
     def from_datastore(attrs={})

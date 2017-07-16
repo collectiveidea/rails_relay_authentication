@@ -1,23 +1,9 @@
 module PostDatastore
   extend ActiveSupport::Concern
 
-  def to_datastore
-    {
-      uuid: id,
-      title: title,
-      image: image,
-      description: description,
-      user_id: user_id
-    }
-  end
-
   module ClassMethods
     def by_user(user_id) 
       where(user_id: Types::UUID[user_id])
-    end
-
-    def attrs_for_datastore(attrs)
-      new(attrs).to_datastore
     end
     
     def find(uuid)
@@ -25,7 +11,7 @@ module PostDatastore
     end
 
     def create(args)
-      post_attrs = attrs_for_datastore(args)
+      post_attrs = to_datastore(args)
       from_datastore Datastore::Post.create(post_attrs)
     end
 
@@ -46,6 +32,16 @@ module PostDatastore
     def all
       Datastore::Post.all.map do |post_record|
         from_datastore post_record
+      end
+    end
+
+    def to_datastore(attrs)
+      attrs.transform_keys do |k|
+        if k.to_sym == :id
+          :uuid
+        else
+          k
+        end
       end
     end
 

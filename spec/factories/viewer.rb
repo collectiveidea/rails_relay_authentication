@@ -7,7 +7,7 @@ FactoryGirl.define do
     id { user.id }
     role { user.role }
     
-    initialize_with { new(attributes) }
+    initialize_with { new(attributes.except(:user)) }
 
     trait :reader do
       transient { user { create(:user, role: "reader") } }

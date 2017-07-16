@@ -12,6 +12,6 @@ FactoryGirl.define do
     description { Faker::Lorem.sentence }
     image { Faker::Internet.url }
 
-    initialize_with { Post.create(attributes) }
+    initialize_with { Post.create(attributes.except(:user)) }
   end
 end

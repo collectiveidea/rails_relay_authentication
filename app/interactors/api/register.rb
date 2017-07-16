@@ -15,7 +15,7 @@ module API
       context.fail!(error: "Email missing") unless context.email.present?
       context.fail!(error: "Password missing") unless context.password.present?
 
-      context.user = User.create(
+      context.user = API::User.create(
         email: context.email,
         password: context.password,
         firstName: context.firstName,

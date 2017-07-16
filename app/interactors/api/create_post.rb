@@ -18,7 +18,7 @@ module API
       context.fail!(error: "Description missing") unless context.description.present?
 
       # TODO: Needs more sad path
-      context.post = Post.create(
+      context.post = API::Post.create(
         creatorId: context.creatorId,
         title: context.title,
         description: context.description,

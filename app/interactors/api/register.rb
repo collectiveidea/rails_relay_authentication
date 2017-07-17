@@ -16,6 +16,7 @@ module API
       context.fail!(error: "Password missing") unless context.password.present?
 
       context.user = API::User.create(
+        id: context.id,
         email: context.email,
         password: context.password,
         firstName: context.firstName,

@@ -2,13 +2,13 @@ module API
   class User < Dry::Struct
     constructor :schema
 
-    attribute :id, Types::UUID.optional
-    attribute :email, Types::Strict::String
+    attribute :id, Types::Strict::String.optional.default(nil)
+    attribute :email, Types::Strict::String.optional
     attribute :firstName, Types::Strict::String.optional
     attribute :lastName, Types::Strict::String.optional
     attribute :authentication_token, Types::Strict::String.optional
     attribute :password_digest, Types::Strict::String.optional
-    attribute :role, Types::Role
+    attribute :role, Types::Strict::String.optional
 
     def authenticate(password_string)
       return self if BCrypt::Password.new(password_digest) == password_string

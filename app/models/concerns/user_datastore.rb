@@ -13,12 +13,7 @@ module UserDatastore
 
     def create(args)
       user_attrs = to_datastore(args)
-      create_user = Datastore::User.create(user_attrs)
-      if create_user[:errors].present?
-        OpenStruct.new(create_user.to_h)
-      else
-        from_datastore create_user
-      end
+      from_datastore Datastore::User.create(user_attrs)
     end
 
     def where(params)

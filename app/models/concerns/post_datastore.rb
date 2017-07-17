@@ -12,12 +12,7 @@ module PostDatastore
 
     def create(args)
       post_attrs = to_datastore(args)
-      create_post = Datastore::Post.create(post_attrs)
-      if create_post[:errors].present?
-        OpenStruct.new(create_post.to_h)
-      else
-        from_datastore create_post
-      end
+      from_datastore Datastore::Post.create(post_attrs)
     end
 
     def where(params)

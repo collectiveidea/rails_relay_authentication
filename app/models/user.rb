@@ -4,8 +4,8 @@ class User < Dry::Struct
 
   constructor :schema
 
-  attribute :id, Types::UUID.optional
-  attribute :email, Types::Email.optional
+  attribute :id, Types::Strict::String.optional
+  attribute :email, Types::Strict::String.optional
   attribute :role, Types::Strict::String.optional
   attribute :password_digest, Types::Strict::String.optional
   attribute :password, Types::Strict::String.optional

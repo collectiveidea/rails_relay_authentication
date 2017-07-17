@@ -2,7 +2,7 @@ module API
   class User < Dry::Struct
     constructor :schema
 
-    attribute :id, Types::Strict::String.optional.default(nil)
+    attribute :id, Types::Strict::String.optional
     attribute :email, Types::Strict::String.optional
     attribute :firstName, Types::Strict::String.optional
     attribute :lastName, Types::Strict::String.optional

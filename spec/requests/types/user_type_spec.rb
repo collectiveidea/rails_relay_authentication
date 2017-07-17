@@ -48,7 +48,7 @@ RSpec.describe "Types::UserType", type: "request" do
         expect(user_json["lastName"]).to eq(user.lastName)
         expect(user_json["role"]).to eq(user.role)
         expect(user_json["posts"]["edges"].count).to eq(user_posts.count)
-        expect(user_json["posts"]["edges"].map { |edge| edge["node"]["id"] }).to eq(user_posts.map(&:id))
+        expect(user_json["posts"]["edges"].map { |edge| edge["node"]["id"] }).to match_array(user_posts.map(&:id))
       end
     end
 

@@ -52,13 +52,23 @@ module PostDatastore
 
     def from_datastore(attrs={})
       attrs = attrs.symbolize_keys
-      new(
-        id: attrs[:uuid],
-        title: attrs[:title],
-        description: attrs[:description],
-        image: attrs[:image],
-        user_id: attrs[:user_id]
-      )
+      if attrs[:errors].present?
+        InvalidPost.new(
+          id: attrs[:uuid],
+          title: attrs[:title],
+          description: attrs[:description],
+          image: attrs[:image],
+          user_id: attrs[:user_id]
+        )
+      else
+        new(
+          id: attrs[:uuid],
+          title: attrs[:title],
+          description: attrs[:description],
+          image: attrs[:image],
+          user_id: attrs[:user_id]
+        )
+      end
     end
   end
 end

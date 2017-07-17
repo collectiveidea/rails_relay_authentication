@@ -7,18 +7,20 @@ module PostAPI
       title: title,
       description: description,
       image: image,
-      creatorId: user_id,
+      creatorId: user_id
     }
   end
 
   module ClassMethods
     def from_api(attrs)
+      attrs = attrs.symbolize_keys
       new(
-        id: attrs[:id] || attrs["id"],
-        title: attrs[:title] || attrs["title"],
-        description: attrs[:description] || attrs["description"],
-        image: attrs[:image] || attrs["image"],
-        user_id: attrs[:creatorId] || attrs["creatorId"]
+        id: attrs[:id],
+        title: attrs[:title],
+        description: attrs[:description],
+        image: attrs[:image],
+        user_id: attrs[:creatorId],
+        errors: attrs[:errors] || {}
       )
     end
   end

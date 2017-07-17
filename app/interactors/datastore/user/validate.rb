@@ -6,7 +6,8 @@ module Datastore
       context_with User::Context
 
       def call
-        true
+        result = Datastore::UserSchema.call(context.as_record)
+        context.fail!(error: result.errors) if result.failure?
       end
     end
   end

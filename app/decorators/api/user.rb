@@ -2,12 +2,12 @@ module API
   class User < Dry::Struct
     constructor :schema
 
-    attribute :id, Types::UUID
+    attribute :id, Types::UUID.optional
     attribute :email, Types::Strict::String
     attribute :firstName, Types::Strict::String.optional
     attribute :lastName, Types::Strict::String.optional
     attribute :authentication_token, Types::Strict::String.optional
-    attribute :password_digest, Types::Strict::String
+    attribute :password_digest, Types::Strict::String.optional
     attribute :role, Types::Role
 
     def authenticate(password_string)
@@ -24,13 +24,13 @@ module API
     end
 
     def self.create(attrs)
-      user = ::User.create(attrs)
-      API::User.new(user.to_api)
+      return unless user = ::User.create(attrs)
+      new(user.to_api)
     end
 
     def self.find_by(params)
       return unless user = ::User.find_by(params)
-      API::User.new(user.to_api)
+      new(user.to_api)
     end
   end
 end

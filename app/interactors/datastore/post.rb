@@ -2,9 +2,14 @@ module Datastore
   module Post
     module ClassMethods
       def create(args)
-        new_post_id = Datastore::Post::Create.call(args).id
-        find_by(id: new_post_id)
+        create_post = Datastore::Post::Create.call(args)
+        if create_post.failure?
+          create_post.as_record.merge(errors: create_post.error)
+        else
+          find_by(id: create_post.id)
+        end
       end
+
 
       def where(params)
         table.where(params)

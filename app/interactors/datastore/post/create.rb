@@ -21,7 +21,7 @@ module Datastore
         else
           error = build_post.error
         end
-        context.error = GraphQL::ExecutionError.new(error) if error
+        context.fail!(error: error) if error
       end
     end
   end

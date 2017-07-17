@@ -2,8 +2,12 @@ module Datastore
   module User
     module ClassMethods
       def create(args)
-        new_user_id = Datastore::User::Create.call(args).id
-        find_by(id: new_user_id)
+        create_user = Datastore::User::Create.call(args)
+        if create_user.failure?
+          create_user.as_record.merge(errors: create_user.error)
+        else
+          find_by(id: create_user.id)
+        end
       end
 
       def where(params)

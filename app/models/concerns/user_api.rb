@@ -15,15 +15,16 @@ module UserAPI
 
   module ClassMethods
     def from_api(attrs)
+      attrs = attrs.symbolize_keys
       new(
-        id: attrs[:id] || attrs["id"],
-        first_name: attrs[:firstName] || attrs["firstName"],
-        last_name: attrs[:lastName] || attrs["lastName"],
-        email: attrs[:email] || attrs["email"],
-        password: attrs[:password] || attrs["password"],
+        id: attrs[:id],
+        first_name: attrs[:firstName],
+        last_name: attrs[:lastName],
+        email: attrs[:email],
+        password: attrs[:password],
         password_digest: nil,
-        role: attrs[:role] || attrs["role"],
-        authentication_token: attrs[:authentication_token] || attrs["authentication_token"]
+        role: attrs[:role],
+        authentication_token: attrs[:authentication_token]
       )
     end
   end

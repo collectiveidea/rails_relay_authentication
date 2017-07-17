@@ -12,7 +12,12 @@ module PostDatastore
 
     def create(args)
       post_attrs = to_datastore(args)
-      from_datastore Datastore::Post.create(post_attrs)
+      create_post = Datastore::Post.create(post_attrs)
+      if create_post[:errors].present?
+        OpenStruct.new(create_post.to_h)
+      else
+        from_datastore create_post
+      end
     end
 
     def where(params)
@@ -51,12 +56,13 @@ module PostDatastore
     end
 
     def from_datastore(attrs={})
+      attrs = attrs.symbolize_keys
       new(
-        id: attrs[:uuid] || attrs["uuid"],
-        title: attrs[:title] || attrs["title"],
-        description: attrs[:description] || attrs["description"],
-        image: attrs[:image] || attrs["image"],
-        user_id: attrs[:user_id] || attrs["user_id"]
+        id: attrs[:uuid],
+        title: attrs[:title],
+        description: attrs[:description],
+        image: attrs[:image],
+        user_id: attrs[:user_id]
       )
     end
   end

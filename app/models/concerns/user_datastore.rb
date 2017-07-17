@@ -13,7 +13,12 @@ module UserDatastore
 
     def create(args)
       user_attrs = to_datastore(args)
-      from_datastore Datastore::User.create(user_attrs)
+      create_user = Datastore::User.create(user_attrs)
+      if create_user[:errors].present?
+        OpenStruct.new(create_user.to_h)
+      else
+        from_datastore create_user
+      end
     end
 
     def where(params)
@@ -58,15 +63,17 @@ module UserDatastore
     end
 
     def from_datastore(attrs={})
+      attrs = attrs.symbolize_keys
       new(
-        id: attrs[:uuid] || attrs["uuid"],
-        first_name: attrs[:first_name] || attrs["first_name"],
-        last_name: attrs[:last_name] || attrs["last_name"],
-        email: attrs[:email] || attrs["email"],
+        id: attrs[:uuid],
+        first_name: attrs[:first_name],
+        last_name: attrs[:last_name],
+        email: attrs[:email],
         role: attrs[:role] ? User::ROLES.keys[attrs[:role]] : nil,
-        authentication_token: attrs[:authentication_token] || attrs["authentication_token"],
-        password_digest: attrs[:password_digest] || attrs["password_digest"],
-        password: nil
+        authentication_token: attrs[:authentication_token],
+        password_digest: attrs[:password_digest],
+        password: nil,
+        errors: attrs[:errors] || {}
       )
     end
   end

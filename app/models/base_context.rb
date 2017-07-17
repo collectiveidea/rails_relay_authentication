@@ -4,7 +4,7 @@
     delegate :each_pair, to: :to_h
 
     def self.accessors
-      %i(id uuid created_at updated_at)
+      %i(id uuid created_at updated_at error)
     end
 
     attr_accessor *accessors
@@ -29,6 +29,6 @@
     end
 
     def as_record
-      to_h.except(:uuid, :created_at, :updated_at)
+      to_h.except(:uuid, :created_at, :updated_at, :error)
     end
   end

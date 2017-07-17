@@ -22,9 +22,6 @@ module API
         lastName: context.lastName,
         role: context.role || "reader",
       )
-
-    rescue Dry::Struct::Error => e
-      context.fail!(error: e.message)
     end
   end
 end

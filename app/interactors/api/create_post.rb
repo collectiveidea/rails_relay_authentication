@@ -1,6 +1,7 @@
 module API
   class CreatePost
     include Interactor
+    include API::WithDatastore
 
     class Context < BaseContext
       def self.accessors
@@ -13,12 +14,17 @@ module API
     delegate :image, to: :context
 
     def call
-      context.fail!(error: "Image missing") unless context.image
-      context.fail!(error: "Title missing") unless context.title.present?
-      context.fail!(error: "Description missing") unless context.description.present?
+      create_post = Datastore::Post::Create.call(post_attributes)
 
-      # TODO: Needs more sad path
-      context.post = API::Post.create(
+      if create_post.success?
+        context.post = post_from_datastore(create_post.to_h)
+      else
+        context.fail!(error: create_post.error)
+      end
+    end
+
+    def post_attributes
+      post_attributes_for_datastore(
         creatorId: context.creatorId,
         title: context.title,
         description: context.description,

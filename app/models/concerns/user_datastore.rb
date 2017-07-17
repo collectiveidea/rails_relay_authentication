@@ -11,11 +11,6 @@ module UserDatastore
       find_by(uuid: Types::UUID[uuid]) if uuid.present?
     end
 
-    def create(args)
-      user_attrs = to_datastore(args)
-      from_datastore Datastore::User.create(user_attrs)
-    end
-
     def where(params)
       Datastore::User.where(params).map do |user_record|
         from_datastore user_record
@@ -36,25 +31,6 @@ module UserDatastore
       Datastore::User.all.map do |user_record|
         from_datastore user_record
       end
-    end
-
-    def to_datastore(attrs)
-      Hash[
-        attrs.map do |k, v|
-          key = k.to_sym
-          if key == :id
-            [:uuid, v]
-          elsif key == :role
-            [key, User::ROLES[v.to_s]]
-          elsif key == :firstName
-            [:first_name, v]
-          elsif key == :lastName
-            [:last_name, v]
-          else
-            [key, v]
-          end
-        end
-      ]
     end
 
     def from_datastore(attrs={})

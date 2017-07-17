@@ -31,9 +31,15 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
       }      
     }}
 
+    let(:register_user) {
+      post(endpoint, params: { query: query, variables: variables })          
+    }
+
     context "Not logged in" do
       it "returns a user" do
-        post(endpoint, params: { query: query, variables: variables })
+        expect {
+          register_user
+        }.to change { User.all.count }.by(1)
 
         user_json = json["register"]["user"]
         expect(user_json["email"]).to eq(new_user[:email])
@@ -51,10 +57,6 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
       describe "errors" do
         let(:errors) { JSON.parse(response.body)["errors"] }
 
-        let(:register_user) {
-          post(endpoint, params: { query: query, variables: variables })          
-        }
-
         it "requires an email address" do
           variables["input"].merge!("email" => nil)
 
@@ -71,7 +73,6 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
           expect {
             register_user
           }.not_to change(User.all, :count)
-          
           expect(errors).not_to be_nil
         end
 

@@ -10,11 +10,6 @@ module PostDatastore
       find_by(uuid: Types::UUID[uuid]) if uuid.present?
     end
 
-    def create(args)
-      post_attrs = to_datastore(args)
-      from_datastore Datastore::Post.create(post_attrs)
-    end
-
     def where(params)
       Datastore::Post.where(params).map do |post_record|
         from_datastore post_record
@@ -37,38 +32,15 @@ module PostDatastore
       end
     end
 
-    def to_datastore(attrs)
-      attrs.transform_keys do |k|
-        key = k.to_sym
-        if key == :id
-          :uuid
-        elsif key == :creatorId
-          :user_id
-        else
-          key
-        end
-      end
-    end
-
     def from_datastore(attrs={})
       attrs = attrs.symbolize_keys
-      if attrs[:errors].present?
-        InvalidPost.new(
-          id: attrs[:uuid],
-          title: attrs[:title],
-          description: attrs[:description],
-          image: attrs[:image],
-          user_id: attrs[:user_id]
-        )
-      else
-        new(
-          id: attrs[:uuid],
-          title: attrs[:title],
-          description: attrs[:description],
-          image: attrs[:image],
-          user_id: attrs[:user_id]
-        )
-      end
+      new(
+        id: attrs[:uuid],
+        title: attrs[:title],
+        description: attrs[:description],
+        image: attrs[:image],
+        user_id: attrs[:user_id]
+      )
     end
   end
 end

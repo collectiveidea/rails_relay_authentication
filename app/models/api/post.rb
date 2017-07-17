@@ -18,11 +18,6 @@ module API
       end
     end
 
-    def self.create(attrs)
-      post = ::Post.create(attrs)
-      API::Post.new(post.to_api)
-    end
-
     def self.all
       ::Post.all.map do |post|
         API::Post.new(post.to_api)

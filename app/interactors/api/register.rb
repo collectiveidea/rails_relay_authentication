@@ -1,6 +1,7 @@
 module API
   class Register
     include Interactor
+    include API::WithDatastore
 
     class Context < BaseContext
       def self.accessors
@@ -11,11 +12,17 @@ module API
     context_with Context
 
     def call
-      # TODO: Needs real validations and a better sad path
-      context.fail!(error: "Email missing") unless context.email.present?
-      context.fail!(error: "Password missing") unless context.password.present?
+      create_user = Datastore::User::Create.call(user_attributes)
 
-      context.user = API::User.create(
+      if create_user.success?
+        context.user = user_from_datastore(create_user.to_h)
+      else
+        context.fail!(error: create_user.error)
+      end
+    end
+
+    def user_attributes
+      user_attributes_for_datastore(
         id: context.id,
         email: context.email,
         password: context.password,

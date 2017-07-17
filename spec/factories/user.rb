@@ -11,7 +11,7 @@ FactoryGirl.define do
     role "publisher"
     authentication_token { nil }
 
-    initialize_with { User.create(attributes) }
+    initialize_with { Datastore::User::Create.call(attributes) }
 
     trait :reader do
       role "reader"

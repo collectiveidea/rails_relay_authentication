@@ -23,7 +23,7 @@ module Datastore
       end
 
       def table
-        Sequel::Model.db[:users]
+        Datastore.users
       end
     end
     extend ClassMethods

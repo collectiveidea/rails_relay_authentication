@@ -6,8 +6,8 @@ module Datastore
       context_with User::Context
 
       def call
-        context.id = Sequel::Model.db[:users].insert(context.as_record)
-        context.uuid = Sequel::Model.db[:users][id: context.id][:uuid]
+        context.id = Datastore.users.insert(context.as_record)
+        context.uuid = Datastore.users[id: context.id][:uuid]
       end
     end
   end

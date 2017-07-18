@@ -7,8 +7,7 @@ users = JSON.parse(
 
 users.map! do |attrs|
   begin
-    user_attrs = User.from_api(attrs).to_h
-    User.create(user_attrs)
+    API::Register.call(attrs)
   #rescue Exception => e
     #binding.pry
   end
@@ -21,6 +20,5 @@ JSON.parse(
 ).map do |attrs|
   index = attrs["creatorId"].to_i - 1
   transformed_attrs = attrs.merge("creatorId" => user_ids[index][:uuid])
-  post_attrs = Post.from_api(transformed_attrs).to_h
-  Post.create(post_attrs)
+  API::CreatePost.call(transformed_attrs)
 end

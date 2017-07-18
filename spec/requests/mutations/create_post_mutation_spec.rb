@@ -31,7 +31,7 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
       "input" => {
         "title" => new_post[:title],
         "description" => new_post[:description],
-        "image" => new_post[:image],
+        "image" => fixture_file_upload(Rails.root.join('spec', 'fixtures', 'image1.jpg'), 'image/jpg')
       }      
     }}
 
@@ -43,16 +43,16 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
 
       it "returns a user" do
         post(endpoint, params: { query: query, variables: variables })
-
+        
         post_json = json["createPost"]["postEdge"]["node"]
         expect(post_json["title"]).to eq(new_post[:title])
         expect(post_json["description"]).to eq(new_post[:description])
-        expect(post_json["image"]).to eq(new_post[:image])
+        expect(post_json["image"]).to eq("/images/upload/image1.jpg")
 
         post = Post.all.last
         expect(post.title).to eq(new_post[:title])
         expect(post.description).to eq(new_post[:description])
-        expect(post.image).to eq(new_post[:image])
+        expect(post.image).to eq("/images/upload/image1.jpg")
       end
 
       describe "errors" do

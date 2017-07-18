@@ -28,7 +28,7 @@ module API
         firstName: context.firstName,
         lastName: context.lastName,
         role: context.role || "reader",
-      )
+      ).merge(password_digest: nil)
     end
   end
 end

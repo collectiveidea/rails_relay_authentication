@@ -10,7 +10,7 @@ Mutations::LoginMutation = GraphQL::Relay::Mutation.define do
 
   resolve ->(object, inputs, ctx) {
     user = API::User.find_by(email: inputs[:email])
-
+    
     if user && user.authenticate(inputs[:password])
       ctx[:warden].set_user(user)
       { user: user }

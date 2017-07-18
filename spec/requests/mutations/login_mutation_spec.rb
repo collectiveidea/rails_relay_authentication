@@ -4,7 +4,7 @@ RSpec.describe "Mutations::LoginMutation", type: "request" do
   let(:endpoint) { "/graphql" }
   let(:json) { JSON.parse(response.body)["data"] }
   let(:password) { "foobarbaz" }
-  let(:user) { create(:user, password: password) }
+  let!(:user) { create(:user, password: password) }
 
   describe "LoginMutation" do
     let(:query) {
@@ -36,8 +36,8 @@ RSpec.describe "Mutations::LoginMutation", type: "request" do
 
         user_json = json["login"]["user"]
         expect(user_json["email"]).to eq(user.email)
-        expect(user_json["firstName"]).to eq(user.first_name)
-        expect(user_json["lastName"]).to eq(user.last_name)
+        expect(user_json["firstName"]).to eq(user.firstName)
+        expect(user_json["lastName"]).to eq(user.lastName)
         expect(user_json["role"]).to eq(user.role)
       end
 

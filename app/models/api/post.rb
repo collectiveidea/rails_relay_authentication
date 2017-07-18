@@ -2,8 +2,8 @@ module API
   class Post < Dry::Struct
     constructor :schema
 
-    attribute :id, Types::Strict::String.optional
-    attribute :creatorId, Types::Strict::String.optional
+    attribute :id, Types::UUID
+    attribute :creatorId, Types::UUID
     attribute :title, Types::Strict::String.optional
     attribute :description, Types::Strict::String.optional
     attribute :image, Types::Strict::String.optional

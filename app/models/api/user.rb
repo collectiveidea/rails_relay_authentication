@@ -4,7 +4,7 @@ module API
 
     attribute :id, Types::UUID
     attribute :email, Types::Email
-    attribute :role, Types::Strict::String
+    attribute :role, Types::Role
     attribute :firstName, Types::Strict::String.optional
     attribute :lastName, Types::Strict::String.optional
     attribute :authentication_token, Types::Strict::String.optional

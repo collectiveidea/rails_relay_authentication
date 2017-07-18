@@ -69,7 +69,8 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
             create_post
           }.not_to change(Post.all, :count)
 
-          expect(errors).not_to be_nil
+          expect(errors.first["message"]).to include("title")
+          expect(errors.first["message"]).to include("must be filled")           
         end
 
         it "requires a valid description" do
@@ -79,7 +80,8 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
             create_post
           }.not_to change(Post.all, :count)
 
-          expect(errors).not_to be_nil
+          expect(errors.first["message"]).to include("description")
+          expect(errors.first["message"]).to include("must be filled")           
         end
 
         it "requires an image" do
@@ -89,7 +91,8 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
             create_post
           }.not_to change(Post.all, :count)
           
-          expect(errors).not_to be_nil
+          expect(errors.first["message"]).to include("image")
+          expect(errors.first["message"]).to include("must be filled")           
         end
       end
     end

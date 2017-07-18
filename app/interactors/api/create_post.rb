@@ -14,8 +14,9 @@ module API
     delegate :image, to: :context
 
     def call
+      context.fail!(error: "image must be filled") unless image.present?
       create_post = Datastore::Post::Create.call(post_attributes)
-
+      
       if create_post.success?
         context.post = post_from_datastore(create_post.full_attributes)
       else

@@ -34,7 +34,7 @@ Mutations::CreatePostMutation = GraphQL::Relay::Mutation.define do
         postEdge: range_add.edge,
       }
     else
-      GraphQL::ExecutionError.new("#{create_post.error}")
+      GraphQL::ExecutionError.new(create_post.error)
     end
   }
 end

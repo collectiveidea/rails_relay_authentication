@@ -1,12 +1,14 @@
 module Datastore
   module Post
     class Validate
-      include Interactor
-
+      include Interactor  
+    
       context_with Post::Context
-      
+
       def call
-        # validations
+        result = Datastore::PostSchema.call(context.full_attributes)
+
+        context.fail!(error: result.errors) if result.failure?
       end
     end
   end

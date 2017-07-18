@@ -5,10 +5,7 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
   let(:json) { JSON.parse(response.body)["data"] }
   let!(:viewer) { build(:viewer, :admin) }
   let(:image_path) { Rails.root.join("spec", "fixtures", "image1.jpg") }
-  let(:new_post) { build(:post, image: "/images/upload/image1.jpg", user_id: viewer.user.id) }
-  let(:new_post_image) {
-    fixture_file_upload(image_path)    
-  }
+  let(:new_post) { attributes_for(:post, creatorId: viewer.user.id) }
 
   describe "CreatePostMutation" do
     let(:query) {
@@ -32,9 +29,9 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
 
     let(:variables) {{
       "input" => {
-        "title" => new_post.title,
-        "description" => new_post.description,
-        "image" => new_post_image,
+        "title" => new_post[:title],
+        "description" => new_post[:description],
+        "image" => new_post[:image],
       }      
     }}
 
@@ -48,14 +45,14 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
         post(endpoint, params: { query: query, variables: variables })
 
         post_json = json["createPost"]["postEdge"]["node"]
-        expect(post_json["title"]).to eq(new_post.title)
-        expect(post_json["description"]).to eq(new_post.description)
-        expect(post_json["image"]).to eq(new_post.image)
+        expect(post_json["title"]).to eq(new_post[:title])
+        expect(post_json["description"]).to eq(new_post[:description])
+        expect(post_json["image"]).to eq(new_post[:image])
 
         post = Post.all.last
-        expect(post.title).to eq(new_post.title)
-        expect(post.description).to eq(new_post.description)
-        expect(post.image).to eq(new_post.image)
+        expect(post.title).to eq(new_post[:title])
+        expect(post.description).to eq(new_post[:description])
+        expect(post.image).to eq(new_post[:image])
       end
 
       describe "errors" do

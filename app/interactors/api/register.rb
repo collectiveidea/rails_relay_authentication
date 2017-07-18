@@ -15,7 +15,7 @@ module API
       create_user = Datastore::User::Create.call(user_attributes)
 
       if create_user.success?
-        context.user = user_from_datastore(create_user.to_h)
+        context.user = user_from_datastore(create_user.full_attributes)
       else
         context.fail!(error: create_user.error)
       end
@@ -23,7 +23,6 @@ module API
 
     def user_attributes
       user_attributes_for_datastore(
-        id: context.id,
         email: context.email,
         password: context.password,
         firstName: context.firstName,

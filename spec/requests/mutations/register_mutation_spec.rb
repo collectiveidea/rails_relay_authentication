@@ -25,8 +25,8 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
     let(:variables) {{
       "input" => {
         "email" => new_user[:email],
-        "firstName" => new_user[:first_name],
-        "lastName" => new_user[:last_name],
+        "firstName" => new_user[:firstName],
+        "lastName" => new_user[:lastName],
         "password" => "foobarbaz"                                
       }      
     }}
@@ -43,14 +43,14 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
 
         user_json = json["register"]["user"]
         expect(user_json["email"]).to eq(new_user[:email])
-        expect(user_json["firstName"]).to eq(new_user[:first_name])
-        expect(user_json["lastName"]).to eq(new_user[:last_name])
+        expect(user_json["firstName"]).to eq(new_user[:firstName])
+        expect(user_json["lastName"]).to eq(new_user[:lastName])
         #expect(user_json["role"]).to eq(new_user[:role]) # Fix the role thing in mutations
 
         user = User.all.last
         expect(user.email).to eq(new_user[:email])
-        expect(user.first_name).to eq(new_user[:first_name])
-        expect(user.last_name).to eq(new_user[:last_name])
+        expect(user.first_name).to eq(new_user[:firstName])
+        expect(user.last_name).to eq(new_user[:lastName])
         #expect(user.role).to eq(new_user[:role])
       end
 

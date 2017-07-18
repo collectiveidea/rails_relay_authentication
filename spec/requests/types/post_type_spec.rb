@@ -5,7 +5,7 @@ RSpec.describe "Types::PostType", type: "request" do
   let(:json) { JSON.parse(response.body)["data"] }
   let!(:viewer) { build(:viewer) }
   let(:user) { viewer.user }
-  let!(:user_posts) { create_list(:post, 3, user_id: user.id) }
+  let!(:user_posts) { create_list(:post, 3, creatorId: user.id) }
   let!(:other_posts) { create_list(:post, 5) }
   let(:user_post) { user_posts.last }
 

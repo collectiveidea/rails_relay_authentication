@@ -17,7 +17,7 @@ module API
       create_post = Datastore::Post::Create.call(post_attributes)
 
       if create_post.success?
-        context.post = post_from_datastore(create_post.to_h)
+        context.post = post_from_datastore(create_post.full_attributes)
       else
         context.fail!(error: create_post.error)
       end

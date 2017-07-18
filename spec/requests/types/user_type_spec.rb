@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe "Types::UserType", type: "request" do
   let(:endpoint) { "/graphql" }
   let(:json) { JSON.parse(response.body)["data"] }
-  let!(:viewer) { build(:viewer) }
-  let(:user) { viewer.user }
-  let!(:user_posts) { create_list(:post, 3, user_id: user.id) }
+  let!(:user) { create(:user) }
+  let(:viewer) { build(:viewer, id: user.id, role: user.role) }
+  let!(:user_posts) { create_list(:post, 3, creatorId: user.id) }
   let!(:other_posts) { create_list(:post, 5) }
 
   let(:user_json) { json["viewer"]["user"] }
@@ -41,7 +41,7 @@ RSpec.describe "Types::UserType", type: "request" do
 
       it "returns a user" do
         post(endpoint, params: { query: query }  )
-
+        
         expect(user_json["id"]).to eq(user.id)
         expect(user_json["email"]).to eq(user.email)
         expect(user_json["firstName"]).to eq(user.firstName)

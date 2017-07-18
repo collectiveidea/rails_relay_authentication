@@ -6,12 +6,13 @@ FactoryGirl.define do
       user
     end
 
-    id { SecureRandom.uuid }
-    user_id { user.id }
+    creatorId { user.id }
     title { Faker::Lorem.words(6).map(&:capitalize).join(" ") }
     description { Faker::Lorem.sentence }
-    image { Faker::Internet.url }
+    image {
+      ActionDispatch::Http::UploadedFile.new(tempfile: Tempfile.new('image1.jpg'), filename:  "my_image.jpg")      
+    }
 
-    initialize_with { Datastore::Post::Create.call(attributes.except(:user)) }
+    initialize_with { API::CreatePost.call(attributes.except(:user)).post }
   end
 end

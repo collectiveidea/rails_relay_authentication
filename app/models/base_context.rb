@@ -24,8 +24,12 @@
       end
     end
 
+    def full_attributes
+      Hash[self.class.accessors.map { |a| [a, send(a)] }]
+    end
+
     def to_h
-      Hash[@keys.map { |a| [a, send(a)] }]
+      full_attributes.slice(*@keys)
     end
 
     def as_record

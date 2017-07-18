@@ -10,7 +10,7 @@
     attr_accessor *accessors
 
     def initialize(args={})
-      @keys = args.keys
+      @keys = args.keys.map(&:to_sym)
       update(args)
     end
 

@@ -45,7 +45,7 @@ RSpec.describe "Types::ViewerType", type: "request" do
 
         expect(json["viewer"].keys).to eq(%w(user posts post))
         expect(json["viewer"]["user"]["id"]).to eq(user.id)
-        expect(post_ids).to eq(Post.all.map(&:id))
+        expect(post_ids).to eq(API::Post.all.map(&:id))
         expect(json["viewer"]["post"]["id"]).to eq(single_post.id)
       end
     end
@@ -74,7 +74,7 @@ RSpec.describe "Types::ViewerType", type: "request" do
 
         expect(json["viewer"].keys).to eq(%w(user posts post))
         expect(json["viewer"]["user"]).to be_nil
-        expect(post_ids).to eq(Post.all.map(&:id))
+        expect(post_ids).to eq(API::Post.all.map(&:id))
         expect(json["viewer"]["post"]["id"]).to eq(single_post.id)
       end
     end

@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :post do
+  factory :post, class: API::Post do
     skip_create
 
     transient do

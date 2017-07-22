@@ -1,5 +1,7 @@
 module API
   class Post < Dry::Struct
+    include DatastoreAdapter
+
     constructor :schema
 
     attribute :id, Types::UUID
@@ -12,21 +14,35 @@ module API
       @creator ||= API::User.find(creatorId)
     end
 
-    def self.by_user(id)
-      ::Post.by_user(id).map do |post|
-        API::Post.new(post.to_api)
+    module ClassMethods
+      def to_datastore(attrs)
+        attrs.transform_keys do |k|
+          key = k.to_sym
+          if key == :id
+            :uuid
+          elsif key == :creatorId
+            :user_id
+          else
+            key
+          end
+        end
+      end
+
+      def from_datastore(attrs={})
+        attrs = attrs.symbolize_keys
+        API::Post.new(
+          id:          attrs[:uuid],
+          title:       attrs[:title],
+          description: attrs[:description],
+          image:       attrs[:image],
+          creatorId:   attrs[:user_id]
+        )
+      end
+      
+      def by_user(user_id) 
+        where(user_id: Types::UUID[user_id])
       end
     end
-
-    def self.all
-      ::Post.all.map do |post|
-        API::Post.new(post.to_api)
-      end
-    end
-
-    def self.find(id)
-      return unless post = ::Post.find(id)
-      API::Post.new(post.to_api)
-    end
+    extend ClassMethods
   end
 end

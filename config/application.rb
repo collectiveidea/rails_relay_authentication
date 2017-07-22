@@ -29,6 +29,7 @@ module RailsRelayAuthentication
     config.generators.system_tests = nil
 
     config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths << Rails.root.join('lib', 'api')
     config.autoload_paths << Rails.root.join('app', 'interactors')
 
     config.api_only = true

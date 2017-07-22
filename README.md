@@ -86,8 +86,6 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 ## [Changelog](CHANGELOG.md)
 
 ## To Do
-- [ ] Real validations for models using dry-validation
-- [ ] Real sad paths and GraphQL errors for all the mutations
 - [ ] Storybook integration
 - [ ] Front-end testing with Jest + Storybook
 - [ ] Reset password feature

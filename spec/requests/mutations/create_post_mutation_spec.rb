@@ -49,7 +49,7 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
         expect(post_json["description"]).to eq(new_post[:description])
         expect(post_json["image"]).to eq("/images/upload/image1.jpg")
 
-        post = Post.all.last
+        post = API::Post.all.last
         expect(post.title).to eq(new_post[:title])
         expect(post.description).to eq(new_post[:description])
         expect(post.image).to eq("/images/upload/image1.jpg")
@@ -67,7 +67,7 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
 
           expect {
             create_post
-          }.not_to change(Post.all, :count)
+          }.not_to change(API::Post.all, :count)
 
           expect(errors.first["message"]).to include("title")
           expect(errors.first["message"]).to include("must be filled")           
@@ -78,7 +78,7 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
 
           expect {
             create_post
-          }.not_to change(Post.all, :count)
+          }.not_to change(API::Post.all, :count)
 
           expect(errors.first["message"]).to include("description")
           expect(errors.first["message"]).to include("must be filled")           
@@ -89,7 +89,7 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
 
           expect {
             create_post
-          }.not_to change(Post.all, :count)
+          }.not_to change(API::Post.all, :count)
           
           expect(errors.first["message"]).to include("image")
           expect(errors.first["message"]).to include("must be filled")           

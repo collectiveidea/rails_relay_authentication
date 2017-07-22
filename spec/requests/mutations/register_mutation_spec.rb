@@ -39,7 +39,7 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
       it "returns a user" do
         expect {
           register_user
-        }.to change { User.all.count }.by(1)
+        }.to change { API::User.all.count }.by(1)
 
         user_json = json["register"]["user"]
         expect(user_json["email"]).to eq(new_user[:email])
@@ -47,10 +47,10 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
         expect(user_json["lastName"]).to eq(new_user[:lastName])
         #expect(user_json["role"]).to eq(new_user[:role]) # Fix the role thing in mutations
 
-        user = User.all.last
+        user = API::User.all.last
         expect(user.email).to eq(new_user[:email])
-        expect(user.first_name).to eq(new_user[:firstName])
-        expect(user.last_name).to eq(new_user[:lastName])
+        expect(user.firstName).to eq(new_user[:firstName])
+        expect(user.lastName).to eq(new_user[:lastName])
         #expect(user.role).to eq(new_user[:role])
       end
 
@@ -62,7 +62,7 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
 
           expect {
             register_user
-          }.not_to change(User.all, :count)
+          }.not_to change(API::User.all, :count)
 
           expect(errors).not_to be_nil
         end
@@ -72,7 +72,7 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
 
           expect {
             register_user
-          }.not_to change(User.all, :count)
+          }.not_to change(API::User.all, :count)
           expect(errors).not_to be_nil
         end
 
@@ -81,7 +81,7 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
 
           expect {
             register_user
-          }.not_to change(User.all, :count)
+          }.not_to change(API::User.all, :count)
           
           expect(errors).not_to be_nil
         end

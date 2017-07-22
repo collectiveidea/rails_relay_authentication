@@ -36,6 +36,11 @@ module API
           from_datastore record
         end
       end
+
+      def count
+        @datastore_class.count
+      end
+
     end
   end
 end

@@ -17,7 +17,7 @@ Mutations::RegisterMutation = GraphQL::Relay::Mutation.define do
   return_field :user, Types::UserType
 
   resolve ->(object, inputs, ctx) {
-    existing_user = User.find_by(email: inputs[:email])
+    existing_user = API::User.find_by(email: inputs[:email])
     
     if existing_user
       GraphQL::ExecutionError.new("Email already taken")

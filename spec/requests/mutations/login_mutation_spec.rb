@@ -53,7 +53,7 @@ RSpec.describe "Mutations::LoginMutation", type: "request" do
 
           expect {
             register_user
-          }.not_to change(User.all, :count)
+          }.not_to change(API::User, :count)
 
           expect(errors.first["message"]).to eq("Variable input of type LoginInput! was provided invalid value")
         end
@@ -63,7 +63,7 @@ RSpec.describe "Mutations::LoginMutation", type: "request" do
 
           expect {
             register_user
-          }.not_to change(User.all, :count)
+          }.not_to change(API::User, :count)
           expect(errors.first["message"]).to eq("Wrong email or password")
         end
 
@@ -72,7 +72,7 @@ RSpec.describe "Mutations::LoginMutation", type: "request" do
 
           expect {
             register_user
-          }.not_to change(User.all, :count)
+          }.not_to change(API::User, :count)
           
           expect(errors.first["message"]).to eq("Variable input of type LoginInput! was provided invalid value")
         end

@@ -17,6 +17,10 @@ module Datastore
         table.to_a
       end
 
+      def count
+        table.count
+      end
+
       def table
         Datastore.posts
       end

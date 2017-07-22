@@ -3,12 +3,12 @@ module API
     extend ActiveSupport::Concern
 
     included do
-      set_datastore_class "Datastore::#{self.name.split('::').last}".constantize
+      set_datastore_table self.name.split('::').last.pluralize.downcase.to_sym
     end
 
     module ClassMethods
-      def set_datastore_class(klass)
-        @datastore_class = klass
+      def set_datastore_table(table)
+        @table = table
       end
       
       def find(uuid)
@@ -16,31 +16,30 @@ module API
       end
 
       def where(params)
-        @datastore_class.where(params).map do |record|
+        Datastore.where(@table, params).map do |record|
           from_datastore record
         end
       end
 
       def find_by(params)
-        if record = @datastore_class.find_by(params)
+        if record = Datastore.find_by(@table, params)
           from_datastore record
         end
       end
 
       def delete_all
-        @datastore_class.delete_all
+        Datastore.delete_all(@table)
       end
 
       def all
-        @datastore_class.all.map do |record|
+        Datastore.all(@table).map do |record|
           from_datastore record
         end
       end
 
       def count
-        @datastore_class.count
+        Datastore.count(@table)
       end
-
     end
   end
 end

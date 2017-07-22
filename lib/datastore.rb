@@ -21,6 +21,26 @@ module Datastore
     def posts
       db[:posts]
     end
+
+    def find_by(table, params)
+      where(table, params).first
+    end
+
+    def where(table, params)
+      db[table].where(params)
+    end
+
+    def delete_all(table)
+      db[table].delete
+    end
+
+    def all(table)
+      db[table].to_a
+    end
+
+    def count(table)
+      db[table].count
+    end
   end
   extend ClassMethods
 end

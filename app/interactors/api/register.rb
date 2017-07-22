@@ -1,7 +1,7 @@
 module API
   class Register
     include Interactor
-    include API::WithDatastore
+    include API::DatastoreAdapter
 
     class Context < BaseContext
       def self.accessors

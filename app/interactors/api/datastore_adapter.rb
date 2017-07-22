@@ -1,5 +1,5 @@
 module API
-  module WithDatastore
+  module DatastoreAdapter
     extend ActiveSupport::Concern
 
     def user_attributes_for_datastore(attrs)

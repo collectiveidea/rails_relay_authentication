@@ -1,5 +1,5 @@
-Post.delete_all
-User.delete_all
+API::Post.delete_all
+API::User.delete_all
 
 users = JSON.parse(
   File.open(Rails.root.join('spec', 'fixtures', 'users.json'), "r") { |f| f.read }

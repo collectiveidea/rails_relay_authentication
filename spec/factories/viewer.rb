@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :viewer do
+  factory :viewer, class: API::Viewer do
     skip_create
 
     transient { user }

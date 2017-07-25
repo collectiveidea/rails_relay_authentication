@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { createFragmentContainer, graphql } from 'react-relay'
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import MenuItem from 'material-ui/MenuItem'
 
 import LogoutMutation from '../../mutation/LogoutMutation'
@@ -24,35 +24,39 @@ const NavigationUserMenu = ({ viewer, navigateTo, relay }) => {
 
   if (canPublish) {
     return (
-      <span>
-        <MenuItem onClick={() => navigateTo('/user')}>
-          Profile
-        </MenuItem>
+      <MuiThemeProvider>
+        <span>
+          <MenuItem onClick={() => navigateTo('/user')}>
+            Profile
+          </MenuItem>
 
-        <MenuItem onClick={() => navigateTo('/user/post/create')}>
-          Create Post
-        </MenuItem>
+          <MenuItem onClick={() => navigateTo('/user/post/create')}>
+            Create Post
+          </MenuItem>
 
-        <MenuItem onClick={() => navigateTo('/user/posts')}>
-          My Posts
-        </MenuItem>
+          <MenuItem onClick={() => navigateTo('/user/posts')}>
+            My Posts
+          </MenuItem>
 
-        <MenuItem onClick={() => onLogout(relay.environment)}>
-          Logout
-        </MenuItem>
-      </span>
+          <MenuItem onClick={() => onLogout(relay.environment)}>
+            Logout
+          </MenuItem>
+        </span>
+      </MuiThemeProvider>
     )
   } else if (isLoggedIn) {
     return (
-      <span>
-        <MenuItem onClick={() => navigateTo('/user')}>
-          Profile
-        </MenuItem>
+      <MuiThemeProvider>
+        <span>
+          <MenuItem onClick={() => navigateTo('/user')}>
+            Profile
+          </MenuItem>
 
-        <MenuItem onClick={() => onLogout(relay.environment)}>
-          Logout
-        </MenuItem>
-      </span>
+          <MenuItem onClick={() => onLogout(relay.environment)}>
+            Logout
+          </MenuItem>
+        </span>
+      </MuiThemeProvider>
     )
   }
 

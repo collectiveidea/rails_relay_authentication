@@ -1,14 +1,10 @@
 import React from 'react';
-import { storiesOf, action, linkTo } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
 import Button from './Button';
 import Welcome from './Welcome';
 import NavigationUserMenu from './../client/components/navigation/NavigationUserMenu';
 import StubContainer from "react-storybooks-relay-container"
-
-storiesOf('Welcome', module)
-  .add('to Storybook', () => (
-    <Welcome showApp={linkTo('Button')}/>
-  ));
 
 storiesOf('Button', module)
   .add('with text', () => (

@@ -9,7 +9,7 @@
     "relay-compiler:watch": "relay-compiler --src client --schema server/graphql/schema.graphql --watch",
     "update-schema": "babel-node ./scripts/updateSchema.js",
     "test:server": "mocha --compilers js:babel-core/register --require server/test/testHelper.js 'server/test/**/*.js'",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -c .storybook",
     "build-storybook": "build-storybook"
   },
   "repository": {
@@ -29,7 +29,8 @@
   },
   "homepage": "https://github.com/jkettmann/relay-authentication",
   "devDependencies": {
-    "@kadira/storybook": "^2.35.3",
+    "@storybook/addon-actions": "^3.1.9",
+    "@storybook/react": "^3.1.9",
     "autoprefixer": "^7.1.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",

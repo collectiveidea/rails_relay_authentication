@@ -22,10 +22,7 @@ storiesOf('NavigationUserMenu', module)
   .add('can publish', () => {
     const viewer = {
       canPublish: true,
-      isLoggedIn: true,
-      user: {
-        id: '1'
-      }
+      isLoggedIn: true
     };
 
     const navigateTo = (target) => {
@@ -39,6 +36,32 @@ storiesOf('NavigationUserMenu', module)
 
     return <StubContainer Component={NavigationUserMenu} props={props} />;
   })
-  .add('is logged in', () => (
-    <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>
-  ));
+  .add('cannot publish', () => {
+    const viewer = {
+      canPublish: false,
+      isLoggedIn: true
+    };
+
+    const navigateTo = (target) => {
+      console.log(target)
+    };
+
+    const props = {
+      viewer: viewer,
+      navigateTo: navigateTo
+    }
+
+    return <StubContainer Component={NavigationUserMenu} props={props} />;
+  })  .add('is not logged in', () => {
+    const viewer = {}
+
+    const navigateTo = (target) => {
+      console.log(target)
+    };
+
+    const props = {
+      viewer: viewer,
+      navigateTo: navigateTo
+    }
+    return <StubContainer Component={NavigationUserMenu} props={props} />;
+  });

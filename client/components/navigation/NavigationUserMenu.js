@@ -60,7 +60,11 @@ const NavigationUserMenu = ({ viewer, navigateTo, relay }) => {
     )
   }
 
-  return <MenuItem onClick={() => navigateTo('/login')}>Login</MenuItem>
+  return (
+    <MuiThemeProvider>
+      <MenuItem onClick={() => navigateTo('/login')}>Login</MenuItem>
+    </MuiThemeProvider>
+  )
 }
 
 NavigationUserMenu.propTypes = {

@@ -6,6 +6,6 @@ Rails.application.config.middleware.insert_after Rack::ETag, Warden::Manager do 
   end
 
   manager.serialize_from_session do |attributes|
-    Viewer.new(attributes.symbolize_keys)
+    API::Viewer.new(attributes.symbolize_keys)
   end
 end

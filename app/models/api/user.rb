@@ -1,8 +1,6 @@
 module API
   class User < Dry::Struct
     include DatastoreAdapter
-    
-    ROLES = { "reader" => 0, "publisher" => 1, "admin" => 2 }
 
     constructor :schema
 
@@ -29,7 +27,7 @@ module API
 
     module ClassMethods
       def publisher_roles
-        ROLES.keys[1..2]
+        Types::USER_ROLES.keys[1..2]
       end
 
       def to_datastore(attrs)
@@ -39,7 +37,7 @@ module API
             if key == :id
               [:uuid, v]
             elsif key == :role
-              [key, User::ROLES[v.to_s]]
+              [key, Types::USER_ROLES[v.to_s]]
             elsif key == :firstName
               [:first_name, v]
             elsif key == :lastName
@@ -58,7 +56,7 @@ module API
           firstName:            attrs[:first_name],
           lastName:             attrs[:last_name],
           email:                attrs[:email],
-          role:                 attrs[:role] ? User::ROLES.keys[attrs[:role]] : nil,
+          role:                 attrs[:role] ? Types::USER_ROLES.keys[attrs[:role]] : nil,
           authentication_token: attrs[:authentication_token],
           password_digest:      attrs[:password_digest]
         )

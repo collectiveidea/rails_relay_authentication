@@ -8,7 +8,9 @@
     "relay-compiler": "relay-compiler --src client --schema server/graphql/schema.graphql",
     "relay-compiler:watch": "relay-compiler --src client --schema server/graphql/schema.graphql --watch",
     "update-schema": "babel-node ./scripts/updateSchema.js",
-    "test:server": "mocha --compilers js:babel-core/register --require server/test/testHelper.js 'server/test/**/*.js'"
+    "test:server": "mocha --compilers js:babel-core/register --require server/test/testHelper.js 'server/test/**/*.js'",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
@@ -64,7 +66,8 @@
     "supertest": "^2.0.0",
     "webpack": "^2.6.1",
     "webpack-dev-middleware": "^1.10.2",
-    "webpack-hot-middleware": "^2.18.0"
+    "webpack-hot-middleware": "^2.18.0",
+    "@kadira/storybook": "^2.21.0"
   },
   "dependencies": {
     "connect-history-api-fallback": "^1.3.0",

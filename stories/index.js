@@ -14,49 +14,39 @@ storiesOf('Button', module)
   ));
 
 storiesOf('NavigationUserMenu', module)
-.add('can publish', () => {
-  const viewer = {
-    canPublish: true,
-    isLoggedIn: true
-  };
-
-  const props = {
-    viewer: viewer,
-    navigateTo: (target) => action(target)
-  }
-
-  return(
+  .addDecorator(story => (
     <MuiThemeProvider>
-      <StubContainer Component={NavigationUserMenu} props={props} />
+      {story()}
     </MuiThemeProvider>
-  )
-})
-.add('cannot publish', () => {
-  const viewer = {
-    canPublish: false,
-    isLoggedIn: true
-  };
+  ))
 
-  const props = {
-    viewer: viewer,
-    navigateTo: (target) => action(target)
-  }
+  .add('can publish', () => {
+    const props = {
+      viewer: {
+        canPublish: true,
+        isLoggedIn: true
+      },
+      navigateTo: (target) => action(target)
+    }
 
-  return(
-    <MuiThemeProvider>
-      <StubContainer Component={NavigationUserMenu} props={props} />
-    </MuiThemeProvider>
-  )
-})  .add('is not logged in', () => {
-  const viewer = {}
+    return <StubContainer Component={NavigationUserMenu} props={props} />
+  })
+  .add('cannot publish', () => {
+    const props = {
+      viewer: {
+        canPublish: false,
+        isLoggedIn: true
+      },
+      navigateTo: (target) => action(target)
+    }
 
-  const props = {
-    viewer: viewer,
-    navigateTo: (target) => action(target)
-  }
-  return(
-    <MuiThemeProvider>
-      <StubContainer Component={NavigationUserMenu} props={props} />
-    </MuiThemeProvider>
-  )
-});
+    return <StubContainer Component={NavigationUserMenu} props={props} />
+  })
+  .add('is not logged in', () => {
+
+    const props = {
+      viewer: {},
+      navigateTo: (target) => action(target)
+    }
+    return <StubContainer Component={NavigationUserMenu} props={props} />
+  });

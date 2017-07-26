@@ -5008,6 +5008,12 @@ react-static-container@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-static-container/-/react-static-container-1.0.1.tgz#694c0dd68a896b879519afb548399cc1989c9ab0"
 
+react-storybooks-relay-container@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-storybooks-relay-container/-/react-storybooks-relay-container-1.2.1.tgz#7106f0663f68d73705972b9a246508d6e5ae8306"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-stubber@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-stubber/-/react-stubber-1.0.0.tgz#41ee2cac72d4d4fd70a63896da98e13739b84628"

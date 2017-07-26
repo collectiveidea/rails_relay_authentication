@@ -8,8 +8,6 @@ class GraphqlController < ApplicationController
     }
     result = RailsRelayAuthenticationSchema.execute(query, variables: variables, context: context)
     
-    # We need serializers here because a CreatePost error will try to pass back the attached image in the
-    # vector, which will break the json serliazer
     render json: result
   end
 

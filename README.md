@@ -90,3 +90,5 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 - [ ] Front-end testing with Jest + Storybook
 - [ ] Reset password feature
 - [ ] Delete post mutation
+- [ ] API key for front-end (with warden scopes)
+- [ ] SSL all the things

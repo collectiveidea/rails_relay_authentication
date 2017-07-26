@@ -25,6 +25,7 @@ Mutations::RegisterMutation = GraphQL::Relay::Mutation.define do
       register = API::Register.call(inputs)
 
       if register.success?
+        ctx[:warden].set_user(register.user)
         { user: register.user }
       else
         GraphQL::ExecutionError.new(register.error)

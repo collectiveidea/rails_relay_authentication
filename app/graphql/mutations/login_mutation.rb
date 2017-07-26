@@ -1,5 +1,5 @@
 Mutations::LoginMutation = GraphQL::Relay::Mutation.define do
-  # Used to name derived types, eg `"AddFeatureInput"`:
+  # Used to name derived types, eg `"LoginMutation"`:
   name  'Login'
 
   # Accessible from `inputs` in the resolve function:
@@ -9,7 +9,7 @@ Mutations::LoginMutation = GraphQL::Relay::Mutation.define do
   return_field :user, Types::UserType
 
   resolve ->(object, inputs, ctx) {
-    user = API::User.find_by(email: inputs[:email])
+    user = API::User.find_by_email(inputs[:email])
     
     if user && user.authenticate(inputs[:password])
       ctx[:warden].set_user(user)

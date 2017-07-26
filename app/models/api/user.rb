@@ -26,6 +26,10 @@ module API
     end
 
     module ClassMethods
+      def find_by_email(email)
+        find_by(email: email.downcase)
+      end
+
       def publisher_roles
         Types::USER_ROLES.keys[1..2]
       end

@@ -8,6 +8,7 @@
     "relay-compiler": "relay-compiler --src client --schema server/graphql/schema.graphql",
     "relay-compiler:watch": "relay-compiler --src client --schema server/graphql/schema.graphql --watch",
     "update-schema": "babel-node ./scripts/updateSchema.js",
+    "storybook": "start-storybook -p 9001 -c .storybook",
     "test:server": "mocha --compilers js:babel-core/register --require server/test/testHelper.js 'server/test/**/*.js'"
   },
   "repository": {
@@ -27,6 +28,7 @@
   },
   "homepage": "https://github.com/jkettmann/relay-authentication",
   "devDependencies": {
+    "@storybook/react": "^3.1.9",
     "autoprefixer": "^7.1.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",

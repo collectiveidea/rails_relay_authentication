@@ -41,7 +41,7 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
         allow(FileUtils).to receive(:mv)
       }
 
-      it "returns a user" do
+      it "returns a post" do
         post(endpoint, params: { query: query, variables: variables })
         
         post_json = json["createPost"]["postEdge"]["node"]
@@ -93,6 +93,18 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
           
           expect(errors.first["message"]).to include("image")
           expect(errors.first["message"]).to include("must be filled")           
+        end
+
+        context "not an admin" do
+          let(:viewer) { build(:viewer, :reader)}
+
+          it "does not let a reader create a post" do
+            expect {
+              create_post
+            }.not_to change(API::Post.all, :count)
+            
+            expect(errors.first["message"]).to include("Forbidden")
+          end
         end
       end
     end

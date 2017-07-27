@@ -86,10 +86,8 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 ## [Changelog](CHANGELOG.md)
 
 ## To Do
-- [ ] Storybook integration
-- [ ] Front-end testing with Jest + Storybook
-- [ ] Policy + role support with pundit
 - [ ] Reset password feature
+- [ ] Policy + role support with pundit
 - [ ] Delete post mutation
 - [ ] API key for front-end (with warden scopes)
 - [ ] SSL all the things

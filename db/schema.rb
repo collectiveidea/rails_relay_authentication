@@ -26,7 +26,7 @@ Sequel.migration do
     create_table(:posts) do
       primary_key :id
       column :uuid, "uuid", :default=>Sequel::LiteralString.new("uuid_generate_v4()"), :null=>false
-      foreign_key :user_id, :users, :type=>"uuid", :null=>false, :key=>[:uuid]
+      foreign_key :user_id, :users, :type=>"uuid", :key=>[:uuid]
       column :title, "text"
       column :image, "text"
       column :description, "text"

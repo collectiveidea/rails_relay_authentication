@@ -35,6 +35,7 @@ RSpec.describe "Mutations::CreatePasswordResetMutation", type: "request" do
         expect(password_reset[:user_uuid]).to eq(user.id)
         expect(password_reset[:token]).to be_a(String)
         expect(password_reset[:token].length).to eq(24)
+        expect(password_reset[:created_at]).to be_within(1.minute).of Time.now
         expect(password_reset[:expires_at]).to be_within(1.minute).of 1.week.from_now
       end
 

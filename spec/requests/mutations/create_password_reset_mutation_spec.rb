@@ -31,10 +31,10 @@ RSpec.describe "Mutations::CreatePasswordResetMutation", type: "request" do
 
         expect(json["createPasswordReset"]["user"]).to be_nil
 
-        password_reset = Database.password_resets.first
-        expect(password_reset.user_id).to eq(user.id)
-        expect(password_reset.token).to be_a(String)
-        expect(password_reset.token.length).to eq(24)
+        password_reset = Datastore.password_resets.first
+        expect(password_reset[:user_uuid]).to eq(user.id)
+        expect(password_reset[:token]).to be_a(String)
+        expect(password_reset[:token].length).to eq(24)
       end
 
       describe "errors" do
@@ -60,7 +60,7 @@ RSpec.describe "Mutations::CreatePasswordResetMutation", type: "request" do
           expect {
             register_user
           }.not_to change(API::User, :count)
-          expect(errors.first["message"]).to eq("Wrong email or password")
+          expect(errors.first["message"]).to eq("User not found")
         end
       end
     end

@@ -6,9 +6,12 @@ Mutations::CreatePasswordResetMutation = GraphQL::Relay::Mutation.define do
   return_field :user, Types::UserType
 
   resolve ->(object, inputs, ctx) {
-    Rails.logger.debug "#{inputs[:email]} forgot their password!"
-    puts "#{inputs[:email]} forgot their password!"
+    create_password_reset = API::CreatePasswordReset.call(email: inputs[:email])
 
-    { user: nil } 
+    if create_password_reset.success?
+      { user: nil }
+    else
+      GraphQL::ExecutionError.new(create_password_reset.error)
+    end
   }
 end

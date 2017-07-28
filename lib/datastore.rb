@@ -22,6 +22,10 @@ module Datastore
       db[:posts]
     end
 
+    def password_resets
+      db[:password_resets]
+    end
+
     def find_by(table, params)
       where(table, params).first
     end

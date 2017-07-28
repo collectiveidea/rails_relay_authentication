@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'found/lib/Link'
 import PropTypes from 'prop-types'
 import { routerShape } from 'found/lib/PropTypes'
 import { createFragmentContainer, graphql } from 'react-relay'
@@ -104,6 +105,10 @@ class LoginPage extends React.Component {
           />
 
         </Formsy.Form>
+
+        <div className={styles.passwordLink}>
+          <Link to={'#'}>Forgot your password?</Link>
+        </div>
 
       </div>
     )

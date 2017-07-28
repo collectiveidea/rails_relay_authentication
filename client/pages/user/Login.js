@@ -107,7 +107,7 @@ class LoginPage extends React.Component {
         </Formsy.Form>
 
         <div className={styles.passwordLink}>
-          <Link to={'#'}>Forgot your password?</Link>
+          <Link to={'/forgot'}>Forgot your password?</Link>
         </div>
 
       </div>

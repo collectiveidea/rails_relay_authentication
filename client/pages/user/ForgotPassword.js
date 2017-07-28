@@ -8,7 +8,7 @@ import Formsy from 'formsy-react'
 import { FormsyText } from 'formsy-material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import ForgotPasswordMutation from '../../mutation/ForgotPasswordMutation'
+import CreatePasswordResetMutation from '../../mutation/CreatePasswordResetMutation'
 import { ERRORS } from '../../../config'
 
 import styles from './Login.css'
@@ -30,7 +30,7 @@ class ForgotPasswordPage extends React.Component {
 
   forgotPassword = ({ email }) => {
     const environment = this.props.relay.environment
-    ForgotPasswordMutation.commit({
+    CreatePasswordResetMutation.commit({
       environment,
       input: { email },
       onCompleted: () => this.props.router.go(-1),

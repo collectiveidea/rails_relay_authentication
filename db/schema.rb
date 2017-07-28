@@ -25,13 +25,13 @@ Sequel.migration do
     
     create_table(:password_resets) do
       primary_key :id
-      foreign_key :user_id, :users, :null=>false, :key=>[:id]
+      foreign_key :user_uuid, :users, :type=>"uuid", :null=>false, :key=>[:uuid]
       column :token, "text", :null=>false
       column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       column :expires_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       
       index [:token]
-      index [:user_id]
+      index [:user_uuid]
     end
     
     create_table(:posts) do

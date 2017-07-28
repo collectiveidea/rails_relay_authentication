@@ -1,8 +1,8 @@
 import { commitMutation, graphql } from 'react-relay'
 
 const mutation = graphql`
-  mutation ForgotPasswordMutation($input: ForgotPasswordInput!) {
-    forgotPassword(input: $input) {
+  mutation CreatePasswordResetMutation($input: CreatePasswordResetInput!) {
+    createPasswordReset(input: $input) {
       user {
         id
       }

@@ -8,8 +8,8 @@ import Formsy from 'formsy-react'
 import { FormsyText } from 'formsy-material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
 
-// import LoginMutation from '../../mutation/LoginMutation'
-// import { ERRORS } from '../../../config'
+import ForgotPasswordMutation from '../../mutation/ForgotPasswordMutation'
+import { ERRORS } from '../../../config'
 
 import styles from './Login.css'
 
@@ -28,8 +28,25 @@ class ForgotPasswordPage extends React.Component {
     this.formElement = element
   }
 
-  submitEmail = ({ email }) => {
-    console.log(email)
+  forgotPassword = ({ email }) => {
+    const environment = this.props.relay.environment
+    ForgotPasswordMutation.commit({
+      environment,
+      input: { email },
+      onCompleted: () => this.props.router.go(-1),
+      onError: (errors) => {
+        console.error('login failed', errors[0])
+        const formError = {}
+        switch (errors[0]) {
+          case ERRORS.WrongEmailOrPassword:
+            formError.email = 'Email is invalid'
+            break
+          default:
+            break
+        }
+        this.formElement.updateInputsWithError(formError)
+      },
+    })
   }
 
   render() {
@@ -51,7 +68,7 @@ class ForgotPasswordPage extends React.Component {
 
         <Formsy.Form
           ref={this.setFormElement}
-          onSubmit={this.submitEmail}
+          onSubmit={this.forgotPassword}
           className={styles.form}
         >
 

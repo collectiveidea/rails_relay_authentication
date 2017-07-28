@@ -3,7 +3,7 @@ module API
     extend ActiveSupport::Concern
 
     included do
-      set_datastore_table self.name.split('::').last.pluralize.downcase.to_sym
+      set_datastore_table self.name.split('::').last.pluralize.underscore.to_sym
     end
 
     module ClassMethods

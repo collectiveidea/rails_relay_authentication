@@ -23,11 +23,22 @@ Sequel.migration do
       :function_name=>:posts_set_created_at,
       :trigger_name=>:set_created_at
     )
+
+    pgt_updated_at(
+      :posts,
+      :updated_at,
+      :function_name=>:posts_set_updated_at,
+      :trigger_name=>:set_updated_at
+    )
   end
 
   down do
     drop_trigger(:posts, :set_created_at)
     drop_function(:posts_set_created_at)
+
+    drop_trigger(:posts, :set_updated_at)
+    drop_function(:posts_set_updated_at)
+
     drop_table(:posts)
   end
 end

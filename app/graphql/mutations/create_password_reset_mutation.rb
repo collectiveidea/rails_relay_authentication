@@ -1,5 +1,5 @@
-Mutations::ForgotPasswordMutation = GraphQL::Relay::Mutation.define do
-  name  'ForgotPassword'
+Mutations::CreatePasswordResetMutation = GraphQL::Relay::Mutation.define do
+  name  'CreatePasswordReset'
 
   input_field :email, !types.String
 

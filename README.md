@@ -86,11 +86,12 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 ## [Changelog](CHANGELOG.md)
 
 ## To Do
-- [ ] Reset password feature
+- [X] Reset password feature
 - [ ] Delete post mutation
 - [ ] Policy + role support with pundit
 - [ ] CRUD comments on posts
 - [ ] CRUD images in posts
+- [ ] Sendgrid integration for mails (register, password reset)
 - [ ] Report or Block user
 - [ ] API key for front-end (with warden scopes)
 - [ ] SSL all the things

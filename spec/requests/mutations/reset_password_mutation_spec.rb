@@ -37,8 +37,6 @@ RSpec.describe "Mutations::ResetPasswordMutation", type: "request" do
           API::User.find(user.id).password_digest          
         }
 
-        puts response.body
-        
         user_json = json["resetPassword"]["user"]
 
         expect(user_json['id']).to eq(user.id)
@@ -62,7 +60,7 @@ RSpec.describe "Mutations::ResetPasswordMutation", type: "request" do
             reset_password
           }.not_to change(API::User, :count)
 
-          expect(errors.first["message"]).to eq("Variable input of type ResetPasswordInput! was provided invalid value")
+          expect(errors.first["message"]).to eq("New password required")
         end
 
         it "requires a valid reset token" do
@@ -71,7 +69,7 @@ RSpec.describe "Mutations::ResetPasswordMutation", type: "request" do
           expect {
             reset_password
           }.not_to change(API::User, :count)
-          expect(errors.first["message"]).to eq("Resource not found")
+          expect(errors.first["message"]).to eq("Token not found")
         end
       end
     end

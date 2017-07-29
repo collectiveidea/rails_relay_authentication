@@ -3,8 +3,9 @@ module API
     include Interactor
 
     def call
-      context.fail!(error: "New password required") unless context.newPassword.present?
+      context.fail!(error: "New password required") unless new_password = context.newPassword.presence
       context.fail!(error: "Password reset token required") unless context.token.present?
+      
       context.fail!(error: "Token not found") unless password_reset = API::PasswordReset.find_by_token(context.token)
       context.fail!(error: "Token expired") unless password_reset.expires_at >= Time.current
 
@@ -12,7 +13,7 @@ module API
 
       if update_user.success?
         Datastore::PasswordReset::Delete.call(token: password_reset.token)
-        context.user = update_user.user
+        context.user = API::User.from_datastore(update_user.full_attributes)
       else
         context.fail!(error: update_user.error)
       end

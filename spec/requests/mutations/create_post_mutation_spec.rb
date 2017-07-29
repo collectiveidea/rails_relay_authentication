@@ -101,8 +101,7 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
           it "does not let a reader create a post" do
             expect {
               create_post
-            }.not_to change(API::Post.all, :count)
-            
+            }.not_to change { Datastore.posts.count }
             expect(errors.first["message"]).to include("Forbidden")
           end
         end

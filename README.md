@@ -87,7 +87,9 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 
 ## To Do
 - [ ] Reset password feature
-- [ ] Policy + role support with pundit
 - [ ] Delete post mutation
+- [ ] Policy + role support with pundit
+- [ ] CRUD comments on posts
+- [ ] Moderate comments on posts
 - [ ] API key for front-end (with warden scopes)
 - [ ] SSL all the things

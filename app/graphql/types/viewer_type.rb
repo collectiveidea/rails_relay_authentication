@@ -24,6 +24,7 @@ Types::ViewerType = GraphQL::ObjectType.define do
 
   connection :posts, Types::PostType.connection_type do
     argument :first, types.Int
+    argument :after, types.String
     
     resolve ->(obj, args, ctx) {
       API::Post.all

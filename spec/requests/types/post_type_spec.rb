@@ -48,21 +48,7 @@ RSpec.describe "Types::PostType", type: "request" do
             }
           }
         GRAPHQL
-
-        second_query = <<-GRAPHQL
-          {
-            viewer {
-              posts(first: 1 after: "${cursor}") {
-                edges {
-                  node {
-                    id, creator { firstName }, title, image, description
-                  }
-                }
-              }
-            }
-          }
-        GRAPHQL
-
+        
         post(endpoint, params: { query: first_query })
         
         cursor = json['viewer']['posts']['edges'][0]['cursor']
@@ -73,6 +59,20 @@ RSpec.describe "Types::PostType", type: "request" do
         expect(first_post_json['id']).to eq(first_post[:uuid])
         expect(first_post_json['title']).to eq(first_post[:title])
         expect(first_post_json['image']).to eq(first_post[:image])
+
+        second_query = <<-GRAPHQL
+          {
+            viewer {
+              posts(first: 1 after: "#{cursor}") {
+                edges {
+                  node {
+                    id, creator { firstName }, title, image, description
+                  }
+                }
+              }
+            }
+          }
+        GRAPHQL
 
         post(endpoint, params: { query: second_query })
 

@@ -5,7 +5,7 @@ module API
     constructor :schema
 
     attribute :user_id, Types::UUID
-    attribute :token, Types::Strict::String
+    attribute :token, Types::Strict::String.constrained(min_size: 32)
     attribute :expires_at, Types::Strict::Time
 
 

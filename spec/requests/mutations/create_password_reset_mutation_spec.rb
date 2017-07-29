@@ -34,7 +34,25 @@ RSpec.describe "Mutations::CreatePasswordResetMutation", type: "request" do
         password_reset = Datastore.password_resets.first
         expect(password_reset[:user_uuid]).to eq(user.id)
         expect(password_reset[:token]).to be_a(String)
-        expect(password_reset[:token].length).to eq(24)
+        expect(password_reset[:token].length).to eq(32)
+        expect(password_reset[:created_at]).to be_within(1.minute).of Time.now
+        expect(password_reset[:expires_at]).to be_within(1.minute).of 1.week.from_now
+      end
+
+      it "deletes any existing password_resets for this user" do
+        existing_token = API::CreatePasswordReset.call(email: user.email).token
+
+        expect {
+          post(endpoint, params: { query: query, variables: variables })
+        }.not_to change { Datastore.password_resets.count }
+
+        expect(json["createPasswordReset"]["user"]).to be_nil
+
+        password_reset = Datastore.password_resets.first
+        expect(password_reset[:user_uuid]).to eq(user.id)
+        expect(password_reset[:token]).to be_a(String)
+        expect(password_reset[:token].length).to eq(32)
+        expect(password_reset[:token]).not_to eq(existing_token)
         expect(password_reset[:created_at]).to be_within(1.minute).of Time.now
         expect(password_reset[:expires_at]).to be_within(1.minute).of 1.week.from_now
       end

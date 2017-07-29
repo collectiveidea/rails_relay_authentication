@@ -75,7 +75,18 @@ class ResetPasswordPage extends React.Component {
           <FormsyText
             name="newPassword"
             type="password"
+            validations="minLength:8"
+            validationError="Your password must be at least 8 characters long."
             floatingLabelText="Password"
+            fullWidth
+          />
+
+          <FormsyText
+            name="confirmPassword"
+            type="password"
+            floatingLabelText="Confirm Password"
+            validations="equalsField:newPassword"
+            validationError="Passwords must match."
             fullWidth
           />
 

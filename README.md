@@ -90,6 +90,7 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 - [ ] Delete post mutation
 - [ ] Policy + role support with pundit
 - [ ] CRUD comments on posts
-- [ ] Moderate comments on posts
+- [ ] CRUD images in posts
+- [ ] Report or Block user
 - [ ] API key for front-end (with warden scopes)
 - [ ] SSL all the things

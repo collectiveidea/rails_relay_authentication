@@ -1,5 +1,6 @@
+/* eslint-disable */
+
 import React from 'react'
-import Link from 'found/lib/Link'
 import PropTypes from 'prop-types'
 import { routerShape } from 'found/lib/PropTypes'
 import { createFragmentContainer, graphql } from 'react-relay'
@@ -7,12 +8,12 @@ import Formsy from 'formsy-react'
 import { FormsyText } from 'formsy-material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import LoginMutation from '../../mutation/LoginMutation'
+import ResetPasswordMutation from '../../mutation/ResetPasswordMutation'
 import { ERRORS } from '../../../config'
 
 import styles from './Login.css'
 
-class LoginPage extends React.Component {
+class ResetPasswordPage extends React.Component {
   static propTypes = {
     router: routerShape.isRequired,
     relay: PropTypes.shape({
@@ -27,19 +28,18 @@ class LoginPage extends React.Component {
     this.formElement = element
   }
 
-  login = ({ email, password }) => {
+  resetPassword = ({ newPassword }) => {
     const environment = this.props.relay.environment
-    LoginMutation.commit({
+    ResetPasswordMutation.commit({
       environment,
-      input: { email, password },
+      input: { newPassword, token: this.props.params.token },
       onCompleted: () => this.props.router.go(-1),
       onError: (errors) => {
-        console.error('login failed', errors[0])
+        console.error('password reset failed', errors[0])
         const formError = {}
         switch (errors[0]) {
           case ERRORS.WrongEmailOrPassword:
-            formError.email = 'Email or password is incorrect'
-            formError.password = 'Email or password is incorrect'
+            formError.newPassword = 'Password is invalid'
             break
           default:
             break
@@ -60,29 +60,20 @@ class LoginPage extends React.Component {
 
     return (
       <div className={styles.content}>
-        <h2>Login</h2>
+        <h2>Create a New Password</h2>
 
         <div className={styles.hint}>
-          You can use <b>reader@test.com</b>, <b>publisher@test.com</b>,
-          <b> publisher2@test.com</b> with password <b>qwerty</b>.
+          Enter your new password.
         </div>
 
         <Formsy.Form
           ref={this.setFormElement}
-          onSubmit={this.login}
+          onSubmit={this.resetPassword}
           className={styles.form}
         >
 
           <FormsyText
-            name="email"
-            floatingLabelText="E-Mail"
-            fullWidth
-            validations="isEmail"
-            validationError="Please enter a valid email address"
-          />
-
-          <FormsyText
-            name="password"
+            name="newPassword"
             type="password"
             floatingLabelText="Password"
             fullWidth
@@ -90,35 +81,22 @@ class LoginPage extends React.Component {
 
           <RaisedButton
             type="submit"
-            label="Login"
+            label="Submit"
             secondary
             fullWidth
             style={submitMargin}
           />
 
-          <RaisedButton
-            label="Register"
-            primary
-            fullWidth
-            style={submitMargin}
-            onClick={() => this.props.router.push('/register')}
-          />
-
         </Formsy.Form>
-
-        <div className={styles.passwordLink}>
-          <Link to={'/forgot'}>Forgot your password?</Link>
-        </div>
-
       </div>
     )
   }
 }
 
 export default createFragmentContainer(
-  LoginPage,
+  ResetPasswordPage,
   graphql`
-    fragment Login_viewer on Viewer {
+    fragment ResetPassword_viewer on Viewer {
       isLoggedIn
     }
   `,

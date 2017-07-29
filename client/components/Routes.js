@@ -10,6 +10,7 @@ import PostDetailPage from '../pages/post/PostDetail'
 import LoginPage from '../pages/user/Login'
 import RegisterPage from '../pages/user/Register'
 import ForgotPasswordPage from '../pages/user/ForgotPassword'
+import ResetPasswordPage from '../pages/user/ResetPassword'
 import ProfilePage from '../pages/user/Profile'
 import UserPostsPage, { POST_COUNT as USER_POST_COUNT } from '../pages/user/UserPosts'
 import CreatePostPage from '../pages/user/CreatePost'
@@ -21,6 +22,7 @@ const postDetailQuery = graphql`query Routes_PostDetail_Query ($postId: String!)
 const loginQuery = graphql`query Routes_Login_Query { viewer { ...Login_viewer } }`
 const registerQuery = graphql`query Routes_Register_Query { viewer { ...Register_viewer } }`
 const forgotPasswordQuery = graphql`query Routes_ForgotPassword_Query { viewer { ...ForgotPassword_viewer } }`
+const resetPasswordQuery = graphql`query Routes_ResetPassword_Query { viewer { ...ResetPassword_viewer } }`
 const userProfileQuery = graphql`query Routes_Profile_Query { viewer { ...Profile_viewer } }`
 const userPostsQuery = graphql`query Routes_UserPosts_Query ($afterCursor: String, $count: Int!) { viewer { ...UserPosts_viewer } }`
 const createPostQuery = graphql`query Routes_CreatePost_Query { viewer { ...CreatePost_viewer } }`
@@ -56,6 +58,7 @@ export default makeRouteConfig(
     <Route path="login" Component={LoginPage} query={loginQuery} />
     <Route path="register" Component={RegisterPage} query={registerQuery} />
     <Route path="forgot" Component={ForgotPasswordPage} query={forgotPasswordQuery} />
+    <Route path="reset_password/:token" Component={ResetPasswordPage} query={resetPasswordQuery} />
 
     <Route path="user" Component={ProfilePage} query={userProfileQuery} />
     <Route

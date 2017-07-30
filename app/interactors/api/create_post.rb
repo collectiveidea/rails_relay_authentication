@@ -33,8 +33,10 @@ module API
     end
 
     def write_image
-      FileUtils.mv image.tempfile, Rails.root.join("static", "images", "upload", image.original_filename)
-      "/images/upload/#{image.original_filename}"
+      @write_image ||= begin
+        FileUtils.mv image.tempfile, Rails.root.join("static", "images", "upload", image.original_filename)
+        "/images/upload/#{image.original_filename}"
+      end
     end
   end
 end

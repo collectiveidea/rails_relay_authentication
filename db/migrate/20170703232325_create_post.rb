@@ -3,7 +3,7 @@ Sequel.migration do
     create_table :posts do
       primary_key :id, Bignum
       uuid :uuid, null: false, default: Sequel.function(:uuid_generate_v4)
-      foreign_key :user_id, :users, key: :uuid, type: :uuid, null: false
+      foreign_key :user_uuid, :users, key: :uuid, type: :uuid, null: false
       String :title
       String :image
       Text :description
@@ -12,7 +12,7 @@ Sequel.migration do
       column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
 
       index [:uuid], unique: true
-      index [:user_id]
+      index [:user_uuid]
      end
 
     extension :pg_triggers

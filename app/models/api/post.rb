@@ -21,7 +21,7 @@ module API
           if key == :id
             :uuid
           elsif key == :creatorId
-            :user_id
+            :user_uuid
           else
             key
           end
@@ -35,12 +35,12 @@ module API
           title:       attrs[:title],
           description: attrs[:description],
           image:       attrs[:image],
-          creatorId:   attrs[:user_id]
+          creatorId:   attrs[:user_uuid]
         )
       end
       
       def by_user(user_id) 
-        where(user_id: Types::UUID[user_id])
+        where(user_uuid: Types::UUID[user_id])
       end
     end
     extend ClassMethods

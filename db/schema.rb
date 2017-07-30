@@ -37,14 +37,14 @@ Sequel.migration do
     create_table(:posts) do
       primary_key :id
       column :uuid, "uuid", :default=>Sequel::LiteralString.new("uuid_generate_v4()"), :null=>false
-      foreign_key :user_id, :users, :type=>"uuid", :null=>false, :key=>[:uuid]
+      foreign_key :user_uuid, :users, :type=>"uuid", :null=>false, :key=>[:uuid]
       column :title, "text"
       column :image, "text"
       column :description, "text"
       column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       
-      index [:user_id]
+      index [:user_uuid]
       index [:uuid], :unique=>true
     end
   end

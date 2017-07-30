@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Mutations::CreatPostMutation", type: "request" do
+RSpec.describe "Mutations::CreatePostMutation", type: "request" do
   let(:endpoint) { "/graphql" }
   let(:json) { JSON.parse(response.body)["data"] }
   let!(:viewer) { build(:viewer, :admin) }
@@ -35,6 +35,10 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
       }      
     }}
 
+    let(:create_post) {
+      post(endpoint, params: { query: query, variables: variables })          
+    }
+
     context "Logged in" do
       before(:each) {
         allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
@@ -42,7 +46,9 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
       }
 
       it "returns a post" do
-        post(endpoint, params: { query: query, variables: variables })
+        expect {
+          create_post                    
+        }.to change { Datastore.posts.count }.by(1)
         
         post_json = json["createPost"]["postEdge"]["node"]
         expect(post_json["title"]).to eq(new_post[:title])
@@ -57,10 +63,6 @@ RSpec.describe "Mutations::CreatPostMutation", type: "request" do
 
       describe "errors" do
         let(:errors) { JSON.parse(response.body)["errors"] }
-
-        let(:create_post) {
-          post(endpoint, params: { query: query, variables: variables })          
-        }
 
         it "requires a title" do
           variables["input"].merge!("title" => nil)

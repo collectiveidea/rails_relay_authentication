@@ -12,6 +12,5 @@ Mutations::DeletePostMutation = GraphQL::Relay::Mutation.define do
     else
       GraphQL::ExecutionError.new(delete_post.error)
     end
-    
   }
 end

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { createFragmentContainer, graphql } from 'react-relay'
-
+import RaisedButton from 'material-ui/RaisedButton'
 import styles from './PostDetail.css'
 
 const PostDetail = ({ viewer }) => (
@@ -19,6 +19,8 @@ const PostDetail = ({ viewer }) => (
       </div>
 
       <div>{viewer.post.description}</div>
+
+      <div><RaisedButton label="Delete" primary /></div>
     </div>
   </div>
 )

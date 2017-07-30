@@ -1,49 +1,76 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { routerShape } from 'found/lib/PropTypes'
 import { createFragmentContainer, graphql } from 'react-relay'
 import RaisedButton from 'material-ui/RaisedButton'
 import styles from './PostDetail.css'
 
-const PostDetail = ({ viewer }) => (
-  <div>
-    <img
-      className={styles.image}
-      src={viewer.post.image}
-      alt={viewer.post.title}
-    />
+import DeletePostMutation from '../../mutation/DeletePostMutation'
 
-    <div className={styles.container}>
-      <h1 className={styles.title}>{viewer.post.title}</h1>
-      <div className={styles.user}>
-        by {viewer.post.creator.firstName} {viewer.post.creator.lastName}
+class PostDetail extends React.Component {
+  static propTypes = {
+    router: routerShape.isRequired,
+    relay: PropTypes.shape({
+      environment: PropTypes.any.isRequired,
+    }).isRequired,
+    viewer: PropTypes.shape({
+      post: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
+        creator: PropTypes.shape({
+          firstName: PropTypes.string.isRequired,
+          lastName: PropTypes.string.isRequired,
+        }).isRequired,
+      }),
+    }).isRequired,
+  }
+
+  deletePost = () => {
+    const post = this.props.viewer.post
+    const environment = this.props.relay.environment
+
+    DeletePostMutation.commit({
+      environment,
+      input: { id: post.id },
+      onCompleted: () => this.props.router.push('/user/posts'),
+      onError: errors => console.error('Deleting post Failed', errors[0]),
+    })
+  }
+
+  render() {
+    const { viewer } = this.props
+
+    return (
+      <div>
+        <img
+          className={styles.image}
+          src={viewer.post.image}
+          alt={viewer.post.title}
+        />
+
+        <div className={styles.container}>
+          <h1 className={styles.title}>{viewer.post.title}</h1>
+          <div className={styles.user}>
+            by {viewer.post.creator.firstName} {viewer.post.creator.lastName}
+          </div>
+
+          <div>{viewer.post.description}</div>
+
+          <div><RaisedButton label="Delete" onClick={this.deletePost} primary /></div>
+        </div>
       </div>
-
-      <div>{viewer.post.description}</div>
-
-      <div><RaisedButton label="Delete" primary /></div>
-    </div>
-  </div>
-)
-
-PostDetail.propTypes = {
-  viewer: PropTypes.shape({
-    post: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-      creator: PropTypes.shape({
-        firstName: PropTypes.string.isRequired,
-        lastName: PropTypes.string.isRequired,
-      }).isRequired,
-    }),
-  }).isRequired,
+    )
+  }
 }
 
-export default createFragmentContainer(
+const container = createFragmentContainer(
   PostDetail,
   graphql`
     fragment PostDetail_viewer on Viewer {
       post (postId: $postId) {
+        id
         title
         description
         image
@@ -55,3 +82,5 @@ export default createFragmentContainer(
     }
   `,
 )
+
+export default container

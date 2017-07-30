@@ -86,8 +86,6 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 ## [Changelog](CHANGELOG.md)
 
 ## To Do
-- [X] Reset password feature
-- [ ] Delete post mutation
 - [ ] Policy + role support with pundit
 - [ ] CRUD comments on posts
 - [ ] CRUD images in posts

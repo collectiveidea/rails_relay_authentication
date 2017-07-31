@@ -6,6 +6,7 @@ RSpec.describe "Mutations::ResetPasswordMutation", type: "request" do
   let(:password) { "foobarbaz" }
   let(:new_password) { "bazbarfoo" }
   let!(:user) { create(:user, password: password) }
+  let(:viewer) { create(:viewer, user: user) }
   let!(:password_reset_token) { API::CreatePasswordReset.call(email: user.email).token }
 
   describe "ResetPasswordMutation" do
@@ -28,6 +29,22 @@ RSpec.describe "Mutations::ResetPasswordMutation", type: "request" do
         "token" => password_reset_token
       }
     }}
+
+    let(:errors) { JSON.parse(response.body)["errors"] }
+
+    context "Logged in" do
+      before(:each) {
+        allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
+      }
+
+      it "does not let a logged in user reset a password" do
+        expect {
+          post(endpoint, params: { query: query, variables: variables })
+        }.not_to change { API::PasswordReset.all.count }
+
+        expect(errors.first["message"]).to eq("Forbidden")
+      end
+    end
 
     context "Not logged in" do
       it "updates the user's password in the database" do

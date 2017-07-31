@@ -6,7 +6,7 @@ Mutations::CreatePasswordResetMutation = GraphQL::Relay::Mutation.define do
   return_field :user, Types::UserType
 
   resolve ->(object, inputs, ctx) {
-    create_password_reset = API::CreatePasswordReset.call(email: inputs[:email])
+    create_password_reset = API::CreatePasswordReset.call(viewer: ctx[:viewer], email: inputs[:email])
 
     if create_password_reset.success?
       { user: nil }

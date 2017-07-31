@@ -15,7 +15,13 @@ Mutations::RegisterMutation = GraphQL::Relay::Mutation.define do
     if existing_user
       GraphQL::ExecutionError.new("Email already taken")
     else
-      register = API::Register.call(inputs)
+      register = API::Register.call(
+        viewer: ctx[:viewer],
+        email: inputs[:email],
+        password: inputs[:password],
+        firstName: inputs[:firstName],
+        lastName: inputs[:lastName]
+      )
 
       if register.success?
         ctx[:warden].set_user(register.user)

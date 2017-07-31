@@ -11,7 +11,11 @@ Mutations::ResetPasswordMutation = GraphQL::Relay::Mutation.define do
     # Update the user's password
     # Delete the corresponding password_reset record
 
-    reset_password = API::ResetPassword.call(inputs.to_h)
+    reset_password = API::ResetPassword.call(
+      viewer: ctx[:viewer],
+      newPassword: inputs[:newPassword],
+      token: inputs[:token]
+    )
 
     if reset_password.success?
       { user: reset_password.user }

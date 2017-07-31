@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Mutations::RegisterMutation", type: "request" do
   let(:endpoint) { "/graphql" }
   let(:json) { JSON.parse(response.body)["data"] }
+  let(:viewer) { build(:viewer) }
   let(:new_user) { attributes_for(:user) }
 
   describe "RegisterMutation" do
@@ -35,6 +36,22 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
       post(endpoint, params: { query: query, variables: variables })          
     }
 
+    let(:errors) { JSON.parse(response.body)["errors"] }
+
+    context "Logged in" do
+      before(:each) {
+        allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
+      }
+
+      it "does not let a logged in user register" do
+        expect {
+          register_user
+        }.not_to change { API::User.all.count }
+
+        expect(errors.first["message"]).to eq("Forbidden")
+      end
+    end
+
     context "Not logged in" do
       it "returns a user" do
         expect {
@@ -55,8 +72,6 @@ RSpec.describe "Mutations::RegisterMutation", type: "request" do
       end
 
       describe "errors" do
-        let(:errors) { JSON.parse(response.body)["errors"] }
-
         it "requires an email address" do
           variables["input"].merge!("email" => nil)
 

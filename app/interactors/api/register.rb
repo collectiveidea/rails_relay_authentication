@@ -10,6 +10,10 @@ module API
     end
     context_with Context
 
+    before do
+      context.fail!(error: "Forbidden") if context.viewer.try(:is_logged_in)
+    end
+
     def call
       create_user = Datastore::User::Create.call(user_attributes)
 

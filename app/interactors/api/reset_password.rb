@@ -10,6 +10,10 @@ module API
     end
     context_with Context
 
+    before do
+      context.fail!(error: "Forbidden") if context.viewer.try(:is_logged_in)
+    end
+    
     def call
       context.fail!(error: "New password required") unless new_password = context.newPassword.presence
       context.fail!(error: "Password reset token required") unless context.token.present?

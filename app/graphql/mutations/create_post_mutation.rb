@@ -13,12 +13,13 @@ Mutations::CreatePostMutation = GraphQL::Relay::Mutation.define do
     image = inputs[:image]
 
     create_post = API::CreatePost.call(
+      viewer: ctx[:viewer],
       creatorId: user.id,
       title: inputs[:title],
       description: inputs[:description],
       image: inputs[:image]   
     )
-    
+
     if create_post.success?
       # Use this helper to create the response that a
       # client-side RANGE_ADD mutation would expect.

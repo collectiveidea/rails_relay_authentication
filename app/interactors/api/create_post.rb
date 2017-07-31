@@ -13,6 +13,7 @@ module API
     delegate :image, to: :context
 
     def call
+      context.fail!(error: "Forbidden") unless API::Post.authorize(context.viewer, :create)
       context.fail!(error: "image must be filled") unless image.present?
       create_post = Datastore::Post::Create.call(post_attributes)
       

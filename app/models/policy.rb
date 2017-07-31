@@ -9,14 +9,18 @@ module Policy
     def policy_class
       @policy_class
     end
+
+    def authorize(viewer, action)
+      policy_class.send("#{action}?", viewer)
+    end
   end
 
   included do
     set_policy_class "#{self.name}Policy".constantize
   end
 
-  def authorize(user, action)
-    policy_class.new(user, self).send("#{action}?")
+  def authorize(viewer, action)
+    policy_class.new(viewer, self).send("#{action}?")
   end
 
   private

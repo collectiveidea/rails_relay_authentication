@@ -7,10 +7,6 @@ module API
       @post = post
     end
 
-    def create?
-      viewer.can_publish
-    end
-
     def show?
       true
     end
@@ -20,5 +16,9 @@ module API
     end
   
     alias_method :delete?, :update?
+
+    def self.create?(viewer)
+      !!viewer.try(:can_publish)
+    end
   end
 end

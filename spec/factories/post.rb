@@ -3,10 +3,10 @@ FactoryGirl.define do
     skip_create
 
     transient do
-      user
+      viewer
     end
 
-    creatorId { user.id }
+    creatorId { viewer.id }
     title { Faker::Lorem.words(6).map(&:capitalize).join(" ") }
     description { Faker::Lorem.sentence }
     sequence(:image) do |n|
@@ -16,6 +16,6 @@ FactoryGirl.define do
       )      
     end
 
-    initialize_with { API::CreatePost.call(attributes.except(:user)).post }
+    initialize_with { API::CreatePost.call(attributes).post }
   end
 end

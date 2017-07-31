@@ -9,7 +9,7 @@
     end
 
     def self.fixed_attribute_names
-      %i(id uuid created_at updated_at error)
+      %i(id uuid created_at updated_at error viewer)
     end
 
     def self.accessors

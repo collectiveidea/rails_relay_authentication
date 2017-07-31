@@ -17,5 +17,9 @@ module API
       return unless id.present?
       @user ||= API::User.find(id)
     end
+
+    def admin?
+      role == 'admin'
+    end
   end
 end

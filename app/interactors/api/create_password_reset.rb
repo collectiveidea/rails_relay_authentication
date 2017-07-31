@@ -2,6 +2,14 @@ module API
   class CreatePasswordReset
     include Interactor
 
+    class Context < BaseContext
+      def self.accessors
+        %i(email token)
+      end
+      attr_accessor *accessors
+    end
+    context_with Context
+
     def call
       context.fail!(error: "User not found") unless user = API::User.find_by_email(context.email)
       create_password_reset = Datastore::PasswordReset::Create.call(user_uuid: user.id)

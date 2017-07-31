@@ -5,7 +5,7 @@ Mutations::DeletePostMutation = GraphQL::Relay::Mutation.define do
   return_field :user, Types::UserType
 
   resolve ->(object, inputs, ctx) {
-    delete_post = API::DeletePost.call(id: inputs[:id])
+    delete_post = API::DeletePost.call(viewer: ctx[:viewer], id: inputs[:id])
 
     if delete_post.success?
       { user: ctx[:viewer].user }

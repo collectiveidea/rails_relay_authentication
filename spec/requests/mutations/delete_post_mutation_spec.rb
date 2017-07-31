@@ -3,9 +3,11 @@ require 'rails_helper'
 RSpec.describe "Mutations::DeletePostMutation", type: "request" do
   let(:endpoint) { "/graphql" }
   let(:json) { JSON.parse(response.body)["data"] }
-  let!(:viewer) { build(:viewer, :admin) }
   let(:image_path) { Rails.root.join("spec", "fixtures", "image1.jpg") }
-  let!(:existing_post) { create(:post, creatorId: viewer.user.id) }
+
+  let(:viewer) { build(:viewer) }
+  let(:user) { viewer.user }
+  let!(:existing_post) { create(:post, creatorId: user.id) }
 
   describe "DeletePostMutation" do
     let(:query) {
@@ -60,8 +62,9 @@ RSpec.describe "Mutations::DeletePostMutation", type: "request" do
           expect(errors.first["message"]).to include("Variable input of type DeletePostInput! was provided invalid value")                 
         end
 
-        context "not an admin" do
+        context "not an viewer is a reader" do
           let(:viewer) { build(:viewer, :reader)}
+          let(:user) { build(:user) }
 
           it "does not let a reader delete a post" do
             expect {

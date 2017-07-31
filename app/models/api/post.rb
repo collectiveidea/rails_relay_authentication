@@ -1,7 +1,8 @@
 module API
   class Post < Dry::Struct
     include DatastoreAdapter
-
+    include Policy
+    
     constructor :schema
 
     attribute :id, Types::UUID

@@ -2,6 +2,14 @@ module API
   class ResetPassword
     include Interactor
 
+    class Context < BaseContext
+      def self.accessors
+        %i(newPassword token user)
+      end
+      attr_accessor *accessors
+    end
+    context_with Context
+
     def call
       context.fail!(error: "New password required") unless new_password = context.newPassword.presence
       context.fail!(error: "Password reset token required") unless context.token.present?

@@ -4,7 +4,7 @@ module API
 
     class Context < BaseContext
       def self.accessors
-        %i(id title description image creatorId post error)
+        %i(id title description image creatorId post)
       end
       attr_accessor *accessors
     end

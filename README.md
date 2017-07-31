@@ -86,7 +86,8 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 ## [Changelog](CHANGELOG.md)
 
 ## To Do
-- [ ] Policy + role support with pundit
+- [ ] Clean up Datastore context stuff
+- [ ] Update post with some basic JS editor plugin
 - [ ] CRUD comments on posts
 - [ ] CRUD images in posts
 - [ ] Sendgrid integration for mails (register, password reset)

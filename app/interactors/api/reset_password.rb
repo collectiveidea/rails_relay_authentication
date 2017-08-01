@@ -16,7 +16,12 @@ module API
       context.fail!(error: "Token not found") unless password_reset = API::PasswordReset.find_by_token(context.token)
       context.fail!(error: "Token expired") unless password_reset.expires_at >= Time.current
 
-      update_user = Datastore::User::Update.call(uuid: password_reset.user_id, password: new_password)
+      update_user = Datastore::User::Update.call(
+        API::User.to_datastore(
+          id: password_reset.user_id,
+          password: new_password
+        )
+      )
 
       if update_user.success?
         Datastore::PasswordReset::Delete.call(token: password_reset.token)

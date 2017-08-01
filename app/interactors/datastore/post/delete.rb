@@ -3,6 +3,8 @@ module Datastore
     class Delete
       include Interactor
 
+      context_with Post::Context
+
       def call
         Datastore.posts.where(params).delete
       end

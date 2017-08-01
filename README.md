@@ -86,8 +86,9 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 ## [Changelog](CHANGELOG.md)
 
 ## To Do
-- [ ] Update post with some basic JS editor plugin
+- [ ] Update post screen
 - [ ] CRUD comments on posts
+- [ ] DraftJS integration
 - [ ] CRUD images in posts
 - [ ] Sendgrid integration for mails (register, password reset)
 - [ ] Report or Block user

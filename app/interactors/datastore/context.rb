@@ -5,7 +5,7 @@ module Datastore
     end
 
     def self.common_attributes
-      super + %i(id uuid schema whitelist record)
+      super + %i(id uuid schema whitelist record datastore datastore_action)
     end
   end
 end  

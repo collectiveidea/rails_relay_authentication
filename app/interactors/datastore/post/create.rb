@@ -16,6 +16,8 @@ module Datastore
       before do
         context.schema = CreatePostSchema
         context.whitelist = %i(title description image user_uuid)
+        context.datastore = Datastore.posts
+        context.datastore_action = :insert
       end
 
       def call

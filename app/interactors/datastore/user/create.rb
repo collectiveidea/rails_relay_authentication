@@ -17,6 +17,8 @@ module Datastore
       before do
         context.schema = CreateUserSchema
         context.whitelist = %i(first_name last_name email password_digest role)
+        context.datastore = Datastore.users
+        context.datastore_action = :insert
       end
 
       def call

@@ -2,12 +2,14 @@ module Datastore
   module User
     class Persist
       include Interactor  
+
+      delegate :datastore, :datastore_action, to: :context
       
       context_with User::Context
 
       def call
-        context.id = Datastore.users.insert(context.params)
-        context.record[:uuid] = Datastore.users[id: context.id][:uuid]
+        context.id = datastore.send(datastore_action, context.params)
+        context.record[:uuid] = datastore[id: context.id][:uuid]
       end
     end
   end

@@ -26,7 +26,7 @@ module Datastore
         if build_user.success?
           validate_user = Datastore::Validate.call(context)
           if validate_user.success?
-            persist_user = User::Persist.call(context)
+            persist_user = Datastore::Persist.call(context)
             if persist_user.failure?
               error = persist_user.error
             end

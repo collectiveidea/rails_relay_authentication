@@ -31,7 +31,7 @@ module Datastore
         find_by_param = context.uuid ? { uuid: context.uuid } : { id: context.id }
         context.fail!(error: "User not found") unless user_record = Datastore.find_by(:users, find_by_param)
 
-        validate_user = User::Validate.call(context)
+        validate_user = Datastore::Validate.call(context)
 
         # Write to the db
         if validate_user.success?

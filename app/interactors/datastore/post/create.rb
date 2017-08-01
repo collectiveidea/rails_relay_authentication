@@ -1,6 +1,6 @@
 module Datastore
   module Post
-    class Create
+    class Create < Datastore::Create
       include Interactor
       attr_accessor :error
 
@@ -18,24 +18,7 @@ module Datastore
         context.whitelist = %i(title description image user_uuid)
         context.datastore = Datastore.posts
         context.datastore_action = :insert
-      end
-
-      def call
-        build_post = Post::Build.call(context)
-        if build_post.success?
-          validate_post = Datastore::Validate.call(context)
-          if validate_post.success?
-            persist_post = Datastore::Persist.call(context)
-            if persist_post.failure?
-              error = persist_post.error
-            end
-          else
-            error = validate_post.error
-          end
-        else
-          error = build_post.error
-        end
-        context.fail!(error: error) if error
+        context.record_builder = Post::Build
       end
     end
   end

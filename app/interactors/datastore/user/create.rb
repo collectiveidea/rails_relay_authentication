@@ -1,6 +1,6 @@
 module Datastore
   module User
-    class Create
+    class Create < Datastore::Create
       include Interactor
       attr_accessor :error
 
@@ -19,24 +19,7 @@ module Datastore
         context.whitelist = %i(first_name last_name email password_digest role)
         context.datastore = Datastore.users
         context.datastore_action = :insert
-      end
-
-      def call
-        build_user = User::Build.call(context)
-        if build_user.success?
-          validate_user = Datastore::Validate.call(context)
-          if validate_user.success?
-            persist_user = Datastore::Persist.call(context)
-            if persist_user.failure?
-              error = persist_user.error
-            end
-          else
-            error = validate_user.error
-          end
-        else
-          error = build_user.error
-        end
-        context.fail!(error: error) if error
+        context.record_builder = User::Build
       end
     end
   end

@@ -19,7 +19,6 @@ module Datastore
         context.schema = UpdateUserSchema
         context.whitelist = %i(first_name last_name email password_digest role)
         context.datastore = Datastore.users
-        context.datastore_action = :update
       end
 
       before do
@@ -35,7 +34,7 @@ module Datastore
 
         # Write to the db
         if validate_user.success?
-          datastore.where(id: user_record[:id]).update(context.params)
+          Datastore::Persist.call(context)
         else
           context.fail!(error: validate_user.error)
         end

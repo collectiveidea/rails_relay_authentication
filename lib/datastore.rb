@@ -26,10 +26,6 @@ module Datastore
       db[:password_resets]
     end
 
-    def update(table, id, attrs)
-      where(table, id: id).update(attrs)
-    end
-
     def find_by(table, params)
       where(table, params).first
     end

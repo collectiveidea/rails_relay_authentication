@@ -1,9 +1,6 @@
 module Datastore
   module Post
     class Create < Datastore::Create
-      include Interactor
-      attr_accessor :error
-
       context_with Post::Context
 
       CreatePostSchema = Dry::Validation.Schema do

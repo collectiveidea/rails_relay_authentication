@@ -1,9 +1,6 @@
 module Datastore
   module User
     class Create < Datastore::Create
-      include Interactor
-      attr_accessor :error
-
       context_with User::Context
 
       CreateUserSchema = Dry::Validation.Schema do

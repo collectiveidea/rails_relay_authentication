@@ -1,10 +1,6 @@
 module Datastore
   module User
-    class Update
-      include Interactor
-
-      delegate :datastore, :datastore_action, to: :context
-      
+    class Update < Datastore::Update
       context_with User::Context
 
       UpdateUserSchema = Dry::Validation.Schema do
@@ -19,25 +15,7 @@ module Datastore
         context.schema = UpdateUserSchema
         context.whitelist = %i(first_name last_name email password_digest role)
         context.datastore = Datastore.users
-      end
-
-      before do
-        build_user = User::Build.call(context)
-        context.fail! if build_user.failure?
-      end
-
-      def call
-        find_by_param = context.uuid ? { uuid: context.uuid } : { id: context.id }
-        context.fail!(error: "User not found") unless user_record = Datastore.find_by(:users, find_by_param)
-
-        validate_user = Datastore::Validate.call(context)
-
-        # Write to the db
-        if validate_user.success?
-          Datastore::Persist.call(context)
-        else
-          context.fail!(error: validate_user.error)
-        end
+        context.record_builder = User::Build
       end
     end
   end

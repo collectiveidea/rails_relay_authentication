@@ -2,11 +2,11 @@ module API
   class DeletePost
     include Interactor
 
-    class Context < API::Context
-      inputs :id
-    end
-    context_with Context
-
+    context_with(
+      Class.new(API::Context) do
+        inputs :id
+      end      
+    )
 
     before do
       context.fail!(error: "id must be filled") unless context.id.present?

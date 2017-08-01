@@ -2,11 +2,12 @@ module API
   class ResetPassword
     include Interactor
 
-    class Context < API::Context
-      inputs :newPassword, :token
-      outputs :user
-    end
-    context_with Context
+    context_with(
+      Class.new(API::Context) do 
+        inputs :newPassword, :token
+        outputs :user
+      end      
+    )
 
     before do
       context.fail!(error: "Forbidden") if context.viewer.try(:is_logged_in)

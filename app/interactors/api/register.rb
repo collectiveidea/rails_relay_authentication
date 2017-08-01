@@ -2,11 +2,12 @@ module API
   class Register
     include Interactor
 
-    class Context < API::Context
-      inputs :id, :email, :password, :firstName, :lastName, :role
-      outputs :user
-    end
-    context_with Context
+    context_with(
+      Class.new(API::Context) do
+        inputs :id, :email, :password, :firstName, :lastName, :role
+        outputs :user
+      end      
+    )
 
     before do
       context.fail!(error: "Forbidden") if context.viewer.try(:is_logged_in)

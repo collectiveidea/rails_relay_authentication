@@ -2,10 +2,11 @@ module API
   class CreatePasswordReset
     include Interactor
 
-    class Context < API::Context
-      inputs :email, :token
-    end
-    context_with Context
+    context_with(
+      Class.new(API::Context) do
+        inputs :email, :token
+      end      
+    )
 
     before do
       context.fail!(error: "Forbidden") if context.viewer.try(:is_logged_in)

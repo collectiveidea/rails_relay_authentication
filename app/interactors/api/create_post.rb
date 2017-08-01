@@ -2,10 +2,11 @@ module API
   class CreatePost
     include Interactor
 
-    class Context < API::Context
-      inputs :id, :title, :description, :image, :creatorId, :post
-    end
-    context_with Context
+    context_with(
+      Class.new(API::Context) do
+        inputs :id, :title, :description, :image, :creatorId, :post
+      end      
+    )
 
     delegate :image, to: :context
 

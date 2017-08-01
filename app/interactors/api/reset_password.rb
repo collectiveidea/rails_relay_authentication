@@ -8,15 +8,11 @@ module API
         outputs :user
       end      
     )
-
-    before do
-      context.fail!(error: "Forbidden") if context.viewer.try(:is_logged_in)
-    end
     
     def call
+      context.fail!(error: "Forbidden") if context.viewer.try(:is_logged_in)
       context.fail!(error: "New password required") unless new_password = context.newPassword.presence
       context.fail!(error: "Password reset token required") unless context.token.present?
-      
       context.fail!(error: "Token not found") unless password_reset = API::PasswordReset.find_by_token(context.token)
       context.fail!(error: "Token expired") unless password_reset.expires_at >= Time.current
 

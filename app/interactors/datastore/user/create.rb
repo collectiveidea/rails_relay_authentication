@@ -16,6 +16,7 @@ module Datastore
 
       before do
         context.schema = CreateUserSchema
+        context.whitelist = %i(first_name last_name email password_digest role)
       end
 
       def call

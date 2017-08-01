@@ -3,8 +3,6 @@ module Datastore
     class Update
       include Interactor
       
-      WHITELIST = %i(first_name last_name email password_digest role)
-
       context_with User::Context
 
       UpdateUserSchema = Dry::Validation.Schema do
@@ -17,6 +15,7 @@ module Datastore
 
       before do
         context.schema = UpdateUserSchema
+        context.whitelist = %i(first_name last_name email password_digest role)
       end
 
       before do
@@ -32,14 +31,10 @@ module Datastore
 
         # Write to the db
         if validate_user.success?
-          Datastore.update(:users, user_record[:id], params)
+          Datastore.update(:users, user_record[:id], context.params)
         else
           context.fail!(error: validate_user.error)
         end
-      end
-
-      def params
-        context.record.slice(*WHITELIST)
       end
     end
   end

@@ -15,6 +15,7 @@ module Datastore
 
       before do
         context.schema = CreatePostSchema
+        context.whitelist = %i(title description image user_uuid)
       end
 
       def call

@@ -6,6 +6,17 @@ module Datastore
 
       context_with Post::Context
 
+      CreatePostSchema = Dry::Validation.Schema do
+        required(:title, Types::Strict::String).filled
+        required(:description, Types::Strict::String).filled
+        required(:image, Types::Strict::String).filled
+        required(:user_uuid, Types::UUID).filled
+      end
+
+      before do
+        context.schema = CreatePostSchema
+      end
+
       def call
         build_post = Post::Build.call(context)
         if build_post.success?

@@ -1,11 +1,7 @@
 module Datastore
   module Post
-    class Context < BaseContext
-      def self.modifiable_attribute_names
-        %i(title description image user_uuid)
-      end
-
-      attr_accessor *accessors
+    class Context < Datastore::Context
+      inputs :title, :description, :image, :user_uuid
     end
   end
 end

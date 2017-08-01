@@ -2,11 +2,8 @@ module API
   class CreatePost
     include Interactor
 
-    class Context < BaseContext
-      def self.accessors
-        %i(id title description image creatorId post)
-      end
-      attr_accessor *accessors
+    class Context < API::Context
+      inputs :id, :title, :description, :image, :creatorId, :post
     end
     context_with Context
 
@@ -18,7 +15,7 @@ module API
       create_post = Datastore::Post::Create.call(post_attributes)
       
       if create_post.success?
-        context.post = API::Post.from_datastore(create_post.full_attributes)
+        context.post = API::Post.from_datastore(create_post.record)
       else
         context.fail!(error: create_post.error)
       end

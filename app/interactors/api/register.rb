@@ -2,11 +2,9 @@ module API
   class Register
     include Interactor
 
-    class Context < BaseContext
-      def self.accessors
-        %i(id email password firstName lastName role user error)
-      end
-      attr_accessor *accessors
+    class Context < API::Context
+      inputs :id, :email, :password, :firstName, :lastName, :role
+      outputs :user
     end
     context_with Context
 
@@ -18,7 +16,7 @@ module API
       create_user = Datastore::User::Create.call(user_attributes)
 
       if create_user.success?
-        context.user = API::User.from_datastore(create_user.full_attributes)
+        context.user = API::User.from_datastore(create_user.record)
       else
         context.fail!(error: create_user.error)
       end
@@ -31,7 +29,7 @@ module API
         firstName: context.firstName,
         lastName:  context.lastName,
         role:      context.role || "reader",
-      ).merge(password_digest: nil)
+      )
     end
   end
 end

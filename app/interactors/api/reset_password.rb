@@ -2,11 +2,9 @@ module API
   class ResetPassword
     include Interactor
 
-    class Context < BaseContext
-      def self.accessors
-        %i(newPassword token user)
-      end
-      attr_accessor *accessors
+    class Context < API::Context
+      inputs :newPassword, :token
+      outputs :user
     end
     context_with Context
 
@@ -25,7 +23,7 @@ module API
 
       if update_user.success?
         Datastore::PasswordReset::Delete.call(token: password_reset.token)
-        context.user = API::User.from_datastore(update_user.full_attributes)
+        context.user = API::User.from_datastore(update_user.record)
       else
         context.fail!(error: update_user.error)
       end

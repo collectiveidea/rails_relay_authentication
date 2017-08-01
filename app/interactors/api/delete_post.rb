@@ -2,11 +2,8 @@ module API
   class DeletePost
     include Interactor
 
-    class Context < BaseContext
-      def self.accessors
-        %i(id viewer error)
-      end
-      attr_accessor *accessors
+    class Context < API::Context
+      inputs :id
     end
     context_with Context
 

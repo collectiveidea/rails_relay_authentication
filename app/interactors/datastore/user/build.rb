@@ -5,11 +5,13 @@ module Datastore
       
       context_with User::Context
 
+      before do
+        context.fail!("Password must be filled") if context.includes?(:password) && context.password.blank?
+      end
+
       def call
-        if context.password.present?
-          password_string = Types::Password[context.password]
-          context.password_digest = BCrypt::Password.create(password_string)
-        end    
+        context.record = context.supplied_attributes.except(:password)
+        context.record[:password_digest] = BCrypt::Password.create(context.password) if context.includes?(:password)
       end
     end
   end

@@ -3,11 +3,17 @@ module Datastore
     class Persist
       include Interactor  
       
+      WHITELIST = %i(first_name last_name email password_digest role)
+
       context_with User::Context
 
       def call
-        context.id = Datastore.users.insert(context.as_new_record)
-        context.uuid = Datastore.users[id: context.id][:uuid]
+        context.id = Datastore.users.insert(context.record)
+        context.record[:uuid] = Datastore.users[id: context.id][:uuid]
+      end
+
+      def params
+        context.record(*WHITELIST)
       end
     end
   end

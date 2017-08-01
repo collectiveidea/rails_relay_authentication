@@ -6,9 +6,8 @@ module Datastore
       context_with Post::Context
 
       def call
-        result = Datastore::PostSchema.call(context.full_attributes)
-
-        context.fail!(error: result.errors) if result.failure?
+        validate_record = Datastore::PostSchema.call(context.record)
+        context.fail!(error: validate_record.errors) if validate_record.failure?
       end
     end
   end

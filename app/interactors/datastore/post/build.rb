@@ -3,8 +3,10 @@ module Datastore
     class Build
       include Interactor
 
+      context_with Post::Context
+      
       def call
-        # get the image and do that stuff here
+        context.record = context.supplied_attributes
       end
     end
   end

@@ -2,11 +2,8 @@ module API
   class CreatePasswordReset
     include Interactor
 
-    class Context < BaseContext
-      def self.accessors
-        %i(email token)
-      end
-      attr_accessor *accessors
+    class Context < API::Context
+      inputs :email, :token
     end
     context_with Context
 

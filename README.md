@@ -86,7 +86,6 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 ## [Changelog](CHANGELOG.md)
 
 ## To Do
-- [ ] Clean up Datastore context stuff
 - [ ] Update post with some basic JS editor plugin
 - [ ] CRUD comments on posts
 - [ ] CRUD images in posts

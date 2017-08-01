@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/jonstokes/interactor.git
-  revision: de5852ef26451aff02825dfb768a248202717f74
+  revision: 67da0ee0d60d381321d3784e879a95d599472305
   branch: js-di-context
   specs:
     interactor (3.1.0)

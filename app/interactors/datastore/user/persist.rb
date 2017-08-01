@@ -5,8 +5,6 @@ module Datastore
 
       delegate :datastore, :datastore_action, to: :context
       
-      context_with User::Context
-
       def call
         context.id = datastore.send(datastore_action, context.params)
         context.record[:uuid] = datastore[id: context.id][:uuid]

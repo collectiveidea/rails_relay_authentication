@@ -3,8 +3,6 @@ module Datastore
     class Build
       include Interactor  
       
-      context_with User::Context
-
       before do
         context.fail!("Password must be filled") if context.includes?(:password) && context.password.blank?
       end

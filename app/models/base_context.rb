@@ -49,11 +49,11 @@ class BaseContext
     end
 
     def attributes
-      begin
-        super
-      rescue NoMethodError
-        [:error]
-      end + ((@inputs || []) + (@outputs || [])).uniq
+      (common_attributes + (@inputs || []) + (@outputs || [])).uniq
+    end
+
+    def common_attributes
+      [:error]
     end
   end
   extend ClassMethods

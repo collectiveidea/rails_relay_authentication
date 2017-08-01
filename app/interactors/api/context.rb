@@ -1,5 +1,7 @@
 module API
   class Context < BaseContext
-    inputs :viewer
+    def self.common_attributes
+      super + %i(viewer)
+    end
   end
 end

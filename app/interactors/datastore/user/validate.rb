@@ -6,7 +6,7 @@ module Datastore
       context_with User::Context
 
       def call
-        validate_record = Datastore::UserSchema.call(context.record)
+        validate_record = context.schema.call(context.record)
         context.fail!(error: validate_record.errors) if validate_record.failure?
       end
     end

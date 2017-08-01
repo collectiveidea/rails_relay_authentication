@@ -1,6 +1,7 @@
 module Datastore
   class Context < BaseContext
-    inputs :id, :uuid
-    outputs :record
+    def self.common_attributes
+      super + %i(id uuid schema record)
+    end
   end
 end  

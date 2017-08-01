@@ -6,6 +6,18 @@ module Datastore
 
       context_with User::Context
 
+      CreateUserSchema = Dry::Validation.Schema do
+        required(:email, Types::Email) { filled? & format?(Types::EMAIL_REGEXP) }
+        required(:role, Types::Role) { filled? & included_in?(Types::USER_ROLES.values) }
+        required(:password_digest, Types::Strict::String).filled
+        optional(:first_name) { filled? > str? }
+        optional(:last_name) { filled? > str? }
+      end
+
+      before do
+        context.schema = CreateUserSchema
+      end
+
       def call
         build_user = User::Build.call(context)
         if build_user.success?

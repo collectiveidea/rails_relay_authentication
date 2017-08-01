@@ -23,7 +23,7 @@ module API
 
       if update_user.success?
         Datastore::PasswordReset::Delete.call(token: password_reset.token)
-        context.user = API::User.from_datastore(update_user.record)
+        context.user = API::User.find(password_reset.user_id)
       else
         context.fail!(error: update_user.error)
       end

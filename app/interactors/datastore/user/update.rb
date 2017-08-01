@@ -7,6 +7,18 @@ module Datastore
 
       context_with User::Context
 
+      UpdateUserSchema = Dry::Validation.Schema do
+        optional(:email, Types::Email) { filled? & format?(Types::EMAIL_REGEXP) }
+        optional(:role, Types::Role) { filled? & included_in?(Types::USER_ROLES.values) }
+        optional(:password_digest, Types::Strict::String)
+        optional(:first_name) { filled? > str? }
+        optional(:last_name) { filled? > str? }
+      end
+
+      before do
+        context.schema = UpdateUserSchema
+      end
+
       before do
         build_user = User::Build.call(context)
         context.fail! if build_user.failure?
@@ -15,11 +27,6 @@ module Datastore
       def call
         find_by_param = context.uuid ? { uuid: context.uuid } : { id: context.id }
         context.fail!(error: "User not found") unless user_record = Datastore.find_by(:users, find_by_param)
-
-        # This whole approach is wrong. Need to fix validation for updates first, then just
-        # don't do this. It's only needed because we're requiring all the fields in the 
-        # validation
-        context.record = user_record.merge(context.record)
 
         validate_user = User::Validate.call(context)
 

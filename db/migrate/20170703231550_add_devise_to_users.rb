@@ -10,14 +10,12 @@ Sequel.migration do
       String  :last_name
       Integer :role, default: 0
       String :password_digest, null: false, default: ""
-      String :authentication_token
 
       column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
 
       index [:uuid], unique: true
       index [:email], unique: true
-      index [:authentication_token],  unique: true   
      end
 
     extension :pg_triggers

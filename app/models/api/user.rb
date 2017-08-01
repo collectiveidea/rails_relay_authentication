@@ -9,7 +9,6 @@ module API
     attribute :role, Types::Role
     attribute :firstName, Types::Strict::String.optional
     attribute :lastName, Types::Strict::String.optional
-    attribute :authentication_token, Types::Strict::String.optional
     attribute :password_digest, Types::Strict::String.optional
 
     def authenticate(password_string)
@@ -18,11 +17,6 @@ module API
 
     def posts
       API::Post.by_user(id)
-    end
-
-    def regenerate_authentication_token!
-      # Datastore::User::NewAuthToken.call(id: id).authentication_token
-      # self[:authentication_token] = SecureRandom.base58(24)
     end
 
     module ClassMethods

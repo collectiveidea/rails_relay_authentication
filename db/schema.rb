@@ -14,11 +14,9 @@ Sequel.migration do
       column :last_name, "text"
       column :role, "integer", :default=>0
       column :password_digest, "text", :default=>"", :null=>false
-      column :authentication_token, "text"
       column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       
-      index [:authentication_token], :unique=>true
       index [:email], :unique=>true
       index [:uuid], :unique=>true
     end

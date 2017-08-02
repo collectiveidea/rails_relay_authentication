@@ -39,6 +39,8 @@ RSpec.describe "Mutations::UpdatePostMutation", type: "request" do
       post(endpoint, params: { query: query, variables: variables })          
     }
 
+    let(:errors) { JSON.parse(response.body)["errors"] }
+
     context "Logged in" do
       before(:each) {
         allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(viewer)
@@ -62,8 +64,6 @@ RSpec.describe "Mutations::UpdatePostMutation", type: "request" do
       end
 
       describe "errors" do
-        let(:errors) { JSON.parse(response.body)["errors"] }
-
         it "requires at least one field" do
           variables["input"] = { "id" => existing_post.id }
 
@@ -83,6 +83,25 @@ RSpec.describe "Mutations::UpdatePostMutation", type: "request" do
             expect(errors.first["message"]).to include("Forbidden")
           end
         end
+
+        context "is an admin" do
+          let(:viewer) { build(:viewer, :admin)}
+
+          it "let's an admin other than the post's author update the post" do
+            expect {
+              update_post
+            }.to change { Datastore.posts.where(uuid: existing_post.id).first }
+          end
+        end
+
+      end
+    end
+
+    context "Not logged in" do
+      it "does not update a post" do
+        expect {
+          update_post
+        }.not_to change { Datastore.posts.where(uuid: existing_post.id).first }
       end
     end
   end

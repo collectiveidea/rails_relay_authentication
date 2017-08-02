@@ -13,7 +13,7 @@ Mutations::UpdatePostMutation = GraphQL::Relay::Mutation.define do
 
     attrs = {
       viewer: ctx[:viewer],
-      creatorId: user.id,
+      creatorId: user.try(:id),
       id: inputs[:id]
     }
 

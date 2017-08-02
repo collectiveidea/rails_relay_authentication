@@ -3,9 +3,10 @@ require 'rails_helper'
 RSpec.describe "Mutations::UpdatePostMutation", type: "request" do
   let(:endpoint) { "/graphql" }
   let(:json) { JSON.parse(response.body)["data"] }
-  let!(:viewer) { build(:viewer, :admin) }
+  let!(:user) { create(:user) }
+  let!(:viewer) { create(:viewer, user: user) }
   let(:image_path) { Rails.root.join("spec", "fixtures", "image1.jpg") }
-  let(:existing_post) { create(:post, creatorId: viewer.user.id) }
+  let(:existing_post) { create(:post, creatorId: user.id) }
   let(:new_title) { "New title" }
   let(:new_description) { "New description" }
 
@@ -47,7 +48,6 @@ RSpec.describe "Mutations::UpdatePostMutation", type: "request" do
       it "updates a post" do
         expect {
           update_post
-          puts response.body
         }.to change { Datastore.posts.where(uuid: existing_post.id).first }
         
         post_json = json["updatePost"]["post"]
@@ -65,14 +65,12 @@ RSpec.describe "Mutations::UpdatePostMutation", type: "request" do
         let(:errors) { JSON.parse(response.body)["errors"] }
 
         it "requires at least one field" do
-          variables["input"].merge!("title" => nil)
+          variables["input"] = { "id" => existing_post.id }
 
           expect {
             update_post
           }.not_to change { Datastore.posts.where(uuid: existing_post.id).first }
-          expect(errors.first["message"]).to include("Forbidden")
-
-          expect(errors.first["message"]).to ("must be filled")           
+          expect(errors.first["message"]).to include("Nothing to do")
         end
 
         context "not the post's author" do

@@ -12,7 +12,8 @@ module API
 
     before do
       context.fail!(error: "Resource not found") unless context.post = API::Post.find(context.id)
-      context.fail!(error: "Forbidden") unless context.post.authorize(context.viewer, :update)      
+      context.fail!(error: "Forbidden") unless context.post.authorize(context.viewer, :update)
+      context.fail!(error: "Nothing to do") unless context.supplied_attributes.slice(:title, :description, :image).any?
     end
 
     def call

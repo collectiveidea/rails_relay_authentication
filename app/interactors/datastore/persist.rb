@@ -9,9 +9,10 @@ module Datastore
       # and it's therefor an update, not an insert.
       if context.uuid
         datastore.where(uuid: context.uuid).update(context.params)
+        context.record = datastore.where(uuid: context.uuid).first
       else
         context.id = datastore.insert(context.params)
-        context.record[:uuid] = datastore[id: context.id][:uuid]
+        context.record = datastore[id: context.id]
       end
     end
   end

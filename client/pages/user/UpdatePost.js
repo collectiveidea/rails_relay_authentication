@@ -55,7 +55,7 @@ class UpdatePostPage extends React.Component {
       environment,
       input: { id: post.id, title, description },
       files: image,
-      onCompleted: () => this.props.router.push('/user/posts'),
+      onCompleted: () => this.props.router.push(`/post/${post.id}`),
       onError: errors => console.error('Updating post Failed', errors[0]),
     })
   }

@@ -81,7 +81,7 @@ export default makeRouteConfig(
     />
 
     <Route
-      path="user/post/:postId"
+      path="post/:postId/edit"
       Component={UpdatePostPage}
       query={updatePostQuery}
     />

@@ -86,7 +86,6 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 ## [Changelog](CHANGELOG.md)
 
 ## To Do
-- [ ] Update post screen
 - [ ] CRUD comments on posts
 - [ ] DraftJS integration
 - [ ] CRUD images in posts

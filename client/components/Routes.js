@@ -14,6 +14,7 @@ import ResetPasswordPage from '../pages/user/ResetPassword'
 import ProfilePage from '../pages/user/Profile'
 import UserPostsPage, { POST_COUNT as USER_POST_COUNT } from '../pages/user/UserPosts'
 import CreatePostPage from '../pages/user/CreatePost'
+import UpdatePostPage from '../pages/user/UpdatePost'
 
 const appQuery = graphql`query Routes_App_Query { viewer { ...App_viewer } }`
 const homepQuery = graphql`query Routes_Home_Query { viewer { ...Home_viewer } }`
@@ -26,6 +27,7 @@ const resetPasswordQuery = graphql`query Routes_ResetPassword_Query { viewer { .
 const userProfileQuery = graphql`query Routes_Profile_Query { viewer { ...Profile_viewer } }`
 const userPostsQuery = graphql`query Routes_UserPosts_Query ($afterCursor: String, $count: Int!) { viewer { ...UserPosts_viewer } }`
 const createPostQuery = graphql`query Routes_CreatePost_Query { viewer { ...CreatePost_viewer } }`
+const updatePostQuery = graphql`query Routes_UpdatePost_Query { viewer { ...UpdatePost_viewer } }`
 
 export default makeRouteConfig(
   <Route
@@ -76,6 +78,12 @@ export default makeRouteConfig(
       path="user/post/create"
       Component={CreatePostPage}
       query={createPostQuery}
+    />
+
+    <Route
+      path="user/post/update"
+      Component={UpdatePostPage}
+      query={updatePostQuery}
     />
   </Route>,
 )

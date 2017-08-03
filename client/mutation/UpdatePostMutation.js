@@ -13,12 +13,14 @@ const mutation = graphql`
   }
 `
 
-function commit({ environment, input, onCompleted, onError }) {
+function commit({ environment, input, files, onCompleted, onError }) {
   const variables = { input }
+  const uploadables = (files === undefined) ? {} : { image: files.item(0) }
 
   commitMutation(environment, {
     mutation,
     variables,
+    uploadables,
     onCompleted,
     onError,
   })

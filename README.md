@@ -86,10 +86,11 @@ Based on [Essential React](https://github.com/pheuter/essential-react) starter k
 ## [Changelog](CHANGELOG.md)
 
 ## To Do
-- [ ] CRUD comments on posts
+- [ ] Relay subscriptions
 - [ ] DraftJS integration
-- [ ] CRUD images in posts
 - [ ] Sendgrid integration for mails (register, password reset)
+- [ ] Netlify deploy
+- [ ] CRUD comments on posts
+- [ ] CRUD images in posts
 - [ ] Report or Block user
-- [ ] API key for front-end (with warden scopes)
 - [ ] SSL all the things

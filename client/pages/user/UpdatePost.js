@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import ImageInput from '../../components/imageInput/ImageInput'
 import UpdatePostMutation from '../../mutation/UpdatePostMutation'
 
-import styles from './UpdatePost.css'
+import styles from './CreatePost.css'
 
 class UpdatePostPage extends React.Component {
   static propTypes = {
@@ -19,6 +19,12 @@ class UpdatePostPage extends React.Component {
     }).isRequired,
     viewer: PropTypes.shape({
       canPublish: PropTypes.bool,
+      post: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
+      }),
     }).isRequired,
   }
 
@@ -41,12 +47,13 @@ class UpdatePostPage extends React.Component {
     })
   }
 
-  updatePost = ({ id, title, description, image }) => {
+  updatePost = ({ title, description, image }) => {
     const environment = this.props.relay.environment
+    const post = this.props.viewer.post
 
     UpdatePostMutation.commit({
       environment,
-      input: { id, title, description },
+      input: { id: post.id, title, description },
       files: image,
       onCompleted: () => this.props.router.push('/user/posts'),
       onError: errors => console.error('Updating post Failed', errors[0]),
@@ -60,9 +67,11 @@ class UpdatePostPage extends React.Component {
       return <div />
     }
 
+    const post = viewer.post
+
     return (
       <div className={styles.content}>
-        <h2>Create Post</h2>
+        <h2>Update Post</h2>
 
         <Formsy.Form
           onValid={this.enableButton}
@@ -73,6 +82,7 @@ class UpdatePostPage extends React.Component {
 
           <FormsyText
             name="title"
+            value={post.title}
             floatingLabelText="Title"
             fullWidth
             validations="isWords"
@@ -82,6 +92,7 @@ class UpdatePostPage extends React.Component {
 
           <FormsyText
             name="description"
+            value={post.description}
             floatingLabelText="Description"
             fullWidth
             validations="isWords"
@@ -93,8 +104,6 @@ class UpdatePostPage extends React.Component {
             label="Select Image"
             name="image"
             style={{ marginTop: 20 }}
-            validations="isExisty"
-            validationError="Please select an image"
             fullWidth
           />
 
@@ -108,7 +117,6 @@ class UpdatePostPage extends React.Component {
           />
 
         </Formsy.Form>
-
       </div>
     )
   }
@@ -119,6 +127,16 @@ const container = createFragmentContainer(
   graphql`
     fragment UpdatePost_viewer on Viewer {
       canPublish
+      post (postId: $postId) {
+        id
+        title
+        description
+        image
+        creator {
+          firstName
+          lastName
+        }
+      }
     }
   `,
 )

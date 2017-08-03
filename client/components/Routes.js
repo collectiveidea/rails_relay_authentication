@@ -27,7 +27,7 @@ const resetPasswordQuery = graphql`query Routes_ResetPassword_Query { viewer { .
 const userProfileQuery = graphql`query Routes_Profile_Query { viewer { ...Profile_viewer } }`
 const userPostsQuery = graphql`query Routes_UserPosts_Query ($afterCursor: String, $count: Int!) { viewer { ...UserPosts_viewer } }`
 const createPostQuery = graphql`query Routes_CreatePost_Query { viewer { ...CreatePost_viewer } }`
-const updatePostQuery = graphql`query Routes_UpdatePost_Query { viewer { ...UpdatePost_viewer } }`
+const updatePostQuery = graphql`query Routes_UpdatePost_Query ($postId: String!) { viewer { ...UpdatePost_viewer } }`
 
 export default makeRouteConfig(
   <Route
@@ -81,7 +81,7 @@ export default makeRouteConfig(
     />
 
     <Route
-      path="user/post/update"
+      path="user/post/:postId"
       Component={UpdatePostPage}
       query={updatePostQuery}
     />

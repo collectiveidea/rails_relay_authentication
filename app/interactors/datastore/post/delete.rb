@@ -2,9 +2,14 @@ module Datastore
   module Post
     class Delete
       include Interactor
+      delegate :datastore, to: :context
+
+      before do
+        context.datastore = Datastore.posts
+      end
 
       def call
-        Datastore.posts.where(id: context.id).delete
+        datastore.delete(context.id)
       end
     end
   end

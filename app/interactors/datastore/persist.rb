@@ -7,12 +7,10 @@ module Datastore
     def call
       # A record's id is only set in postgres after create, so its presence means this is persisted
       # and it's therefor an update, not an insert.
-      if context.id
-        datastore.where(id: context.id).update(context.params)
-        context.record = datastore.where(id: context.id).first
+      context.record = if context.id
+        datastore.update(context.id, context.params)
       else
-        context.id = datastore.insert(context.params)
-        context.record = datastore[id: context.id]
+        datastore.insert(context.params)
       end
     end
   end

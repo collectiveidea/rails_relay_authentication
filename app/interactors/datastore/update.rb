@@ -8,7 +8,7 @@ module Datastore
       build_record = context.record_builder.call(context)
       context.fail! if build_record.failure?
 
-      context.fail!(error: "User not found") unless user_record = datastore.where(id: context.id).first
+      context.fail!(error: "User not found") unless user_record = datastore.find(context.id)
 
       validate_record = Datastore::Validate.call(context)
 

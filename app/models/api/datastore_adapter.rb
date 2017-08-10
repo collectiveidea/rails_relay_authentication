@@ -8,37 +8,37 @@ module API
 
     module ClassMethods
       def set_datastore_table(table)
-        @table = table
+        @datastore = Datastore::Table.new(table)
       end
       
       def find(id)
         find_by(id: id) if id.present?
       end
 
-      def where(params)
-        Datastore.where(@table, params).map do |record|
+      def find_by(params)
+        if record = @datastore.find_by(params)
           from_datastore record
         end
       end
 
-      def find_by(params)
-        if record = Datastore.find_by(@table, params)
+      def where(params)
+        @datastore.where(params).map do |record|
           from_datastore record
         end
       end
 
       def delete_all
-        Datastore.delete_all(@table)
+        @datastore.delete_all
       end
 
       def all
-        Datastore.all(@table).map do |record|
+        @datastore.all.map do |record|
           from_datastore record
         end
       end
 
       def count
-        Datastore.count(@table)
+        @datastore.count
       end
     end
   end

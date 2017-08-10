@@ -43,7 +43,7 @@ RSpec.describe "Mutations::DeletePostMutation", type: "request" do
           delete_post                    
         }.to change { Datastore.posts.count }.by(-1)
 
-        expect(Datastore.posts.where(uuid: existing_post.id).any?).to eq(false)
+        expect(Datastore.posts.where(id: existing_post.id).any?).to eq(false)
 
         user_json = json["deletePost"]["user"]
         expect(user_json["id"]).to eq(existing_post.creatorId)

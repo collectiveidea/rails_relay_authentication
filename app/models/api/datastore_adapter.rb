@@ -11,8 +11,8 @@ module API
         @table = table
       end
       
-      def find(uuid)
-        find_by(uuid: Types::UUID[uuid]) if uuid.present?
+      def find(id)
+        find_by(id: id) if id.present?
       end
 
       def where(params)

@@ -5,7 +5,7 @@ RailsRelayAuthenticationSchema = GraphQL::Schema.define do
   id_from_object ->(object, type_definition, query_ctx) {
     # Call your application's UUID method here
     # It should return a string
-    GraphQL::Schema::UniqueWithinType.encode(type_definition.name, object.uuid)
+    GraphQL::Schema::UniqueWithinType.encode(type_definition.name, object.id)
   }
 
   object_from_id ->(id, query_ctx) {

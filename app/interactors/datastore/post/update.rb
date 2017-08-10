@@ -7,12 +7,12 @@ module Datastore
         optional(:title, Types::Strict::String) { filled? > str? }
         optional(:description, Types::Strict::String) { filled? > str? }
         optional(:image, Types::Strict::String) { filled? > str? }
-        optional(:user_uuid, Types::UUID) { filled? & format?(Types::UUID_NORMALIZED_REGEXP) }
+        optional(:user_id, Types::Strict::Int) { filled? > int? }
       end
 
       before do
         context.schema = UpdatePostSchema
-        context.whitelist = %i(title description image user_uuid)
+        context.whitelist = %i(title description image user_id)
         context.datastore = Datastore.posts
         context.record_builder = Post::Build
       end

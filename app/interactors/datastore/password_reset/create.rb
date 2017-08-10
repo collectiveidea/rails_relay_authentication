@@ -5,13 +5,13 @@ module Datastore
       
       before do
         # Clear out any existing password resets for this user
-        Datastore.password_resets.where(user_uuid: context.user_uuid).delete
+        Datastore.password_resets.where(user_id: context.user_id).delete
       end
 
       def call
         context.token = SecureRandom.urlsafe_base64(24)
         context.id = Datastore.password_resets.insert(
-          user_uuid: context.user_uuid,
+          user_id: context.user_id,
           token: context.token                              
         )
       end

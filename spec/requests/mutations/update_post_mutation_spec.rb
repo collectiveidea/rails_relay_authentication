@@ -50,7 +50,7 @@ RSpec.describe "Mutations::UpdatePostMutation", type: "request" do
       it "updates a post" do
         expect {
           update_post
-        }.to change { Datastore.posts.where(uuid: existing_post.id).first }
+        }.to change { Datastore.posts.where(id: existing_post.id).first }
         
         post_json = json["updatePost"]["post"]
         expect(post_json["title"]).to eq(new_title)
@@ -69,7 +69,7 @@ RSpec.describe "Mutations::UpdatePostMutation", type: "request" do
 
           expect {
             update_post
-          }.not_to change { Datastore.posts.where(uuid: existing_post.id).first }
+          }.not_to change { Datastore.posts.where(id: existing_post.id).first }
           expect(errors.first["message"]).to include("Nothing to do")
         end
 
@@ -79,7 +79,7 @@ RSpec.describe "Mutations::UpdatePostMutation", type: "request" do
           it "does not let someone other than the post's author update the post" do
             expect {
               update_post
-            }.not_to change { Datastore.posts.where(uuid: existing_post.id).first }
+            }.not_to change { Datastore.posts.where(id: existing_post.id).first }
             expect(errors.first["message"]).to include("Forbidden")
           end
         end
@@ -90,7 +90,7 @@ RSpec.describe "Mutations::UpdatePostMutation", type: "request" do
           it "let's an admin other than the post's author update the post" do
             expect {
               update_post
-            }.to change { Datastore.posts.where(uuid: existing_post.id).first }
+            }.to change { Datastore.posts.where(id: existing_post.id).first }
           end
         end
 
@@ -101,7 +101,7 @@ RSpec.describe "Mutations::UpdatePostMutation", type: "request" do
       it "does not update a post" do
         expect {
           update_post
-        }.not_to change { Datastore.posts.where(uuid: existing_post.id).first }
+        }.not_to change { Datastore.posts.where(id: existing_post.id).first }
       end
     end
   end

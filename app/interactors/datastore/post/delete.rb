@@ -4,11 +4,7 @@ module Datastore
       include Interactor
 
       def call
-        Datastore.posts.where(params).delete
-      end
-
-      def params
-        context.id ? { id: context.id } : { uuid: context.uuid }
+        Datastore.posts.where(id: context.id).delete
       end
     end
   end

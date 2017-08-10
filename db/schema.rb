@@ -23,7 +23,7 @@ Sequel.migration do
     
     create_table(:password_resets) do
       column :id, "bigint", :default=>Sequel::LiteralString.new("next_id()"), :null=>false
-      foreign_key :user_id, :users, :null=>false, :key=>[:id]
+      foreign_key :user_id, :users, :type=>"bigint", :null=>false, :key=>[:id]
       column :token, "text", :null=>false
       column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       column :expires_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
@@ -36,7 +36,7 @@ Sequel.migration do
     
     create_table(:posts) do
       column :id, "bigint", :default=>Sequel::LiteralString.new("next_id()"), :null=>false
-      foreign_key :user_id, :users, :null=>false, :key=>[:id]
+      foreign_key :user_id, :users, :type=>"bigint", :null=>false, :key=>[:id]
       column :title, "text"
       column :image, "text"
       column :description, "text"

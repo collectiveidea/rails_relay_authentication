@@ -4,7 +4,7 @@ module API
 
     constructor :schema
 
-    attribute :user_id, Types::UUID
+    attribute :user_id, Types::Strict::Int
     attribute :token, Types::Strict::String.constrained(min_size: 32)
     attribute :expires_at, Types::Strict::Time
 
@@ -15,22 +15,13 @@ module API
       end
 
       def to_datastore(attrs)
-        Hash[
-          attrs.map do |k, v|
-            key = k.to_sym
-            if key == :user_id
-              [:user_uuid, v]
-            else
-              [key, v]
-            end
-          end
-        ]
+        attrs
       end
 
       def from_datastore(attrs={})
         attrs = attrs.symbolize_keys
         API::PasswordReset.new(
-          user_id: attrs[:user_uuid],
+          user_id: attrs[:user_id],
           token: attrs[:token],
           expires_at: attrs[:expires_at]
         )

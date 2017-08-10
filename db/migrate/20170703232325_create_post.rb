@@ -2,7 +2,7 @@ Sequel.migration do
   up do
     create_table :posts do
       Bignum  :id, primary_key: true, null: false, default: Sequel.function(:next_id)
-      foreign_key :user_id, :users, key: :id, null: false
+      foreign_key :user_id, :users, key: :id, type: 'bigint', null: false
       String :title
       String :image
       Text :description

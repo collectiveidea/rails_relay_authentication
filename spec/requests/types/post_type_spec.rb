@@ -56,7 +56,7 @@ RSpec.describe "Types::PostType", type: "request" do
 
         first_post_json = json['viewer']['posts']['edges'][0]['node']
         first_post = Datastore.posts.first
-        expect(first_post_json['id']).to eq(first_post[:uuid])
+        expect(first_post_json['id']).to eq(first_post[:id])
         expect(first_post_json['title']).to eq(first_post[:title])
         expect(first_post_json['image']).to eq(first_post[:image])
 
@@ -78,7 +78,7 @@ RSpec.describe "Types::PostType", type: "request" do
 
         second_post_json = JSON.parse(response.body)["data"]['viewer']['posts']['edges'][0]['node']
         second_post = Datastore.posts.all[1]
-        expect(second_post_json['id']).to eq(second_post[:uuid])
+        expect(second_post_json['id']).to eq(second_post[:id])
         expect(second_post_json['title']).to eq(second_post[:title])
         expect(second_post_json['image']).to eq(second_post[:image])
       end

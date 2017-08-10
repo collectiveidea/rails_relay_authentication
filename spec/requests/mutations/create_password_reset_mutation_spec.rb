@@ -50,7 +50,7 @@ RSpec.describe "Mutations::CreatePasswordResetMutation", type: "request" do
         expect(json["createPasswordReset"]["user"]).to be_nil
 
         password_reset = Datastore.password_resets.first
-        expect(password_reset[:user_uuid]).to eq(user.id)
+        expect(password_reset[:user_id]).to eq(user.id)
         expect(password_reset[:token]).to be_a(String)
         expect(password_reset[:token].length).to eq(32)
         expect(password_reset[:created_at]).to be_within(1.minute).of Time.now
@@ -67,7 +67,7 @@ RSpec.describe "Mutations::CreatePasswordResetMutation", type: "request" do
         expect(json["createPasswordReset"]["user"]).to be_nil
 
         password_reset = Datastore.password_resets.first
-        expect(password_reset[:user_uuid]).to eq(user.id)
+        expect(password_reset[:user_id]).to eq(user.id)
         expect(password_reset[:token]).to be_a(String)
         expect(password_reset[:token].length).to eq(32)
         expect(password_reset[:token]).not_to eq(existing_token)

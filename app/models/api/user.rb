@@ -4,7 +4,7 @@ module API
 
     constructor :schema
 
-    attribute :id, Types::UUID
+    attribute :id, Types::Strict::Int
     attribute :email, Types::Email
     attribute :role, Types::Role
     attribute :firstName, Types::Strict::String.optional
@@ -32,9 +32,7 @@ module API
         Hash[
           attrs.map do |k, v|
             key = k.to_sym
-            if key == :id
-              [:uuid, v]
-            elsif key == :role
+            if key == :role
               [key, Types::USER_ROLES[v.to_s]]
             elsif key == :firstName
               [:first_name, v]
@@ -50,7 +48,7 @@ module API
       def from_datastore(attrs={})
         attrs = attrs.symbolize_keys
         API::User.new(
-          id:                   attrs[:uuid],
+          id:                   attrs[:id],
           firstName:            attrs[:first_name],
           lastName:             attrs[:last_name],
           email:                attrs[:email],

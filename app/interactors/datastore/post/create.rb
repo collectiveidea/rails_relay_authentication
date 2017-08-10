@@ -7,13 +7,13 @@ module Datastore
         required(:title, Types::Strict::String).filled
         required(:description, Types::Strict::String).filled
         required(:image, Types::Strict::String).filled
-        required(:user_uuid, Types::UUID).filled
+        required(:user_id, Types::Strict::Int).filled
       end
 
       before do
         context.datastore = Datastore.posts
         context.schema = CreatePostSchema
-        context.whitelist = %i(title description image user_uuid)
+        context.whitelist = %i(title description image user_id)
         context.record_builder = Post::Build
       end
     end

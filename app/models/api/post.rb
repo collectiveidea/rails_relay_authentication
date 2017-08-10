@@ -5,8 +5,8 @@ module API
     
     constructor :schema
 
-    attribute :id, Types::UUID
-    attribute :creatorId, Types::UUID
+    attribute :id, Types::Strict::Int
+    attribute :creatorId, Types::Strict::Int
     attribute :title, Types::Strict::String.optional
     attribute :description, Types::Strict::String.optional
     attribute :image, Types::Strict::String.optional
@@ -19,10 +19,8 @@ module API
       def to_datastore(attrs)
         attrs.transform_keys do |k|
           key = k.to_sym
-          if key == :id
-            :uuid
-          elsif key == :creatorId
-            :user_uuid
+          if key == :creatorId
+            :user_id
           else
             key
           end
@@ -32,16 +30,16 @@ module API
       def from_datastore(attrs={})
         attrs = attrs.symbolize_keys
         API::Post.new(
-          id:          attrs[:uuid],
+          id:          attrs[:id],
           title:       attrs[:title],
           description: attrs[:description],
           image:       attrs[:image],
-          creatorId:   attrs[:user_uuid]
+          creatorId:   attrs[:user_id]
         )
       end
       
       def by_user(user_id) 
-        where(user_uuid: Types::UUID[user_id])
+        where(user_id: user_id)
       end
     end
     extend ClassMethods

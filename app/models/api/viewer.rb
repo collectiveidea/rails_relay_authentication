@@ -2,7 +2,7 @@ module API
   class Viewer < Dry::Struct
     constructor :schema
 
-    attribute :id, Types::UUID.optional.default(nil)
+    attribute :id, Types::Strict::Int.optional.default(nil)
     attribute :role, Types::Role.optional.default(nil)
 
     def can_publish

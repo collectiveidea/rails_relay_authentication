@@ -4,7 +4,7 @@ module API
 
     constructor :schema
 
-    attribute :id, Types::Strict::Int
+    attribute :id, Types::Strict::String
     attribute :email, Types::Email
     attribute :role, Types::Role
     attribute :firstName, Types::Strict::String.optional

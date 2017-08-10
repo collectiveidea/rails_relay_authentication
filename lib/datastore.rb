@@ -68,6 +68,10 @@ module Datastore
       end
     end
 
+    def hashids
+      @hashids ||= Hashids.new(Rails.application.secrets.secret_key_base)
+    end
+
     def posts
       Table.new(:posts)
     end

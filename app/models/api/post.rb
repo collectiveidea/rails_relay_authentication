@@ -5,8 +5,8 @@ module API
     
     constructor :schema
 
-    attribute :id, Types::Strict::Int
-    attribute :creatorId, Types::Strict::Int
+    attribute :id, Types::Strict::String
+    attribute :creatorId, Types::Strict::String
     attribute :title, Types::Strict::String.optional
     attribute :description, Types::Strict::String.optional
     attribute :image, Types::Strict::String.optional

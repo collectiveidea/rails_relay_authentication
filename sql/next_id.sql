@@ -6,10 +6,10 @@ DECLARE
   seq_id bigint;
   now_millis bigint;
 BEGIN  
-  SELECT nextval('global_id_sequence') % 8388608 INTO seq_id;
+  SELECT nextval('global_id_sequence') % 2097152 INTO seq_id;
 
   SELECT FLOOR(EXTRACT(EPOCH FROM clock_timestamp()) * 1000) INTO now_millis;
-  result := (now_millis - our_epoch) << 23;
+  result := (now_millis - our_epoch) << 21;
   result := result | (seq_id);
 END;  
 $$ LANGUAGE PLPGSQL;

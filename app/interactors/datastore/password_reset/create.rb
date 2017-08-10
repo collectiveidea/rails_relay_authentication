@@ -11,7 +11,7 @@ module Datastore
       
       before do
         # Clear out any existing password resets for this user
-        datastore.where(user_id: context.user_id).delete
+        datastore.delete(user_id: context.user_id)
       end
 
       def call

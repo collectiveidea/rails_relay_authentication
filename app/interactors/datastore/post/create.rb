@@ -7,7 +7,7 @@ module Datastore
         required(:title, Types::Strict::String).filled
         required(:description, Types::Strict::String).filled
         required(:image, Types::Strict::String).filled
-        required(:user_id, Types::Strict::Int).filled
+        required(:user_id, Types::Strict::String).filled
       end
 
       before do

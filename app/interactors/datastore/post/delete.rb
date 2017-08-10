@@ -9,7 +9,7 @@ module Datastore
       end
 
       def call
-        datastore.delete(context.id)
+        datastore.delete(id: context.id)
       end
     end
   end

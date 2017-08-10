@@ -7,7 +7,7 @@ module Datastore
         optional(:title, Types::Strict::String) { filled? > str? }
         optional(:description, Types::Strict::String) { filled? > str? }
         optional(:image, Types::Strict::String) { filled? > str? }
-        optional(:user_id, Types::Strict::Int) { filled? > int? }
+        optional(:user_id, Types::Strict::String) { filled? > str? }
       end
 
       before do

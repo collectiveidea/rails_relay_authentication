@@ -8,8 +8,8 @@ Sequel.migration do
       column :created_at, "timestamp with time zone", default: Sequel::CURRENT_TIMESTAMP, null: false
       column :expires_at, "timestamp with time zone", default: Sequel.lit("now() + '1 week'"), null: false
 
-      index [:id], unique: true
-      index [:token]
+      index [:token], unique: true
+      index [:user_id], unique: true
     end
 
     extension :pg_triggers

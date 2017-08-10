@@ -7,7 +7,7 @@ Sequel.migration do
     end
     
     create_table(:users) do
-      column :id, "bigint", :default=>Sequel::LiteralString.new("next_id()"), :null=>false
+      column :id, "bigint", :null=>false
       column :email, "text", :null=>false
       column :first_name, "text"
       column :last_name, "text"
@@ -19,7 +19,6 @@ Sequel.migration do
       primary_key [:id]
       
       index [:email], :unique=>true
-      index [:id], :unique=>true
     end
     
     create_table(:password_resets) do
@@ -31,8 +30,8 @@ Sequel.migration do
       
       primary_key [:id]
       
-      index [:id], :unique=>true
-      index [:token]
+      index [:token], :unique=>true
+      index [:user_id], :unique=>true
     end
     
     create_table(:posts) do
@@ -46,7 +45,6 @@ Sequel.migration do
       
       primary_key [:id]
       
-      index [:id], :unique=>true
       index [:user_id]
     end
   end

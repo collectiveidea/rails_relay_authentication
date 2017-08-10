@@ -10,7 +10,6 @@ Sequel.migration do
       column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
 
-      index [:id], unique: true
       index [:user_id]
      end
 

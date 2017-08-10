@@ -1,7 +1,7 @@
 Sequel.migration do
   up do
     create_table :users do
-      Bignum  :id, primary_key: true, null: false, default: Sequel.function(:next_id)
+      Bignum  :id, primary_key: true, null: false
       String  :email, null: false
       String  :first_name
       String  :last_name
@@ -11,7 +11,6 @@ Sequel.migration do
       column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
 
-      index [:id], unique: true
       index [:email], unique: true
      end
 

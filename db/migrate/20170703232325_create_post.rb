@@ -1,9 +1,8 @@
 Sequel.migration do
   up do
     create_table :posts do
-      primary_key :id, Bignum
-      uuid :uuid, null: false, default: Sequel.function(:uuid_generate_v4)
-      foreign_key :user_uuid, :users, key: :uuid, type: :uuid, null: false
+      Bignum  :id, primary_key: true, null: false, default: Sequel.function(:next_id)
+      foreign_key :user_id, :users, key: :id, null: false
       String :title
       String :image
       Text :description
@@ -11,8 +10,8 @@ Sequel.migration do
       column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
 
-      index [:uuid], unique: true
-      index [:user_uuid]
+      index [:id], unique: true
+      index [:user_id]
      end
 
     extension :pg_triggers

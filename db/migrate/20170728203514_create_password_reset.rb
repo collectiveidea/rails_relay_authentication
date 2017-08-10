@@ -1,14 +1,14 @@
 Sequel.migration do
   up do
     create_table :password_resets do
-      primary_key :id, Bignum
-      foreign_key :user_uuid, :users, key: :uuid, type: :uuid, null: false
+      Bignum  :id, primary_key: true, null: false, default: Sequel.function(:next_id)
+      foreign_key :user_id, :users, key: :id, null: false
       String :token, null: false
 
       column :created_at, "timestamp with time zone", default: Sequel::CURRENT_TIMESTAMP, null: false
       column :expires_at, "timestamp with time zone", default: Sequel.lit("now() + '1 week'"), null: false
 
-      index [:user_uuid], unique: true
+      index [:id], unique: true
       index [:token]
     end
 

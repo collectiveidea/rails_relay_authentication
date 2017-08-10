@@ -1,10 +1,7 @@
 Sequel.migration do
   up do
-    run 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'
-
     create_table :users do
-      primary_key :id, Bignum
-      uuid :uuid, null: false, default: Sequel.function(:uuid_generate_v4)
+      Bignum  :id, primary_key: true, null: false, default: Sequel.function(:next_id)
       String  :email, null: false
       String  :first_name
       String  :last_name
@@ -14,7 +11,7 @@ Sequel.migration do
       column :created_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       column :updated_at, "timestamp with time zone", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
 
-      index [:uuid], unique: true
+      index [:id], unique: true
       index [:email], unique: true
      end
 

@@ -13,7 +13,7 @@ users.map! do |attrs|
   end
 end
 
-user_ids = Datastore.users.select(:uuid).to_a
+user_ids = Datastore.users.select(:id).to_a
 
 JSON.parse(
   File.open(Rails.root.join('spec', 'fixtures', 'posts.json'), "r") { |f| f.read }

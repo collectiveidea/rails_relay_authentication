@@ -7,7 +7,7 @@ Sequel.migration do
     end
     
     create_table(:users) do
-      column :id, "bigint", :null=>false
+      column :id, "bigint", :default=>Sequel::LiteralString.new("next_id()"), :null=>false
       column :email, "text", :null=>false
       column :first_name, "text"
       column :last_name, "text"

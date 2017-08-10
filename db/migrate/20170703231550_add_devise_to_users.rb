@@ -1,7 +1,7 @@
 Sequel.migration do
   up do
     create_table :users do
-      Bignum  :id, primary_key: true, null: false
+      Bignum  :id, primary_key: true, null: false, default: Sequel.function(:next_id)
       String  :email, null: false
       String  :first_name
       String  :last_name

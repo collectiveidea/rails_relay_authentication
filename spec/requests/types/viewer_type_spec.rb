@@ -44,9 +44,9 @@ RSpec.describe "Types::ViewerType", type: "request" do
         post_ids = json["viewer"]["posts"]["edges"].map { |edge| edge["node"]["id"] }
 
         expect(json["viewer"].keys).to eq(%w(user posts post))
-        expect(json["viewer"]["user"]["id"]).to eq(user.id)
-        expect(post_ids).to eq(API::Post.all.map(&:id))
-        expect(json["viewer"]["post"]["id"]).to eq(single_post.id)
+        expect(json["viewer"]["user"]["id"]).to eq(user.id.to_s)
+        expect(post_ids).to eq(API::Post.all.map(&:id).map(&:to_s))
+        expect(json["viewer"]["post"]["id"]).to eq(single_post.id.to_s)
       end
     end
 
@@ -74,8 +74,8 @@ RSpec.describe "Types::ViewerType", type: "request" do
 
         expect(json["viewer"].keys).to eq(%w(user posts post))
         expect(json["viewer"]["user"]).to be_nil
-        expect(post_ids).to eq(API::Post.all.map(&:id))
-        expect(json["viewer"]["post"]["id"]).to eq(single_post.id)
+        expect(post_ids).to eq(API::Post.all.map(&:id).map(&:to_s))
+        expect(json["viewer"]["post"]["id"]).to eq(single_post.id.to_s)
       end
     end
   end

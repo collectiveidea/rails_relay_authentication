@@ -42,13 +42,13 @@ RSpec.describe "Types::UserType", type: "request" do
       it "returns a user" do
         post(endpoint, params: { query: query }  )
         
-        expect(user_json["id"]).to eq(user.id)
+        expect(user_json["id"]).to eq(user.id.to_s)
         expect(user_json["email"]).to eq(user.email)
         expect(user_json["firstName"]).to eq(user.firstName)
         expect(user_json["lastName"]).to eq(user.lastName)
         expect(user_json["role"]).to eq(user.role)
         expect(user_json["posts"]["edges"].count).to eq(user_posts.count)
-        expect(user_json["posts"]["edges"].map { |edge| edge["node"]["id"] }).to match_array(user_posts.map(&:id))
+        expect(user_json["posts"]["edges"].map { |edge| edge["node"]["id"] }).to match_array(user_posts.map(&:id).map(&:to_s))
       end
     end
 

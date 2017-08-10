@@ -56,7 +56,7 @@ RSpec.describe "Mutations::ResetPasswordMutation", type: "request" do
 
         user_json = json["resetPassword"]["user"]
 
-        expect(user_json['id']).to eq(user.id)
+        expect(user_json['id']).to eq(user.id.to_s)
 
         expect(Datastore.password_resets.where(user_id: user.id)).to be_empty
       end

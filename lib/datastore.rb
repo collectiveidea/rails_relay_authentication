@@ -81,11 +81,15 @@ module Datastore
     end
 
     def to_hashid(id)
-      Datastore.hashids.encode(id)
+      hashids.encode(id)
     end
 
     def from_hashid(hashid)
-      Datastore.hashids.decode(hashid)
+      hashids.decode(hashid)
+    end
+
+    def hashids
+      @hashids ||= Hashids.new(Rails.application.secrets.secret_key_base)
     end
   end
 
@@ -102,10 +106,6 @@ module Datastore
           :loggers => Rails.logger
         )
       end
-    end
-
-    def hashids
-      @hashids ||= Hashids.new(Rails.application.secrets.secret_key_base)
     end
 
     def posts

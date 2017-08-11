@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies, global-require */
+require('./server/logger.js')
 const webpack = require('webpack')
 const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -10,9 +11,8 @@ let plugins
 let devServer
 let devtool
 
-if (process.env.PRODUCTION) {
-  console.log('Running in production mode')
-  
+if (process.env.NODE_ENV == 'production') {
+  log('Bundling assets for production...')
   appEntry = [path.resolve(__dirname, 'client')]
   devtool = 'source-map'
   plugins = [
@@ -33,6 +33,8 @@ if (process.env.PRODUCTION) {
   ]
   devServer = {}
 } else {
+  log(`Bundling assets for ${process.env.NODE_ENV}...`)
+
   appEntry = [
     'webpack/hot/dev-server',
     'webpack-hot-middleware/client',

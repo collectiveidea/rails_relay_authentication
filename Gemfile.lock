@@ -222,7 +222,7 @@ DEPENDENCIES
   faker
   graphiql-rails
   graphql
-  hashids
+  hashids (= 1.0.3)
   interactor!
   listen (>= 3.0.5, < 3.2)
   pg (~> 0.18)

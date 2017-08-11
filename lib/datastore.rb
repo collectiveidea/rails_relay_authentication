@@ -89,7 +89,10 @@ module Datastore
     end
 
     def hashids
-      @hashids ||= Hashids.new(Rails.application.secrets.hashid_salt)
+      # We don't use a salt, here, because this library isn't even remotely secure so there's no
+      # point. The salt is trivial for an attacker to recover. But losing the salt would be a pain because it would
+      # invalidate all the URLs until it's recovered. So, no salt.
+      @hashids ||= Hashids.new
     end
   end
 

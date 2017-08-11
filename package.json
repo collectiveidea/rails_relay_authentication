@@ -4,8 +4,8 @@
   "description": "An example showing role based authentication with relay",
   "main": "client/main.js",
   "scripts": {
-    "build": "NODE_ENV=production webpack --config webpack.config.js",
-    "deploy": "yarn run update && yarn build && NODE_ENV=production babel-node start.js",
+    "build": "NODE_ENV=production yarn run update && NODE_ENV=production webpack --config webpack.config.js",
+    "deploy": "yarn build && NODE_ENV=production babel-node start.js",
     "start": "NODE_ENV=development npm run relay-compiler:watch | babel-node start.js",
     "update": "yarn run relay-compiler && yarn run update-schema",
     "relay-compiler": "relay-compiler --src client --schema server/graphql/schema.graphql",

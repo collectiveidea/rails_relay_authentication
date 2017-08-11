@@ -89,7 +89,7 @@ module Datastore
     end
 
     def hashids
-      @hashids ||= Hashids.new(Rails.application.secrets.secret_key_base)
+      @hashids ||= Hashids.new(Rails.application.secrets.hashid_salt)
     end
   end
 

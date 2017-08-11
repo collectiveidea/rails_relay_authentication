@@ -5,24 +5,47 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const publicPath = '/'
 
-module.exports = {
-  devtool: 'eval',
-  entry: {
-    app: [
-      'webpack/hot/dev-server',
-      'webpack-hot-middleware/client',
-      path.resolve(__dirname, 'client'),
-    ],
-  },
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: '[name].js',
-    publicPath,
-  },
-  resolve: {
-    extensions: ['.js', '.jsx', '.css'],
-  },
-  devServer: {
+let appEntry
+let plugins
+let devServer
+let devtool
+
+if (process.env.PRODUCTION) {
+  console.log('Running in production mode')
+  
+  appEntry = [path.resolve(__dirname, 'client')]
+  devtool = 'source-map'
+  plugins = [
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'vendor.js'}),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        screw_ie8: true
+      }
+    }),
+    new ExtractTextPlugin('[name].css')
+  ]
+  devServer = {}
+} else {
+  appEntry = [
+    'webpack/hot/dev-server',
+    'webpack-hot-middleware/client',
+    path.resolve(__dirname, 'client'),
+  ]
+
+  plugins = [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new ExtractTextPlugin('[name].css'),
+  ]
+
+  devServer = {
     noInfo: false,
     publicPath,
     quiet: false,
@@ -37,12 +60,26 @@ module.exports = {
       version: false,
     },
     historyApiFallback: true,
+  }
+
+  devtool = 'eval'
+}
+
+module.exports = {
+  devtool,
+  entry: {
+    app: appEntry,
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new ExtractTextPlugin('[name].css'),
-  ],
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: '[name].js',
+    publicPath,
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.css'],
+  },
+  devServer,
+  plugins,
   module: {
     loaders: [
       {

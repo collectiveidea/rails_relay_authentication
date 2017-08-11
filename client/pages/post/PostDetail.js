@@ -41,6 +41,7 @@ class PostDetail extends React.Component {
 
   render() {
     const { viewer } = this.props
+    const deleteButton = viewer.canPublish ? <div><RaisedButton label="Delete" onClick={this.deletePost} primary /></div> : null
 
     return (
       <div>
@@ -58,7 +59,7 @@ class PostDetail extends React.Component {
 
           <div>{viewer.post.description}</div>
 
-          <div><RaisedButton label="Delete" onClick={this.deletePost} primary /></div>
+          {deleteButton}
         </div>
       </div>
     )
@@ -69,6 +70,7 @@ const container = createFragmentContainer(
   PostDetail,
   graphql`
     fragment PostDetail_viewer on Viewer {
+      canPublish
       post (postId: $postId) {
         id
         title

@@ -22,7 +22,7 @@ app.use('/graphql', (req, res) => {
   req.pipe(request(`http://localhost:${RAILS_PORT}/graphql`)).pipe(res)
 })
 
-if (!process.env.PRODUCTION) {
+if (process.env.NODE_ENV !== 'production') {
   /** ***********************************************************
    *
    * Webpack Dev Middleware with hot reload
@@ -56,6 +56,7 @@ if (!process.env.PRODUCTION) {
    * Express server for production
    *
    *****************/
+  const host = process.env.HOST || 'localhost'
   const port = process.env.PORT || 3000
 
   app.listen(port, () =>

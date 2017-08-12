@@ -13,11 +13,6 @@ const RAILS_PORT = 3030
 // __dirname is {projectRoot}/server, so we have to step one directory up
 const pathBase = path.resolve(__dirname, '../')
 
-const imageServer = express()
-imageServer.use('/images', express.static(`${pathBase}/static/images`))
-
-imageServer.listen(IMAGE_PORT)
-
 const app = express()
 
 app.use(historyApiFallback())
@@ -25,12 +20,6 @@ app.use('/', express.static(`${pathBase}/build`))
 
 app.use('/graphql', (req, res) => {
   req.pipe(request(`http://localhost:${RAILS_PORT}/graphql`)).pipe(res)
-})
-
-app.get(/images\/.{1,}/i, (req, res) => {
-  req
-    .pipe(request(`http://localhost:${IMAGE_PORT}${req.originalUrl}`))
-    .pipe(res)
 })
 
 if (!process.env.PRODUCTION) {

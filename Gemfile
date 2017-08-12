@@ -20,6 +20,7 @@ gem 'sequel_postgresql_triggers'
 gem 'sequel-rails'
 gem 'interactor', github: "jonstokes/interactor", branch: "js-di-context"
 gem 'hashids', '1.0.3'
+gem 'aws-sdk'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

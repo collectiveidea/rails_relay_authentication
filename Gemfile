@@ -21,6 +21,7 @@ gem 'sequel-rails'
 gem 'interactor', github: "jonstokes/interactor", branch: "js-di-context"
 gem 'hashids', '1.0.3'
 gem 'aws-sdk'
+gem 'figaro'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

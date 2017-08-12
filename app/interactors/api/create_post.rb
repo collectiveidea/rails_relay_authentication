@@ -35,10 +35,17 @@ module API
     end
 
     def write_image
-      @write_image ||= begin
-        FileUtils.mv image.tempfile, Rails.root.join("static", "images", "upload", image.original_filename)
-        "/images/upload/#{image.original_filename}"
-      end
+      s3_client.put_object({
+        acl: "public-read",
+        body: image.tempfile, 
+        bucket: Figaro.env.assets_bucket, 
+        key: image.original_filename
+      })
+      "https://s3.amazonaws.com/#{Figaro.env.assets_bucket}/#{image.original_filename}"
+    end
+
+    def s3_client
+      @s3_client ||= Aws::S3::Client.new(region: 'us-east-1')
     end
   end
 end

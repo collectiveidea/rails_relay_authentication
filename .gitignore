@@ -39,3 +39,6 @@ static/images/upload/*
 
 /.yardoc/*
 /doc/*
+
+# Ignore application configuration
+/config/application.yml

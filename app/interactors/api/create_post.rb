@@ -45,7 +45,7 @@ module API
     end
 
     def s3_client
-      @s3_client ||= Aws::S3::Client.new(region: 'us-east-1')
+      @s3_client ||= Aws::S3::Client.new(region: Figaro.env.aws_region)
     end
   end
 end
